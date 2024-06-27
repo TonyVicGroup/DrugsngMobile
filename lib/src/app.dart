@@ -8,12 +8,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 800),
+        designSize: const Size(430, 932),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, context) {
           return MaterialApp(
             restorationScopeId: 'app',
+            title: 'Drugs Ng',
             theme: ThemeData(
               colorScheme:
                   ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),

@@ -10,6 +10,7 @@ environment:
   sdk: '>=3.3.2 <4.0.0'
 
 dependencies:
+  blur: ^4.0.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
   flutter:
@@ -38,7 +39,6 @@ flutter:
     - assets/svg/
     - assets/fonts/
 
-  
   fonts:
     - family: Sf-Pro-Display
       fonts:
@@ -60,6 +60,3 @@ flutter:
           weight: 800
         - asset: assets/fonts/Sf-Pro-Display-Heavy.otf
           weight: 900
-  
-
-
