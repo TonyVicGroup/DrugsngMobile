@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             restorationScopeId: 'app',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
               useMaterial3: true,
-              fontFamily: 'Satoshi',
+              fontFamily: 'Sf-Pro-Display',
               // scaffoldBackgroundColor: NbColors.background,
             ),
             home: const OnboardingPage(),
