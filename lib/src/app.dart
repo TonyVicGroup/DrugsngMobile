@@ -1,4 +1,5 @@
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Sf-Pro-Display',
               // scaffoldBackgroundColor: NbColors.background,
             ),
-            home: const OnboardingPage(),
+            // home: const OnboardingPage(),
+            home: const TabOverlay(),
           );
         });
   }
