@@ -3,8 +3,11 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/ui/app_button.dart';
 import 'package:drugs_ng/core/ui/app_text.dart';
+import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/features/home/presentation/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -103,6 +106,15 @@ class OnboardingPage extends StatelessWidget {
     );
   }
 
-  void login() {}
+  void login() {
+    AppUtils.navKey.currentState?.pushReplacement(
+      PageTransition(
+        type: PageTransitionType.fade,
+        child: const HomePage(),
+        duration: const Duration(milliseconds: 600),
+      ),
+    );
+  }
+
   void getStarted() {}
 }

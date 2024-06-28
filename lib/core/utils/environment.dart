@@ -6,6 +6,8 @@ abstract class AppEnvironment {
   static late Environment _environment;
   static Environment get value => _environment;
 
+  static bool get isDev => _environment == Environment.dev;
+
   static setupEnv(Environment env) {
     _environment = env;
     switch (env) {

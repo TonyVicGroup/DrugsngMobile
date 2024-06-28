@@ -2,13 +2,13 @@ class AppImage {
   static const String home = "assets/images/home.png";
   static const String logo = "assets/images/logo.png";
   static const String clipboard = "assets/images/clipboard.png";
-  static const String homeAd = "assets/images/home_ad.png";
   static const String digestiveHealth = "assets/images/digestive_health.png";
   static const String generalHealth = "assets/images/general_health.png";
   static const String heartHealth = "assets/images/heart_health.png";
   static const String lungHealth = "assets/images/lung_health.png";
   static const String womenHealth = "assets/images/women_health.png";
   // test images
+  static const String homeAd = "assets/images/test_image/home_ad.png";
   static const String molfix = "assets/images/test_image/molfix.png";
   static const String syrup = "assets/images/test_image/syrup.png";
   static const String vitamin = "assets/images/test_image/vitamin.png";

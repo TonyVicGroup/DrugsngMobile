@@ -130,6 +130,7 @@ class ProductCardWidget extends StatelessWidget {
                             .w500
                             .setColor(const Color(0xFF8B96A5))
                             .strikeThrough,
+                        2.horizontalSpace,
                       ],
                       AppText.sp12("₦${AppFormater.amount(price)}")
                           .w800

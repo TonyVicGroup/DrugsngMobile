@@ -40,6 +40,7 @@ flutter:
     - assets/images/test_image/
     - assets/svg/
     - assets/fonts/
+    - assets/json/
 
   fonts:
     - family: Sf-Pro-Display
