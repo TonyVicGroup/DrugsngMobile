@@ -10,7 +10,7 @@ environment:
   sdk: '>=3.3.2 <4.0.0'
 
 dependencies:
-  blur: ^4.0.0
+  blur: ^3.1.0
   either_dart: ^1.0.0
   equatable: ^2.0.5
   flutter:
