@@ -1,17 +1,29 @@
+import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Providing a restorationScopeId allows the Navigator built by the
-      // MaterialApp to restore the navigation stack when a user leaves and
-      // returns to the app after it has been killed while running in the
-      // background.
-      restorationScopeId: 'app',
-    );
+    return ScreenUtilInit(
+        designSize: const Size(430, 932),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, context) {
+          return MaterialApp(
+            restorationScopeId: 'app',
+            title: 'Drugs Ng',
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
+              useMaterial3: true,
+              fontFamily: 'Sf-Pro-Display',
+              // scaffoldBackgroundColor: NbColors.background,
+            ),
+            home: const OnboardingPage(),
+          );
+        });
   }
 }
