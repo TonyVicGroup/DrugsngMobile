@@ -65,12 +65,7 @@ class OnboardingPage extends StatelessWidget {
                       ],
                     ),
                     8.verticalSpace,
-                    SizedBox(
-                      width: 250.w,
-                      child: AppText.sp41("Your Trusted Online Pharmacy")
-                          .white
-                          .w500,
-                    ),
+                    AppText.sp41("Your Trusted\nOnline\nPharmacy").white.w500,
                     30.verticalSpace,
                     AppText.sp20(
                             "Get your medications, health products, and professional consultations all in one place. Convenient, fast, and reliable.")
@@ -80,7 +75,7 @@ class OnboardingPage extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: AppButton.primary(
                             text: "Login",
                             onTap: login,
@@ -88,7 +83,7 @@ class OnboardingPage extends StatelessWidget {
                         ),
                         16.horizontalSpace,
                         Expanded(
-                          flex: 4,
+                          flex: 5,
                           child: AppButton.secondary(
                             text: "Get Started",
                             onTap: getStarted,
