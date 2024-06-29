@@ -1,6 +1,17 @@
 class AppImage {
   static const String home = "assets/images/home.png";
   static const String logo = "assets/images/logo.png";
+  static const String clipboard = "assets/images/clipboard.png";
+  static const String digestiveHealth = "assets/images/digestive_health.png";
+  static const String generalHealth = "assets/images/general_health.png";
+  static const String heartHealth = "assets/images/heart_health.png";
+  static const String lungHealth = "assets/images/lung_health.png";
+  static const String womenHealth = "assets/images/women_health.png";
+  // test images
+  static const String homeAd = "assets/images/test_image/home_ad.png";
+  static const String molfix = "assets/images/test_image/molfix.png";
+  static const String syrup = "assets/images/test_image/syrup.png";
+  static const String vitamin = "assets/images/test_image/vitamin.png";
 }
 
 class AppSvg {
@@ -32,7 +43,7 @@ class AppSvg {
   static const String profile = "assets/svg/profile.svg";
   static const String reviews = "assets/svg/reviews.svg";
   static const String search = "assets/svg/search.svg";
-  static const String shopping = "assets/svg/shopping.svg";
+  static const String shopping = "assets/svg/shopping_cart.svg";
   static const String sold = "assets/svg/sold.svg";
   static const String starFilled = "assets/svg/star_filled.svg";
   static const String starOutline = "assets/svg/star_outline.svg";

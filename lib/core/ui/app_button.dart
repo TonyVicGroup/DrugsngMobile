@@ -1,6 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppButton {
   static Widget primary(
@@ -46,6 +47,28 @@ class AppButton {
             fontWeight: FontWeight.w700,
             color: AppColor.primary,
           ),
+        ),
+      ),
+    );
+  }
+
+  static Widget svgIcon(
+      {required String svg, required Function() onTap, Color? color}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 30.h,
+        height: 30.h,
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(7.r),
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFEAEFF5),
+        ),
+        child: SvgPicture.asset(
+          svg,
+          colorFilter:
+              color == null ? null : ColorFilter.mode(color, BlendMode.srcIn),
         ),
       ),
     );

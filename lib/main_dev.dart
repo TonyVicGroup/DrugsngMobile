@@ -6,7 +6,5 @@ import 'package:flutter/material.dart';
 void main() async {
   AppEnvironment.setupEnv(Environment.dev);
   await setupMain();
-
-  // run flutter application
   runApp(const MyApp());
 }
