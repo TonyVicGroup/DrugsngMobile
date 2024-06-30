@@ -1,3 +1,5 @@
+import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/ui/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/home/data/datasources/home_datasource.dart';
 import 'package:drugs_ng/features/home/data/repositories/home_repository.dart';
@@ -37,8 +39,8 @@ class MyApp extends StatelessWidget {
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
                   useMaterial3: true,
-                  fontFamily: 'Sf-Pro-Display',
-                  // scaffoldBackgroundColor: NbColors.background,
+                  fontFamily: AppText.fontFamily,
+                  scaffoldBackgroundColor: AppColor.white,
                 ),
                 home: const OnboardingPage(),
               );

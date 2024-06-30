@@ -3,12 +3,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppText {
+  static const String fontFamily = "Sf-Pro-Display";
+
   static Text sp41(String text) => Text(
         text,
         style: TextStyle(
           fontSize: 41.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
+        ),
+      );
+
+  static Text sp30(String text) => Text(
+        text,
+        style: TextStyle(
+          fontSize: 30.sp,
+          fontWeight: FontWeight.w500,
+          height: 1.25,
         ),
       );
 
@@ -17,7 +28,7 @@ class AppText {
         style: TextStyle(
           fontSize: 20.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 
@@ -26,7 +37,7 @@ class AppText {
         style: TextStyle(
           fontSize: 18.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 
@@ -35,7 +46,7 @@ class AppText {
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 
@@ -44,7 +55,7 @@ class AppText {
         style: TextStyle(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 
@@ -53,7 +64,7 @@ class AppText {
         style: TextStyle(
           fontSize: 12.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 
@@ -62,7 +73,7 @@ class AppText {
         style: TextStyle(
           fontSize: 10.sp,
           fontWeight: FontWeight.w500,
-          height: 1,
+          height: 1.25,
         ),
       );
 }
@@ -74,6 +85,7 @@ extension HtTextExtensions on Text {
     Color? color,
     int? maxLines,
     TextAlign? textAlign,
+    double? height,
   }) =>
       Text(
         data ?? "",
@@ -84,6 +96,7 @@ extension HtTextExtensions on Text {
           fontWeight: fontWeight,
           color: color,
           decoration: decoration,
+          height: height,
         ),
       );
 
@@ -92,6 +105,7 @@ extension HtTextExtensions on Text {
   Text get whiteBlue => copyWith(color: AppColor.whiteBlue);
   Text get primaryColor => copyWith(color: AppColor.primary);
   Text get lightGrey => copyWith(color: AppColor.lightGrey);
+  Text get darkGrey => copyWith(color: AppColor.darkGrey);
   Text setColor(Color color) => copyWith(color: color);
   Text get centerText => copyWith(textAlign: TextAlign.center);
 
@@ -107,4 +121,5 @@ extension HtTextExtensions on Text {
   Text setMaxLines(int lines) => copyWith(maxLines: lines);
   Text get strikeThrough => copyWith(decoration: TextDecoration.lineThrough);
   Text get underline => copyWith(decoration: TextDecoration.underline);
+  Text setLineHeight(double height) => copyWith(height: height);
 }

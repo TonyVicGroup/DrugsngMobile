@@ -4,10 +4,10 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/ui/app_button.dart';
 import 'package:drugs_ng/core/ui/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/home/presentation/pages/home.dart';
+import 'package:drugs_ng/features/auth/presentation/pages/enter_phone_page.dart';
+import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:page_transition/page_transition.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -69,7 +69,8 @@ class OnboardingPage extends StatelessWidget {
                       width: 250.w,
                       child: AppText.sp41("Your Trusted Online Pharmacy")
                           .white
-                          .w500,
+                          .w500
+                          .setLineHeight(1),
                     ),
                     30.verticalSpace,
                     AppText.sp20(
@@ -107,14 +108,10 @@ class OnboardingPage extends StatelessWidget {
   }
 
   void login() {
-    AppUtils.navKey.currentState?.pushReplacement(
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: const HomePage(),
-        duration: const Duration(milliseconds: 600),
-      ),
-    );
+    AppUtils.pushReplacement(const LoginPage());
   }
 
-  void getStarted() {}
+  void getStarted() {
+    AppUtils.push(const EnterPhonePage());
+  }
 }
