@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:drugs_ng/src/core/data/models/app_error.dart';
+// import 'package:drugs_ng/src/core/utils/encryption.dart';
 import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
 import 'package:drugs_ng/src/features/auth/datasource/get_local_token.dart';
@@ -27,11 +29,14 @@ class RestService {
               options.headers['AUTHORIZATION'] = 'Bearer $token';
             }
 
-            // encryption happens here
+            /// encryption happens here
+            // final encryption = Encryption.encryptString(options.data);
+            // options.data = encryption.data;
+
             return handler.next(options);
           },
           onResponse: (response, handler) {
-            // decryption happens here
+            /// decryption happens here
             return handler.next(response);
           },
         ),
@@ -54,16 +59,16 @@ class RestService {
         dLog('Parsing error: _onRequest - $e');
       }
 
-      return ApiError(errorMessage: msg);
+      return ApiError(message: msg);
     } on SocketException {
-      return ApiError(errorMessage: 'No internet connection');
+      return ApiError(message: 'No internet connection');
     } on TimeoutException catch (_) {
       return ApiError(
-        errorMessage: 'The connection has timed out, Please try again!',
+        message: 'The connection has timed out, Please try again!',
       );
     } catch (e) {
       dLog('Error: _onRequest - $e');
-      return ApiError(errorMessage: 'An unknown error has occured');
+      return ApiError(message: 'An unknown error has occured');
     }
   }
 
@@ -82,18 +87,6 @@ class RestService {
   }) {
     return _handleResponse(() => _client.post(url, data: data));
   }
-}
-
-class ApiResponse {
-  final Map<String, dynamic>? data;
-
-  ApiResponse({this.data});
-}
-
-class ApiError extends ApiResponse {
-  final String? errorMessage;
-
-  ApiError({this.errorMessage, super.data});
 }
 
 extension ApiResponseExt on ApiResponse {
