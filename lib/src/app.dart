@@ -1,11 +1,11 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/ui/app_text.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/home/data/datasources/home_datasource.dart';
-import 'package:drugs_ng/features/home/data/repositories/home_repository.dart';
-import 'package:drugs_ng/features/home/domain/repositories/home_datasource.dart';
-import 'package:drugs_ng/features/home/presentation/bloc/home_bloc.dart';
-import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/features/home/data/datasources/home_datasource.dart';
+import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
+import 'package:drugs_ng/src/features/home/domain/repositories/home_datasource.dart';
+import 'package:drugs_ng/src/features/home/presentation/bloc/home_bloc.dart';
+import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
             builder: (_, context) {
               return MaterialApp(
                 restorationScopeId: 'app',
+                navigatorKey: AppUtils.navKey,
                 title: 'Drugs Ng',
                 theme: ThemeData(
                   colorScheme:

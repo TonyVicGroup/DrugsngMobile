@@ -15,6 +15,7 @@ class AppImage {
 }
 
 class AppSvg {
+  static const String checkMark = "assets/svg/check_mark.svg";
   static const String checkboxFilled = "assets/svg/checkbox_filled.svg";
   static const String chevronLight = "assets/svg/chevron_light.svg";
   static const String chevronThick = "assets/svg/chevron_thick.svg";

@@ -1,11 +1,11 @@
 import 'package:blur/blur.dart';
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/ui/app_button.dart';
-import 'package:drugs_ng/core/ui/app_text.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/enter_phone_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/ui/app_button.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/enter_phone_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -65,7 +65,10 @@ class OnboardingPage extends StatelessWidget {
                       ],
                     ),
                     8.verticalSpace,
-                    AppText.sp41("Your Trusted\nOnline\nPharmacy").white.w500,
+                    AppText.sp41("Your Trusted\nOnline\nPharmacy")
+                        .white
+                        .w500
+                        .setLineHeight(1),
                     30.verticalSpace,
                     AppText.sp20(
                             "Get your medications, health products, and professional consultations all in one place. Convenient, fast, and reliable.")
@@ -78,7 +81,7 @@ class OnboardingPage extends StatelessWidget {
                           flex: 3,
                           child: AppButton.primary(
                             text: "Login",
-                            onTap: () => login(context),
+                            onTap: () => login(),
                           ),
                         ),
                         16.horizontalSpace,

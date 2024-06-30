@@ -1,8 +1,8 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/ui/app_button.dart';
-import 'package:drugs_ng/core/ui/app_text.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/ui/app_button.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

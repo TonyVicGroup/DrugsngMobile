@@ -6,6 +6,9 @@ class AppValidators {
 
   static final _password = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
 
+  static String? name(String? text) =>
+      (text?.length ?? 0) <= 2 ? "Enter a valid name" : null;
+
   static String? email(String? text) =>
       _emailRegex.hasMatch(text ?? "") ? null : "Enter a valid email";
 

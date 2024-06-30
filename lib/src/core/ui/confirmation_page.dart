@@ -1,6 +1,6 @@
-import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/ui/app_button.dart';
-import 'package:drugs_ng/core/ui/app_text.dart';
+import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/ui/app_button.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

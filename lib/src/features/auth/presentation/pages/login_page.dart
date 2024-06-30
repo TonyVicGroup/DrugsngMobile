@@ -1,13 +1,13 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/extensions/widget_extension.dart';
-import 'package:drugs_ng/core/ui/app_button.dart';
-import 'package:drugs_ng/core/ui/app_text.dart';
-import 'package:drugs_ng/core/ui/app_text_field.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/core/utils/app_validators.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/enter_phone_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/extensions/widget_extension.dart';
+import 'package:drugs_ng/src/core/ui/app_button.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/core/utils/app_validators.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/enter_phone_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
               AppText.sp14("Password").w400.black,
               6.verticalSpace,
               AppTextField.text(
+                hint: "Password",
                 controller: passwordCntrl,
                 keyboardType: TextInputType.text,
                 suffixIcon: svgPicture(),

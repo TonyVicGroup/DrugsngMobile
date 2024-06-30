@@ -1,5 +1,5 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +16,8 @@ class AppTextField {
     Widget? suffixIcon,
     String? Function(String?)? validator,
     void Function()? clickSuffix,
+    bool? enabled,
+    void Function()? onTap,
   }) =>
       TextFormField(
         focusNode: focusNode,
@@ -23,6 +25,8 @@ class AppTextField {
         autofocus: autofocus,
         obscureText: obscureText,
         keyboardType: keyboardType,
+        enabled: enabled,
+        onTap: onTap,
         style: TextStyle(
           fontSize: 16.sp,
           color: AppColor.black,
