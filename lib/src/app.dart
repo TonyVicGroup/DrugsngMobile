@@ -1,4 +1,3 @@
-import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/home/data/datasources/home_datasource.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_datasource.dart';
@@ -32,7 +31,6 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 restorationScopeId: 'app',
                 title: 'Drugs Ng',
-                navigatorKey: AppUtils.navKey,
                 theme: ThemeData(
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),

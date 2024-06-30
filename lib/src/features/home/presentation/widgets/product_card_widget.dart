@@ -126,13 +126,13 @@ class ProductCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       if (prevPrice != null) ...[
-                        AppText.sp12("₦${AppFormater.amount(prevPrice!)}")
+                        AppText.sp12("₦${TextFormater.amount(prevPrice!)}")
                             .w500
                             .setColor(const Color(0xFF8B96A5))
                             .strikeThrough,
                         2.horizontalSpace,
                       ],
-                      AppText.sp12("₦${AppFormater.amount(price)}")
+                      AppText.sp12("₦${TextFormater.amount(price)}")
                           .w800
                           .primaryColor,
                     ],

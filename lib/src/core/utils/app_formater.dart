@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class AppFormater {
+class TextFormater {
   static final NumberFormat _numFormater = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
     decimalDigits: 2,
