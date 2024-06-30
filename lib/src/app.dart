@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 restorationScopeId: 'app',
                 title: 'Drugs Ng',
-                navigatorKey: AppUtils.navKey,
                 theme: ThemeData(
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
