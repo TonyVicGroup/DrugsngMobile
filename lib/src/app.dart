@@ -24,8 +24,12 @@ class MyApp extends StatelessWidget {
           create: (context) => HomeRepository(context.read()),
         ),
       ],
-      child: BlocProvider(
-        create: (context) => HomeBloc(context.read()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => HomeBloc(context.read()),
+          ),
+        ],
         child: ScreenUtilInit(
             designSize: const Size(430, 932),
             minTextAdapt: true,

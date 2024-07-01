@@ -4,7 +4,7 @@ import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
-import 'package:drugs_ng/src/features/auth/presentation/pages/enter_phone_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +81,7 @@ class OnboardingPage extends StatelessWidget {
                           flex: 3,
                           child: AppButton.primary(
                             text: "Login",
-                            onTap: () => login(),
+                            onTap: login,
                           ),
                         ),
                         16.horizontalSpace,
@@ -109,6 +109,6 @@ class OnboardingPage extends StatelessWidget {
   }
 
   void getStarted() {
-    AppUtils.push(const EnterPhonePage());
+    AppUtils.push(const CreateAccountPage());
   }
 }

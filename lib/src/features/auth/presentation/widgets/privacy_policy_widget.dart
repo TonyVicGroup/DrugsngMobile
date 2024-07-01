@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {
   final bool value;
+  final bool hasError;
   final Function(bool) onChanged;
   final Function()? clickPolicy;
   const PrivacyPolicyWidget({
@@ -15,6 +16,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
     required this.value,
     required this.onChanged,
     this.clickPolicy,
+    required this.hasError,
   });
 
   @override
@@ -31,6 +33,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.r),
           color: const Color(0xFF31B5ED).withOpacity(0.05),
+          border: hasError ? Border.all(color: AppColor.red) : null,
         ),
         child: Row(
           children: [
@@ -45,11 +48,13 @@ class PrivacyPolicyWidget extends StatelessWidget {
                     color: value ? AppColor.primary : AppColor.darkGrey,
                     width: 1.0),
               ),
-              child: SvgPicture.asset(
-                AppSvg.checkMark,
-                width: 16.r,
-                height: 16.r,
-              ),
+              child: value
+                  ? SvgPicture.asset(
+                      AppSvg.checkMark,
+                      width: 16.r,
+                      height: 16.r,
+                    )
+                  : null,
             ),
             10.horizontalSpace,
             RichText(
