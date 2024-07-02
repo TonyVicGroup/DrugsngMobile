@@ -15,6 +15,7 @@ class AppImage {
 }
 
 class AppSvg {
+  static const String close = "assets/svg/close.svg";
   static const String checkMark = "assets/svg/check_mark.svg";
   static const String checkboxFilled = "assets/svg/checkbox_filled.svg";
   static const String chevronLight = "assets/svg/chevron_light.svg";
@@ -36,7 +37,7 @@ class AppSvg {
   static const String like = "assets/svg/like.svg";
   static const String list = "assets/svg/list.svg";
   static const String location = "assets/svg/location.svg";
-  static const String newArrival = "assets/svg/new_arrival.svg";
+  static const String sortBy = "assets/svg/sort_by.svg";
   static const String newReview = "assets/svg/new_review.svg";
   static const String notVisible = "assets/svg/not_visible.svg";
   static const String notification = "assets/svg/notification.svg";

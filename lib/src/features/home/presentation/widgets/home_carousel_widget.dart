@@ -23,7 +23,7 @@ class HomeCarouselWidget extends StatelessWidget {
               indicatorRadius: 2.5.r,
               indicatorBackgroundColor: const Color(0xFFBDC4CD),
               currentIndicatorColor: AppColor.primary,
-              itemSpacing: (state.data.homeAds.length + 1).r,
+              itemSpacing: (state.data.homeAds.length + 2).r,
             ),
             autoPlay: true,
             enableInfiniteScroll: true,
