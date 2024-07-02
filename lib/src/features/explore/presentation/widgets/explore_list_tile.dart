@@ -15,6 +15,8 @@ class ExploreListTile extends StatelessWidget {
   final double? prevPrice;
   final double price;
   final int? percentReduction;
+  final void Function() onTap;
+
   const ExploreListTile({
     super.key,
     required this.img,
@@ -24,107 +26,111 @@ class ExploreListTile extends StatelessWidget {
     required this.name,
     this.prevPrice,
     required this.price,
+    required this.onTap,
     this.percentReduction,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 104.h,
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: AppColor.white,
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 4),
-            blurRadius: 20,
-            color: AppColor.black.withOpacity(0.06),
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: Image.asset(img),
-          ),
-          10.horizontalSpace,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(),
-                AppText.sp14(name).w500.black.setMaxLines(1),
-                const Spacer(),
-                AppText.sp10(category).w400.setColor(
-                      const Color(0xFF8B96A5),
-                    ),
-                const Spacer(),
-                Row(
-                  children: [
-                    (rating >= 1) ? filledStar() : outlinedStar(),
-                    (rating >= 2) ? filledStar() : outlinedStar(),
-                    (rating >= 3) ? filledStar() : outlinedStar(),
-                    (rating >= 4) ? filledStar() : outlinedStar(),
-                    (rating >= 5) ? filledStar() : outlinedStar(),
-                    5.horizontalSpace,
-                    AppText.sp10("($totalRating)").w400.setColor(
-                          const Color(0xFF8B96A5),
-                        ),
-                  ],
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    if (prevPrice != null) ...[
-                      AppText.sp12("₦${TextFormater.amount(prevPrice!)}")
-                          .w500
-                          .setColor(const Color(0xFF8B96A5))
-                          .strikeThrough,
-                      2.horizontalSpace,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 104.h,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.r),
+          color: AppColor.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 4),
+              blurRadius: 20,
+              color: AppColor.black.withOpacity(0.06),
+            )
+          ],
+        ),
+        child: Row(
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: Image.asset(img),
+            ),
+            10.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  AppText.sp14(name).w500.black.setMaxLines(1),
+                  const Spacer(),
+                  AppText.sp10(category).w400.setColor(
+                        const Color(0xFF8B96A5),
+                      ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      (rating >= 1) ? filledStar() : outlinedStar(),
+                      (rating >= 2) ? filledStar() : outlinedStar(),
+                      (rating >= 3) ? filledStar() : outlinedStar(),
+                      (rating >= 4) ? filledStar() : outlinedStar(),
+                      (rating >= 5) ? filledStar() : outlinedStar(),
+                      5.horizontalSpace,
+                      AppText.sp10("($totalRating)").w400.setColor(
+                            const Color(0xFF8B96A5),
+                          ),
                     ],
-                    AppText.sp12("₦${TextFormater.amount(price)}")
-                        .w800
-                        .primaryColor,
-                  ],
-                ),
-                const Spacer(),
-              ],
+                  ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      if (prevPrice != null) ...[
+                        AppText.sp12("₦${TextFormater.amount(prevPrice!)}")
+                            .w500
+                            .setColor(const Color(0xFF8B96A5))
+                            .strikeThrough,
+                        2.horizontalSpace,
+                      ],
+                      AppText.sp12("₦${TextFormater.amount(price)}")
+                          .w800
+                          .primaryColor,
+                    ],
+                  ),
+                  const Spacer(),
+                ],
+              ),
             ),
-          ),
-          8.horizontalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Column(
-              children: [
-                if (percentReduction != null)
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.r),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFF5252).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(29.r),
+            8.horizontalSpace,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Column(
+                children: [
+                  if (percentReduction != null)
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.r),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF5252).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(29.r),
+                      ),
+                      child: AppText.sp10("-${percentReduction!}%")
+                          .w400
+                          .setColor(const Color(0xFFFF5252)),
                     ),
-                    child: AppText.sp10("-${percentReduction!}%")
-                        .w400
-                        .setColor(const Color(0xFFFF5252)),
+                  const Spacer(),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: SvgPicture.asset(
+                      AppSvg.heartOutline,
+                      colorFilter: const ColorFilter.mode(
+                          Color(0xFF8B96A5), BlendMode.srcIn),
+                    ),
                   ),
-                const Spacer(),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: SvgPicture.asset(
-                    AppSvg.heartOutline,
-                    colorFilter: const ColorFilter.mode(
-                        Color(0xFF8B96A5), BlendMode.srcIn),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          8.horizontalSpace,
-        ],
+            8.horizontalSpace,
+          ],
+        ),
       ),
     );
   }

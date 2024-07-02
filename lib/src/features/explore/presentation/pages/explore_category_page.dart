@@ -1,17 +1,24 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/category_filter_widget.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_grid_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
+import 'package:drugs_ng/src/features/product/presentation/pages/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ExploreCategoryPage extends StatelessWidget {
+class ExploreCategoryPage extends StatefulWidget {
   const ExploreCategoryPage({super.key});
 
+  @override
+  State<ExploreCategoryPage> createState() => _ExploreCategoryPageState();
+}
+
+class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +103,50 @@ class ExploreCategoryPage extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.separated(
+      body: _appBody(
+        true,
+        const Product(
+            name: 'Another name',
+            image: AppImage.vitamin,
+            category: 'category',
+            rating: 4,
+            ratingCount: 32,
+            price: 300,
+            prevPrice: 400,
+            discountPercent: 10),
+      ),
+    );
+  }
+
+  Widget _appBody(bool isGrid, Product product) {
+    if (isGrid) {
+      return GridView.builder(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 16.h,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.71,
+          crossAxisSpacing: 18.w,
+          mainAxisSpacing: 25.h,
+        ),
+        itemBuilder: (context, index) {
+          return ExploreGridTile(
+            img: product.image,
+            rating: product.rating,
+            totalRating: product.ratingCount,
+            category: product.category,
+            name: product.name,
+            price: product.price,
+            prevPrice: product.prevPrice,
+            percentReduction: product.discountPercent,
+            onTap: () => openProduct(product),
+          );
+        },
+      );
+    } else {
+      return ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
           vertical: 16.h,
@@ -111,38 +161,23 @@ class ExploreCategoryPage extends StatelessWidget {
             price: 30,
             prevPrice: 100,
             percentReduction: 10,
+            onTap: () => openProduct(product),
           );
         },
         separatorBuilder: (context, index) => 25.verticalSpace,
         itemCount: 12,
-      ),
-    );
+      );
+    }
   }
 
-  GridView _appBody() {
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 16.h,
+  void openProduct(Product product) {
+    Navigator.push(
+      context,
+      AppUtils.transition(
+        ProductDetail(
+          product: product,
+        ),
       ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.71,
-        crossAxisSpacing: 18.w,
-        mainAxisSpacing: 25.h,
-      ),
-      itemBuilder: (context, index) {
-        return ExploreGridTile(
-          img: AppImage.molfix,
-          rating: 4,
-          totalRating: 23,
-          category: "Alle",
-          name: "Another name",
-          price: 30,
-          prevPrice: 100,
-          percentReduction: 10,
-        );
-      },
     );
   }
 
