@@ -5,11 +5,15 @@ import 'package:drugs_ng/src/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/bloc/home_bloc.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/home_carousel_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/order_prescription_widget.dart';
+import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -177,11 +181,26 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> reload() async {}
 
-  void search() {}
+  void search() {
+    Navigator.push(
+      context,
+      AppUtils.transition(const ExploreSearchPage()),
+    );
+  }
 
-  void notification() {}
+  void notification() {
+    Navigator.push(
+      context,
+      AppUtils.transition(const NotificationPage()),
+    );
+  }
 
-  void cart() {}
+  void cart() {
+    Navigator.push(
+      context,
+      AppUtils.transition(const CartPage()),
+    );
+  }
 
   void viewAllNewArrivals() {}
 
