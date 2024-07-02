@@ -6,7 +6,7 @@ import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/category_filter_widget.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_grid_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
-import 'package:drugs_ng/src/features/product/presentation/pages/product_detail.dart';
+import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -174,7 +174,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
     Navigator.push(
       context,
       AppUtils.transition(
-        ProductDetail(
+        ProductDetailPage(
           product: product,
         ),
       ),
