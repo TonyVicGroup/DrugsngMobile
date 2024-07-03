@@ -1,4 +1,4 @@
-import 'package:drugs_ng/src/core/data/models/app_error.dart';
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/core/utils/app_data_types.dart';
 import 'package:drugs_ng/src/features/home/data/models/home_data.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_datasource.dart';
