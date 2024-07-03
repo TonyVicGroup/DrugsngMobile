@@ -10,8 +10,10 @@ class AuthRepository {
 
   AuthRepository(this.datasource);
 
-  AsyncErrorOr attemptLogin({required String token}) async {
+  AsyncErrorOr attemptLogin() async {
     try {
+      // get token saved in the device
+      String token = "Token";
       await datasource.attemptLogin(token: token);
       return const Right(null);
     } catch (e) {
