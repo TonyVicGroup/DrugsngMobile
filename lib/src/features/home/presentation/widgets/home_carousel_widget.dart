@@ -15,7 +15,7 @@ class HomeCarouselWidget extends StatelessWidget {
       builder: (context, state) {
         return FlutterCarousel(
           options: CarouselOptions(
-            height: 171.h,
+            height: 172.h,
             viewportFraction: 1,
             showIndicator: true,
             floatingIndicator: false,
@@ -70,7 +70,8 @@ class HomeCarouselWidget extends StatelessWidget {
                                       AppText.sp12(ad.subtitle)
                                           .w400
                                           .whiteBlue
-                                          .setMaxLines(2),
+                                          .setMaxLines(2)
+                                          .setLineHeight(1),
                                     ],
                                   ),
                                 ),

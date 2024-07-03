@@ -1,3 +1,9 @@
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/features/auth/data/datasource/auth_datasource_impl.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_datasource.dart';
 import 'package:drugs_ng/src/features/home/data/datasources/home_datasource.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_datasource.dart';
@@ -17,12 +23,22 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<HomeDatasource>(
           create: (context) => HomeLocalDatasource(),
         ),
+        RepositoryProvider<AuthDatasource>(
+          create: (context) => AuthDatasourceImpl(),
+        ),
         RepositoryProvider<HomeRepository>(
           create: (context) => HomeRepository(context.read()),
         ),
+        RepositoryProvider<AuthRepository>(
+          create: (context) => AuthRepository(context.read())..attemptLogin(),
+        )
       ],
-      child: BlocProvider(
-        create: (context) => HomeBloc(context.read()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => HomeBloc(context.read()),
+          ),
+        ],
         child: ScreenUtilInit(
             designSize: const Size(430, 932),
             minTextAdapt: true,
@@ -30,13 +46,14 @@ class MyApp extends StatelessWidget {
             builder: (_, context) {
               return MaterialApp(
                 restorationScopeId: 'app',
+                navigatorKey: AppUtils.navKey,
                 title: 'Drugs Ng',
                 theme: ThemeData(
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
                   useMaterial3: true,
-                  fontFamily: 'Sf-Pro-Display',
-                  // scaffoldBackgroundColor: NbColors.background,
+                  fontFamily: AppText.fontFamily,
+                  scaffoldBackgroundColor: AppColor.white,
                 ),
                 home: const OnboardingPage(),
               );

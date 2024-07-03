@@ -15,6 +15,7 @@ class AppImage {
 }
 
 class AppSvg {
+  static const String checkMark = "assets/svg/check_mark.svg";
   static const String checkboxFilled = "assets/svg/checkbox_filled.svg";
   static const String chevronLight = "assets/svg/chevron_light.svg";
   static const String chevronThick = "assets/svg/chevron_thick.svg";
@@ -50,4 +51,5 @@ class AppSvg {
   static const String upload = "assets/svg/upload.svg";
   static const String visible = "assets/svg/visible.svg";
   static const String work = "assets/svg/work.svg";
+  static const String confirmCheck = "assets/svg/confirm_check.svg";
 }
