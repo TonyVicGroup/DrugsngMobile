@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:drugs_ng/src/core/data/models/app_error.dart';
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 // import 'package:drugs_ng/src/core/utils/encryption.dart';
 import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
-import 'package:drugs_ng/src/features/auth/datasource/get_local_token.dart';
+import 'package:drugs_ng/src/features/auth/data/datasource/get_local_token.dart';
 
 class RestService {
   late final Dio _client;
@@ -54,28 +54,26 @@ class RestService {
 
       String msg = '';
       try {
-        msg = data['message'] ?? 'Error getting response from server';
+        msg = data['responseMessage'] ?? 'Error getting response from server';
       } catch (e) {
         dLog('Parsing error: _onRequest - $e');
       }
 
       return ApiError(message: msg);
     } on SocketException {
-      return ApiError(message: 'No internet connection');
+      return ApiError.socket;
     } on TimeoutException catch (_) {
-      return ApiError(
-        message: 'The connection has timed out, Please try again!',
-      );
+      return ApiError.timeout;
     } catch (e) {
       dLog('Error: _onRequest - $e');
-      return ApiError(message: 'An unknown error has occured');
+      return ApiError.unknown;
     }
   }
 
   /// Get
   Future<ApiResponse> get({
     required String url,
-    Map<String, String>? params,
+    Map<String, dynamic>? params,
   }) {
     return _handleResponse(() => _client.get(url, queryParameters: params));
   }
@@ -83,12 +81,21 @@ class RestService {
   /// Post
   Future<ApiResponse> post({
     required String url,
-    Map<String, String>? data,
+    Map<String, dynamic>? data,
   }) {
     return _handleResponse(() => _client.post(url, data: data));
+  }
+
+  /// Post
+  Future<ApiResponse> put({
+    required String url,
+    Map<String, dynamic>? data,
+  }) {
+    return _handleResponse(() => _client.put(url, data: data));
   }
 }
 
 extension ApiResponseExt on ApiResponse {
   bool get hasError => ApiResponse is ApiError;
+  ApiError get error => ApiResponse as ApiError;
 }
