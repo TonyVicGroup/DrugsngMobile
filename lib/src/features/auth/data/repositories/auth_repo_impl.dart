@@ -6,13 +6,13 @@ import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:either_dart/either.dart';
 
-class AuthRepoImpl extends AuthRepo {
+class AuthRepositoryImpl extends AuthRepository {
   final RestService service;
 
-  AuthRepoImpl({required this.service});
+  AuthRepositoryImpl(this.service);
 
   @override
-  AsyncErrorOr<void> confirmAccount(String otp) async {
+  AsyncApiErrorOr<void> confirmAccount(String otp) async {
     try {
       final response = await service.post(
         url: 'auth/account-confirmation',
@@ -27,7 +27,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  AsyncErrorOr<User> login(String email, String password) async {
+  AsyncApiErrorOr<User> login(String email, String password) async {
     try {
       final response = await service.post(
         url: 'auth/login',
@@ -42,7 +42,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  AsyncErrorOr<void> register(RegisterData data) async {
+  AsyncApiErrorOr<void> register(RegisterData data) async {
     try {
       final response = await service.post(url: 'auth/register');
 
@@ -54,7 +54,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  AsyncErrorOr<void> sendPasswordReset(String email) async {
+  AsyncApiErrorOr<void> sendPasswordReset(String email) async {
     try {
       final response = await service.post(
         url: 'auth/reset-password',
@@ -69,7 +69,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  AsyncErrorOr<void> setNewPassword(SetNewPasswordData data) async {
+  AsyncApiErrorOr<void> setNewPassword(SetNewPasswordData data) async {
     try {
       final response = await service.post(
         url: 'auth/reset-password',
@@ -84,7 +84,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  AsyncErrorOr<void> verifyPasswordResetOTP(String otp) async {
+  AsyncApiErrorOr<void> verifyPasswordResetOTP(String otp) async {
     try {
       final response = await service.post(
         url: 'auth/verify-token',

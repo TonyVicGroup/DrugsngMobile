@@ -1,6 +1,8 @@
-import 'package:drugs_ng/src/features/home/data/datasources/home_datasource.dart';
+import 'package:drugs_ng/src/core/utils/rest_service.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
-import 'package:drugs_ng/src/features/home/domain/repositories/home_datasource.dart';
+import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/presentation/bloc/home_bloc.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,11 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<HomeDatasource>(
-          create: (context) => HomeLocalDatasource(),
-        ),
+        RepositoryProvider<RestService>(create: (context) => RestService()),
         RepositoryProvider<HomeRepository>(
-          create: (context) => HomeRepository(context.read()),
+          create: (context) => HomeRepositoryLocal(),
+        ),
+        RepositoryProvider<AuthRepository>(
+          create: (context) => AuthRepositoryImpl(context.read()),
         ),
       ],
       child: BlocProvider(

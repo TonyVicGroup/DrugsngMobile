@@ -62,7 +62,7 @@ class RestService {
       return ApiError(message: msg);
     } on SocketException {
       return ApiError.socket;
-    } on TimeoutException catch (_) {
+    } on TimeoutException {
       return ApiError.timeout;
     } catch (e) {
       dLog('Error: _onRequest - $e');
@@ -70,7 +70,6 @@ class RestService {
     }
   }
 
-  /// Get
   Future<ApiResponse> get({
     required String url,
     Map<String, dynamic>? params,
@@ -78,7 +77,6 @@ class RestService {
     return _handleResponse(() => _client.get(url, queryParameters: params));
   }
 
-  /// Post
   Future<ApiResponse> post({
     required String url,
     Map<String, dynamic>? data,
@@ -86,7 +84,6 @@ class RestService {
     return _handleResponse(() => _client.post(url, data: data));
   }
 
-  /// Post
   Future<ApiResponse> put({
     required String url,
     Map<String, dynamic>? data,

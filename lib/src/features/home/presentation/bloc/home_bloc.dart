@@ -1,6 +1,6 @@
+import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drugs_ng/src/features/home/data/models/home_data.dart';
-import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'home_event.dart';
