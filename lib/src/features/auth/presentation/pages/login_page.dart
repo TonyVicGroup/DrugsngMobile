@@ -7,6 +7,7 @@ import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/forget_password_page.dart';
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => LoginCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(

@@ -7,7 +7,7 @@ import 'package:drugs_ng/src/core/data/models/app_error.dart';
 // import 'package:drugs_ng/src/core/utils/encryption.dart';
 import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
-import 'package:drugs_ng/src/features/auth/datasource/get_local_token.dart';
+import 'package:drugs_ng/src/features/auth/data/datasource/get_local_token.dart';
 
 class RestService {
   late final Dio _client;
