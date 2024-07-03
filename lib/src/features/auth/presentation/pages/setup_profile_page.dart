@@ -4,6 +4,7 @@ import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/data/models/auth_user_profile.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/profile_setup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/gender_select_widget.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileSetupCubit(),
+      create: (context) => ProfileSetupCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(

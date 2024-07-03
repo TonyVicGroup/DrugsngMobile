@@ -7,6 +7,7 @@ import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/data/models/signup_data.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/privacy_policy_widget.dart';
@@ -47,7 +48,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignupCubit(),
+      create: (context) => SignupCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(

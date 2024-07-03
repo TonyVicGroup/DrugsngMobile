@@ -1,6 +1,8 @@
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/auth/data/models/auth_user_profile.dart';
+import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/src/tab_overlay.dart';
+import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart';
 import 'package:page_transition/page_transition.dart';
@@ -15,14 +17,19 @@ enum ProfileSetupState {
 }
 
 class ProfileSetupCubit extends Cubit<ProfileSetupState> {
-  ProfileSetupCubit() : super(ProfileSetupState.initial);
+  final AuthRepository repo;
+
+  ProfileSetupCubit(this.repo) : super(ProfileSetupState.initial);
 
   Future createAccount(AuthUserProfile profile) async {
     emit(ProfileSetupState.loading);
-    Future.delayed(const Duration(seconds: 2));
-    emit(ProfileSetupState.updated);
-
-    await acceptPermission();
+    final result = repo.setupProfile(authProfile: profile);
+    result.fold((left) {
+      emit(ProfileSetupState.failed);
+    }, (right) async {
+      emit(ProfileSetupState.updated);
+      await acceptPermission();
+    });
   }
 
   Future acceptPermission() async {
