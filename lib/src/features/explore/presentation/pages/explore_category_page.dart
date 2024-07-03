@@ -3,9 +3,11 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/features/explore/presentation/pages/explore_filters_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/category_filter_widget.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_grid_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
+import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_sort_modal.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,7 +70,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
                       const Spacer(),
                       _filterButton(),
                       const Spacer(),
-                      _newArrival(),
+                      _sortButton(),
                       const Spacer(),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -153,14 +155,14 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
         ),
         itemBuilder: (context, index) {
           return ExploreListTile(
-            img: AppImage.molfix,
-            rating: 4,
-            totalRating: 23,
-            category: "Alle",
-            name: "Another name",
-            price: 30,
-            prevPrice: 100,
-            percentReduction: 10,
+            img: product.image,
+            rating: product.rating,
+            totalRating: product.ratingCount,
+            category: product.category,
+            name: product.name,
+            price: product.price,
+            prevPrice: product.prevPrice,
+            percentReduction: product.discountPercent,
             onTap: () => openProduct(product),
           );
         },
@@ -183,6 +185,12 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
 
   InkWell _filterButton() {
     return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          AppUtils.transition(const ExploreFiltersPage()),
+        );
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -198,8 +206,17 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
     );
   }
 
-  InkWell _newArrival() {
+  InkWell _sortButton() {
     return InkWell(
+      onTap: () async {
+        await showModalBottomSheet(
+          context: AppUtils.navKey.currentContext!,
+          builder: (context) {
+            return const ExploreSortModal();
+          },
+          isScrollControlled: true,
+        );
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -3,7 +3,7 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/consultation/presentation/pages/consultation.dart';
-import 'package:drugs_ng/src/features/explore/presentation/pages/explore.dart';
+import 'package:drugs_ng/src/features/explore/presentation/pages/explore_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/pages/home.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/pages/lab_test.dart';
 import 'package:drugs_ng/src/features/profile/presentation/pages/profile.dart';
