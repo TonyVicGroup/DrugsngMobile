@@ -1,3 +1,6 @@
+import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/rest_service.dart';
 import 'package:drugs_ng/src/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
@@ -23,9 +26,16 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(context.read()),
         ),
+        RepositoryProvider<AuthRepository>(
+          create: (context) => AuthRepositoryImpl(context.read())//..attemptLogin(),
+        )
       ],
-      child: BlocProvider(
-        create: (context) => HomeBloc(context.read()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => HomeBloc(context.read()),
+          ),
+        ],
         child: ScreenUtilInit(
             designSize: const Size(430, 932),
             minTextAdapt: true,
@@ -33,13 +43,14 @@ class MyApp extends StatelessWidget {
             builder: (_, context) {
               return MaterialApp(
                 restorationScopeId: 'app',
+                navigatorKey: AppUtils.navKey,
                 title: 'Drugs Ng',
                 theme: ThemeData(
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: const Color(0xFF0B8AE1)),
                   useMaterial3: true,
-                  fontFamily: 'Sf-Pro-Display',
-                  // scaffoldBackgroundColor: NbColors.background,
+                  fontFamily: AppText.fontFamily,
+                  scaffoldBackgroundColor: AppColor.white,
                 ),
                 home: const OnboardingPage(),
               );
