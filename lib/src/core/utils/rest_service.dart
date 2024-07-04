@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -37,6 +36,13 @@ class RestService {
           },
           onResponse: (response, handler) {
             /// decryption happens here
+
+            if (response.data['responseCode'] == 90) {
+              response.statusCode = 90;
+            } else if (response.data['responseCode'] == 00) {
+              response.statusCode = 200;
+            }
+
             return handler.next(response);
           },
         ),
@@ -48,7 +54,7 @@ class RestService {
   ) async {
     try {
       final response = await request();
-      final data = json.decode(utf8.decode(response.data));
+      final data = Map<String, dynamic>.from(response.data);
 
       if (response.statusCode == 200) return ApiResponse(data: data);
 
@@ -93,6 +99,6 @@ class RestService {
 }
 
 extension ApiResponseExt on ApiResponse {
-  bool get hasError => ApiResponse is ApiError;
-  ApiError get error => ApiResponse as ApiError;
+  bool get hasError => this is ApiError;
+  ApiError get error => this as ApiError;
 }

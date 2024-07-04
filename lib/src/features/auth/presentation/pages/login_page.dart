@@ -7,7 +7,7 @@ import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
-import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/forget_password_page.dart';
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _forgetPassword() {
-    AppUtils.push(const ForgetPasswordPage());
+    AppUtils.pushWidget(const ForgetPasswordPage());
   }
 
   void _login(BuildContext context) {
@@ -157,6 +157,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signup() {
-    AppUtils.push(const CreateAccountPage());
+    AppUtils.pushWidget(const CreateAccountPage());
   }
 }

@@ -17,8 +17,8 @@ class ForgetPasswordPage extends StatefulWidget {
 }
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  TextEditingController emailCntrl = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final emailCntrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -93,16 +93,16 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   }
 
   void _back() {
-    AppUtils.pop();
+    Navigator.of(context).pop();
   }
 
   void _sendCode() {
     if (formKey.currentState?.validate() ?? false) {
-      AppUtils.push(const VerifyEmailPage());
+      AppUtils.pushWidget(const VerifyEmailPage());
     }
   }
 
   void _login() {
-    AppUtils.pop();
+    Navigator.of(context).pop();
   }
 }

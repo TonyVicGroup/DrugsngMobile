@@ -42,9 +42,27 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  AsyncApiErrorOr<void> register(RegisterData data) async {
+  AsyncApiErrorOr<void> signup(SignupData data) async {
     try {
-      final response = await service.post(url: 'auth/register');
+      // final response = await service.post(
+      //   url: 'auth/register',
+      //   // data: data.toMap(),
+      // );
+
+      // if (response.hasError) return Left(response.error);
+      return const Right(null);
+    } catch (e) {
+      return const Left(ApiError.unknown);
+    }
+  }
+
+  @override
+  AsyncApiErrorOr<void> setupProfile(AuthUserProfile data) async {
+    try {
+      final response = await service.post(
+        url: 'auth/register',
+        data: data.toMap(),
+      );
 
       if (response.hasError) return Left(response.error);
       return const Right(null);

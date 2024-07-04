@@ -1,12 +1,36 @@
-class RegisterData {
-  final String firstName, lastName, emailAddress, password;
+class SignupData {
+  final String email;
+  final String password;
+  final bool getWeeklyUpdates;
 
-  RegisterData({
+  const SignupData({
+    required this.email,
+    required this.password,
+    required this.getWeeklyUpdates,
+  });
+}
+
+class AuthUserProfile {
+  final String firstName, lastName;
+  final SignupData data;
+  final DateTime birthday;
+  final bool gender;
+
+  const AuthUserProfile({
     required this.firstName,
     required this.lastName,
-    required this.emailAddress,
-    required this.password,
+    required this.data,
+    required this.birthday,
+    required this.gender,
   });
+
+  Map<String, dynamic> toMap() => {
+        "firstName": firstName,
+        "lastName": lastName,
+        "emailAddress": data.email,
+        "password": data.password,
+        "confirmPassword": data.password,
+      };
 }
 
 class SetNewPasswordData {

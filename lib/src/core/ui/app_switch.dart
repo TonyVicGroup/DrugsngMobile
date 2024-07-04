@@ -22,7 +22,7 @@ class AppSwitch {
           borderRadius: BorderRadius.circular(18.r),
         ),
         child: AnimatedAlign(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 200),
           alignment: Alignment(value ? 1 : -1, 0),
           child: Container(
             width: 20.r,

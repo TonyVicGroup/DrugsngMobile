@@ -34,12 +34,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             RichText(
               text: TextSpan(
                 text: "We've sent a code to ",
-                children: [
+                children: const [
                   TextSpan(
                     text: "example@email.com",
-                    style: TextStyle(
-                      color: AppColor.black,
-                    ),
+                    style: TextStyle(color: AppColor.black),
                   ),
                 ],
                 style: TextStyle(
@@ -111,11 +109,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   void _back() {
-    AppUtils.pop();
+    Navigator.of(context).pop();
   }
 
   void _verify() {
-    AppUtils.push(const ResetPasswordPage());
+    AppUtils.pushWidget(const ResetPasswordPage());
   }
 
   void _resend() {}
