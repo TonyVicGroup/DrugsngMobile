@@ -1,6 +1,7 @@
 import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/core/utils/app_data_types.dart';
 import 'package:drugs_ng/src/core/utils/rest_service.dart';
+import 'package:drugs_ng/src/features/auth/data/datasource/get_local_token.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
@@ -11,13 +12,13 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.service);
 
   @override
-  AsyncApiErrorOr<User> getUserData(int id) async {
+  AsyncApiErrorOr<UserData> getUserData(int id) async {
     try {
       final response = await service.get(url: 'auth/user/$id');
 
       if (response.hasError) return Left(response.error);
 
-      return Right(User.fromMap(response.data!['data']));
+      return Right(UserData.fromMap(response.data!['data']));
     } catch (e) {
       return const Left(ApiError.unknown);
     }
@@ -33,15 +34,20 @@ class AuthRepositoryImpl extends AuthRepository {
 
       if (response.hasError) return Left(response.error);
 
-      final int userId = response.data!['data']['userId'];
-      return await getUserData(userId);
+      final user = User.fromMap(response.data!['data']);
+      TokenPreference.updateToken(token: user.authToken);
+
+      final userData = await getUserData(user.id);
+      userData.fold((left) => null, (data) => user.data = data);
+      
+      return Right(user);
     } catch (e) {
       return const Left(ApiError.unknown);
     }
   }
 
   @override
-  AsyncApiErrorOr<User> signup(SignupData data) async {
+  AsyncApiErrorOr<UserData> signup(SignupData data) async {
     try {
       final response = await service.post(
         url: 'auth/register',
@@ -55,7 +61,7 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
       if (response.hasError) return Left(response.error);
-      return Right(User.fromMap(response.data!['data']));
+      return Right(UserData.fromMap(response.data!['data']));
     } catch (e) {
       return const Left(ApiError.unknown);
     }

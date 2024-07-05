@@ -16,7 +16,7 @@ import 'package:intl/intl.dart';
 class SetupProfilePage extends StatefulWidget {
   const SetupProfilePage({super.key, required this.user});
 
-  final User user;
+  final UserData user;
 
   @override
   State<SetupProfilePage> createState() => _SetupProfilePageState();

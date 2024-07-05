@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:drugs_ng/src/core/data/models/app_responses.dart';
-// import 'package:drugs_ng/src/core/utils/encryption.dart';
+import 'package:drugs_ng/src/core/utils/encryption.dart';
 import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
 import 'package:drugs_ng/src/features/auth/data/datasource/get_local_token.dart';
@@ -22,7 +23,8 @@ class RestService {
       })
       ..interceptors.add(
         InterceptorsWrapper(onRequest: _encryptRequestHandler),
-      );
+      )
+      ..options.validateStatus = (_) => true;
   }
 
   void _encryptRequestHandler(
@@ -49,23 +51,21 @@ class RestService {
       final data = Map<String, dynamic>.from(response.data);
 
       if (response.statusCode == 200) return ApiResponse(data: data);
-
-      String msg = '';
-      try {
-        msg = data['responseMessage'] ?? 'Error getting response from server';
-      } catch (e) {
-        dLog('Parsing error: _onRequest - $e');
+      if (response.statusCode == 400) {
+        return ApiError(
+          message: data['responseMessage'] ??
+              data['title'] ??
+              'Error getting response from server',
+        );
       }
-
-      return ApiError(message: msg);
     } on SocketException {
       return ApiError.socket;
     } on TimeoutException {
       return ApiError.timeout;
-    } catch (e) {
-      dLog('Error: _onRequest - $e');
-      return ApiError.unknown;
+    } catch (e, s) {
+      dLog('Error: _onResponse - $e\n$s');
     }
+    return ApiError.unknown;
   }
 
   Future<ApiResponse> get({
