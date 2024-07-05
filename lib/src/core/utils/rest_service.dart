@@ -21,32 +21,24 @@ class RestService {
         'Accept': '*/*',
       })
       ..interceptors.add(
-        InterceptorsWrapper(
-          onRequest: (options, handler) {
-            if (TokenPreference.hasToken()) {
-              final token = TokenPreference.getToken();
-              options.headers['AUTHORIZATION'] = 'Bearer $token';
-            }
-
-            /// encryption happens here
-            // final encryption = Encryption.encryptString(options.data);
-            // options.data = encryption.data;
-
-            return handler.next(options);
-          },
-          onResponse: (response, handler) {
-            /// decryption happens here
-
-            if (response.data['responseCode'] == 90) {
-              response.statusCode = 90;
-            } else if (response.data['responseCode'] == 00) {
-              response.statusCode = 200;
-            }
-
-            return handler.next(response);
-          },
-        ),
+        InterceptorsWrapper(onRequest: _encryptRequestHandler),
       );
+  }
+
+  void _encryptRequestHandler(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
+    if (TokenPreference.hasToken()) {
+      final token = TokenPreference.getToken();
+      options.headers['AUTHORIZATION'] = 'Bearer $token';
+    }
+
+    /// encryption happens here
+    // final encrypted = Encryption.encryptString(jsonEncode(options.data));
+    // options.data = encrypted.toMap();
+
+    return handler.next(options);
   }
 
   Future<ApiResponse> _handleResponse(
