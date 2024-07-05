@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class Product extends Equatable {
+class ProductDetail extends Equatable {
   static const String _nameKey = "name";
-  static const String _imageKey = "image";
+  static const String _imageKey = "images";
   static const String _categoryKey = "category";
   static const String _ratingKey = "rating";
   static const String _ratingCountKey = "ratingCount";
@@ -11,18 +11,18 @@ class Product extends Equatable {
   static const String _discountPercentKey = "discountPercent";
 
   final String name;
-  final String image;
+  final List<String> images;
   final String category;
-  final double rating;
+  final int rating;
   final int ratingCount;
   final double price;
   final double? prevPrice;
   final int? discountPercent;
 
   /// model for product category in homepage
-  const Product({
+  const ProductDetail({
     required this.name,
-    required this.image,
+    required this.images,
     required this.category,
     required this.rating,
     required this.ratingCount,
@@ -31,12 +31,12 @@ class Product extends Equatable {
     required this.discountPercent,
   });
 
-  factory Product.fromJson(Map json) {
-    return Product(
+  factory ProductDetail.fromJson(Map json) {
+    return ProductDetail(
       name: json[_nameKey],
-      image: json[_imageKey],
+      images: List<String>.from(json[_imageKey]),
       category: json[_categoryKey],
-      rating: double.tryParse("${json[_ratingKey]}") ?? 0.0,
+      rating: json[_ratingKey],
       ratingCount: json[_ratingCountKey],
       price: json[_priceKey],
       prevPrice: json[_prevPriceKey],
@@ -47,7 +47,7 @@ class Product extends Equatable {
   @override
   List<Object?> get props => [
         name,
-        image,
+        images,
         category,
         rating,
         ratingCount,

@@ -3,18 +3,13 @@ import 'package:drugs_ng/src/features/home/data/models/home_data.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:equatable/equatable.dart';
 
-part 'home_event.dart';
 part 'home_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class HomeCubit extends Cubit<HomeState> {
   final HomeRepository repo;
+  HomeCubit(this.repo) : super(HomeInitial());
 
-  HomeBloc(this.repo) : super(const HomeInitial()) {
-    on<GetHomeData>(_getData);
-    on<ReloadHomeData>(_reloadData);
-  }
-
-  void _getData(GetHomeData event, Emitter<HomeState> emit) async {
+  Future getData() async {
     emit(HomeLoading(state.data));
     final result = await repo.getData();
     result.fold(
@@ -23,7 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  void _reloadData(ReloadHomeData event, Emitter<HomeState> emit) async {
+  Future reloadData() async {
     final result = await repo.getData();
     result.fold(
       (l) => emit(HomeError(state.data, l.message)),

@@ -9,7 +9,7 @@ class AppUtils {
 
   static PersistentTabController tabController = PersistentTabController();
 
-  static transition(Widget page) => PageTransition(
+  static Route transition(Widget page) => PageTransition(
         type: PageTransitionType.fade,
         child: page,
         duration: _duration,

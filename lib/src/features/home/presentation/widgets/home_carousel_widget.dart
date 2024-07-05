@@ -1,6 +1,6 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
-import 'package:drugs_ng/src/features/home/presentation/bloc/home_bloc.dart';
+import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -11,7 +11,7 @@ class HomeCarouselWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return FlutterCarousel(
           options: CarouselOptions(

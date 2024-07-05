@@ -10,11 +10,11 @@ class HomeRepository {
   HomeRepository(this.datasource);
 
   AsyncErrorOr<HomeData> getData() async {
-    try {
-      HomeData data = await datasource.getData();
-      return Right(data);
-    } catch (e) {
-      return Left(AppError(e.toString()));
-    }
+    // try {
+    HomeData data = await datasource.getData();
+    return Right(data);
+    // } catch (e) {
+    //   return Left(AppError(e.toString()));
+    // }
   }
 }

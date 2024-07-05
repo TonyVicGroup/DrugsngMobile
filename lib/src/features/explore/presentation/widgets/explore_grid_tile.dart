@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreGridTile extends StatelessWidget {
   final String img;
-  final int rating;
+  final double rating;
   final int totalRating;
   final String category;
   final String name;

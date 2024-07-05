@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreListTile extends StatelessWidget {
   final String img;
-  final int rating;
+  final double rating;
   final int totalRating;
   final String category;
   final String name;
@@ -116,14 +116,10 @@ class ExploreListTile extends StatelessWidget {
                           .setColor(const Color(0xFFFF5252)),
                     ),
                   const Spacer(),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: SvgPicture.asset(
-                      AppSvg.heartOutline,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF8B96A5), BlendMode.srcIn),
-                    ),
+                  SvgPicture.asset(
+                    AppSvg.heartOutline,
+                    colorFilter: const ColorFilter.mode(
+                        Color(0xFF8B96A5), BlendMode.srcIn),
                   ),
                 ],
               ),

@@ -6,12 +6,14 @@ import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/src/features/explore/domain/entity/explore_category_data.dart';
+import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_category_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_category_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -77,6 +79,9 @@ class ExplorePage extends StatelessWidget {
                     title: exploreData.title,
                     subtitle: exploreData.subtitle,
                     onTap: () {
+                      context.read<ExploreBloc>().add(
+                            LoadExploreEvent(title: exploreData.title),
+                          );
                       Navigator.push(
                         context,
                         AppUtils.transition(const ExploreCategoryPage()),

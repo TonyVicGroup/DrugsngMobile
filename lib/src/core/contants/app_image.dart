@@ -53,4 +53,5 @@ class AppSvg {
   static const String visible = "assets/svg/visible.svg";
   static const String work = "assets/svg/work.svg";
   static const String confirmCheck = "assets/svg/confirm_check.svg";
+  static const String threeDot = "assets/svg/three_dots.svg";
 }

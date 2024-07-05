@@ -1,0 +1,228 @@
+{
+    "products": [
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 3.2,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Vitamin Tablet",
+            "images": [
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 4.6,
+            "ratingCount": 50,
+            "price": 1200.00,
+            "prevPrice": 2000,
+            "discountPercent": 5
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 2.5,
+            "ratingCount": 5,
+            "price": 2200.00,
+            "prevPrice": 3000,
+            "discountPercent": 10
+        },
+        {
+            "name": "Cough Syrup",
+            "images": [
+                "assets/images/test_image/syrup.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png"
+            ],
+            "category": "Syrup",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 3.2,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Vitamin Tablet",
+            "images": [
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 4.6,
+            "ratingCount": 50,
+            "price": 1200.00,
+            "prevPrice": 2000,
+            "discountPercent": 5
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 2.5,
+            "ratingCount": 5,
+            "price": 2200.00,
+            "prevPrice": 3000,
+            "discountPercent": 10
+        },
+        {
+            "name": "Cough Syrup",
+            "images": [
+                "assets/images/test_image/syrup.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png"
+            ],
+            "category": "Syrup",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 3.2,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Vitamin Tablet",
+            "images": [
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 4.6,
+            "ratingCount": 50,
+            "price": 1200.00,
+            "prevPrice": 2000,
+            "discountPercent": 5
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 2.5,
+            "ratingCount": 5,
+            "price": 2200.00,
+            "prevPrice": 3000,
+            "discountPercent": 10
+        },
+        {
+            "name": "Cough Syrup",
+            "images": [
+                "assets/images/test_image/syrup.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png"
+            ],
+            "category": "Syrup",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 3.2,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Vitamin Tablet",
+            "images": [
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 4.6,
+            "ratingCount": 50,
+            "price": 1200.00,
+            "prevPrice": 2000,
+            "discountPercent": 5
+        },
+        {
+            "name": "Molfix Jumbp",
+            "images": [
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png",
+                "assets/images/test_image/syrup.png"
+            ],
+            "category": "Pads",
+            "rating": 2.5,
+            "ratingCount": 5,
+            "price": 2200.00,
+            "prevPrice": 3000,
+            "discountPercent": 10
+        },
+        {
+            "name": "Cough Syrup",
+            "images": [
+                "assets/images/test_image/syrup.png",
+                "assets/images/test_image/molfix.png",
+                "assets/images/test_image/vitamin.png"
+            ],
+            "category": "Syrup",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        }
+    ]
+}
