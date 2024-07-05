@@ -94,7 +94,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   clickSuffix: _toggleVisibility2,
                   validator: (v) {
                     if (password1Cntrl.text != v) {
-                      return "Password must be same";
+                      return "Passwords do not match";
                     }
                     return null;
                   },
@@ -106,9 +106,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   onChanged: (v) {
                     setState(() {
                       acceptTerms = v;
-                      if (v) {
-                        acceptTermsHasError = false;
-                      }
+                      if (v) acceptTermsHasError = false;
                     });
                   },
                   clickPolicy: _openPrivacyPolicy,

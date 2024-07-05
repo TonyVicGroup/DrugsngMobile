@@ -43,9 +43,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               AppText.sp30("Forgot password?").w800.black,
               13.verticalSpace,
               AppText.sp16(
-                      "Don't worry! It happens. Please enter the email associated with your account.")
-                  .w400
-                  .darkGrey,
+                "Don't worry! It happens. Please enter the email associated with your account.",
+              ).w400.darkGrey,
               30.verticalSpace,
               AppText.sp14("Email address").w400.black,
               6.verticalSpace,

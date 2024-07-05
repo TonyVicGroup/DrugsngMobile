@@ -141,9 +141,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   void _toggleVisibility() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
+    setState(() => obscurePassword = !obscurePassword);
   }
 
   void _forgetPassword() {
