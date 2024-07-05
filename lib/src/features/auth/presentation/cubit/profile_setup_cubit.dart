@@ -44,7 +44,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
         PageTransition(
           type: PageTransitionType.fade,
           child: const TabOverlay(),
-          duration: const Duration(milliseconds: 600),
+          duration: AppUtils.kPageTransitionDuration,
         ),
         (route) => route.isFirst,
       );

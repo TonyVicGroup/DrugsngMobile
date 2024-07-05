@@ -4,6 +4,7 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
@@ -210,7 +211,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       PageTransition(
         type: PageTransitionType.fade,
         child: const LoginPage(),
-        duration: const Duration(milliseconds: 600),
+        duration: AppUtils.kPageTransitionDuration,
       ),
       (route) => route.isFirst,
     );
