@@ -46,8 +46,8 @@ class AuthRepositoryImpl extends AuthRepository {
       final response = await service.post(
         url: 'auth/register',
         data: {
-          "firstName": "",
-          "lastName": "",
+          "firstName": "_",
+          "lastName": "_",
           "emailAddress": data.email,
           "password": data.password,
           "confirmPassword": data.password,
