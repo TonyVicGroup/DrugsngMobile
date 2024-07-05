@@ -1,11 +1,11 @@
 class User {
-  final int userId;
+  final int id;
   final String email, authToken, refreshToken, accountStatus, accountType;
   final bool isEmailConfirmed, isPhoneConfirmed;
   final List<String> permissions;
 
   User({
-    required this.userId,
+    required this.id,
     required this.email,
     required this.authToken,
     required this.refreshToken,
@@ -18,7 +18,7 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      userId: map['userId'],
+      id: map['id'],
       email: map['email'],
       authToken: map['authToken'],
       refreshToken: map['refreshToken'],

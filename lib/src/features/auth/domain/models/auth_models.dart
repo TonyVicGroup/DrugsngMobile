@@ -12,14 +12,14 @@ class SignupData {
 
 class AuthUserProfile {
   final String firstName, lastName;
-  final SignupData data;
+  final String email;
   final DateTime birthday;
   final bool gender;
 
   const AuthUserProfile({
     required this.firstName,
     required this.lastName,
-    required this.data,
+    required this.email,
     required this.birthday,
     required this.gender,
   });
@@ -27,25 +27,8 @@ class AuthUserProfile {
   Map<String, dynamic> toMap() => {
         "firstName": firstName,
         "lastName": lastName,
-        "emailAddress": data.email,
-        "password": data.password,
-        "confirmPassword": data.password,
-      };
-}
-
-class SetNewPasswordData {
-  final String newPassword, token, userId;
-
-  SetNewPasswordData({
-    required this.newPassword,
-    required this.token,
-    required this.userId,
-  });
-
-  Map<String, dynamic> toMap() => {
-        "userId": userId,
-        "newPassword": newPassword,
-        "confirmPassword": newPassword,
-        "token": token,
+        "gender": gender,
+        "email": email,
+        "dob": birthday.toIso8601String().substring(0, 10),
       };
 }

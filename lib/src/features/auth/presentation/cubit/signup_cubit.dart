@@ -16,9 +16,9 @@ class SignupCubit extends Cubit<SignupState> {
     final result = await repo.signup(data);
     result.fold(
       (left) => emit(SignupState.failed),
-      (right) {
+      (user) {
         emit(SignupState.success);
-        AppUtils.pushWidget(SetupProfilePage(signupData: data));
+        AppUtils.pushWidget(SetupProfilePage(user: user));
       },
     );
   }
