@@ -5,6 +5,7 @@ import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -17,6 +18,27 @@ class VerifyEmailPage extends StatefulWidget {
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   String code = "";
+
+  CountdownTimerController? timerController;
+
+  @override
+  void initState() {
+    _setupTimer();
+    super.initState();
+  }
+
+  void _setupTimer() {
+    timerController?.dispose();
+    timerController = CountdownTimerController(
+      endTime: DateTime.now().millisecondsSinceEpoch + 60000,
+    )..start();
+  }
+
+  @override
+  void dispose() {
+    timerController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,38 +90,49 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 activeFillColor: AppColor.lightGrey,
                 inactiveColor: AppColor.lightGrey,
               ),
-              onChanged: (pin) {
-                code = pin;
-              },
+              onChanged: (pin) => code = pin,
             ),
             20.verticalSpace,
             AppButton.primary(text: "Verify", onTap: _verify),
             40.verticalSpace,
-            Align(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: "Send code again  ",
-                  children: [
-                    TextSpan(
-                      text: "00:20",
-                      style: TextStyle(
-                        color: AppColor.red,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      recognizer: TapGestureRecognizer()..onTap = _resend,
-                    ),
-                  ],
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w800,
-                    color: AppColor.darkGrey,
-                    fontFamily: AppText.fontFamily,
-                    height: 1.25,
-                  ),
+            CountdownTimer(
+              key: ValueKey(timerController),
+              controller: timerController,
+              endWidget: Text(
+                "Send code again",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w800,
+                  color: AppColor.black,
+                  fontFamily: AppText.fontFamily,
+                  height: 1.25,
                 ),
               ),
+              widgetBuilder: (context, time) {
+                return RichText(
+                  text: TextSpan(
+                    text: "Send code again  ",
+                    children: [
+                      TextSpan(
+                        text: "00:20",
+                        style: TextStyle(
+                          color: AppColor.red,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        recognizer: TapGestureRecognizer()..onTap = _resend,
+                      ),
+                    ],
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w800,
+                      color: AppColor.darkGrey,
+                      fontFamily: AppText.fontFamily,
+                      height: 1.25,
+                    ),
+                  ),
+                );
+              },
             ),
             40.verticalSpace,
           ],
