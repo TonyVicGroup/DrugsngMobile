@@ -20,7 +20,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
 
   ProfileSetupCubit(this.repo) : super(ProfileSetupState.initial);
 
-  Future createAccount(int id, AuthUserProfile profile) async {
+  Future updateUserInfo(int id, AuthUserProfile profile) async {
     emit(ProfileSetupState.loading);
     final result = await repo.setupProfile(id, profile);
 

@@ -35,7 +35,7 @@ class AuthRepositoryImpl extends AuthRepository {
       if (response.hasError) return Left(response.error);
 
       final user = User.fromMap(response.data!['data']);
-      TokenPreference.updateToken(token: user.authToken);
+      UserPreference.updateToken(token: user.authToken);
 
       final userData = await getUserData(user.id);
       userData.fold((left) => null, (data) => user.data = data);

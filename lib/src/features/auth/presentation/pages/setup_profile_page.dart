@@ -141,7 +141,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
       if (state == ProfileSetupState.permissionDenied) {
         context.read<ProfileSetupCubit>().acceptPermission();
       } else {
-        context.read<ProfileSetupCubit>().createAccount(
+        context.read<ProfileSetupCubit>().updateUserInfo(
               widget.user.id,
               AuthUserProfile(
                 firstName: firstNameCntrl.text,

@@ -1,6 +1,7 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/enum/request_status.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
@@ -117,12 +118,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   onChanged: (v) => setState(() => getWeeklyUpdate = v),
                 ),
                 const Spacer(),
-                BlocBuilder<SignupCubit, SignupState>(
+                BlocBuilder<SignupCubit, Status>(
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Next",
                       onTap: () => _next(context),
-                      status: state == SignupState.loading
+                      status: state == Status.loading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );

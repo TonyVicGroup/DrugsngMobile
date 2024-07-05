@@ -1,4 +1,5 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/enum/request_status.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
@@ -11,6 +12,7 @@ import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(context.read<AuthRepository>()),
+      create: (context) => AuthCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
@@ -84,12 +86,17 @@ class _LoginPageState extends State<LoginPage> {
                       .clickable(_forgetPassword),
                 ),
                 40.verticalSpace,
-                BlocBuilder<LoginCubit, LoginState>(
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is LoggedInState) {
+                      AppUtils.pushReplacement(const TabOverlay());
+                    }
+                  },
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Log in",
                       onTap: () => _login(context),
-                      status: state == LoginState.loading
+                      status: state.status == Status.loading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );
@@ -150,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      context.read<LoginCubit>().login(loginCntrl.text, passwordCntrl.text);
+      context.read<AuthCubit>().login(loginCntrl.text, passwordCntrl.text);
     }
   }
 

@@ -1,24 +1,35 @@
-import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/enum/request_status.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
-import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum LoginState { initial, failed, loading, success }
+abstract class AuthState {
+  final Status status;
 
-class LoginCubit extends Cubit<LoginState> {
+  AuthState([this.status = Status.initial]);
+}
+
+class LoggedInState extends AuthState {
+  final User user;
+
+  LoggedInState(this.user);
+}
+
+class LoggedOutState extends AuthState {
+  LoggedOutState([super.status]);
+}
+
+class AuthCubit extends Cubit<AuthState> {
   final AuthRepository repo;
 
-  LoginCubit(this.repo) : super(LoginState.initial);
+  AuthCubit(this.repo) : super(LoggedOutState());
 
   Future<void> login(String email, String password) async {
-    emit(LoginState.loading);
+    emit(LoggedOutState(Status.loading));
     final result = await repo.login(email, password);
     result.fold(
-      (left) => emit(LoginState.failed),
-      (right) {
-        emit(LoginState.success);
-        AppUtils.pushReplacement(const TabOverlay());
-      },
+      (left) => emit(LoggedOutState(Status.failed)),
+      (user) => emit(LoggedInState(user)),
     );
   }
 }

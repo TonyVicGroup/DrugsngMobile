@@ -98,14 +98,19 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             CountdownTimer(
               key: ValueKey(timerController),
               controller: timerController,
-              endWidget: Text(
-                "Send code again",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w800,
-                  color: AppColor.black,
-                  fontFamily: AppText.fontFamily,
-                  height: 1.25,
+              endWidget: GestureDetector(
+                onTap: () {
+                  // send code
+                },
+                child: Text(
+                  "Send code again",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                    color: AppColor.black,
+                    fontFamily: AppText.fontFamily,
+                    height: 1.25,
+                  ),
                 ),
               ),
               widgetBuilder: (context, time) {
@@ -146,7 +151,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   void _verify() {
-    AppUtils.pushWidget(const ResetPasswordPage());
+    AppUtils.pushReplacement(const ResetPasswordPage());
   }
 
   void _resend() {}

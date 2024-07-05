@@ -97,6 +97,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   void _sendCode() {
     if (formKey.currentState?.validate() ?? false) {
+      // send code
       AppUtils.pushWidget(const VerifyEmailPage());
     }
   }

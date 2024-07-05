@@ -9,5 +9,5 @@ Future setupMain() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-  await Hive.initFlutter().then((_) => TokenPreference.init());
+  await Hive.initFlutter().then((_) => UserPreference.init());
 }

@@ -31,8 +31,8 @@ class RestService {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    if (TokenPreference.hasToken()) {
-      final token = TokenPreference.getToken();
+    if (UserPreference.hasToken()) {
+      final token = UserPreference.getToken();
       options.headers['AUTHORIZATION'] = 'Bearer $token';
     }
 

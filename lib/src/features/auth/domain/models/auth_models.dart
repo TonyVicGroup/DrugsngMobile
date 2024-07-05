@@ -27,7 +27,7 @@ class AuthUserProfile {
   Map<String, dynamic> toMap() => {
         "firstName": firstName,
         "lastName": lastName,
-        "gender": gender,
+        "gender": gender ? 'Male' : 'Female',
         "email": email,
         "dob": birthday.toIso8601String().substring(0, 10),
       };
