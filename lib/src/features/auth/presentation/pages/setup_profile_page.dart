@@ -3,8 +3,8 @@ import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
-import 'package:drugs_ng/src/features/auth/data/models/auth_user_profile.dart';
-import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/profile_setup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/gender_select_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +13,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class SetupProfilePage extends StatefulWidget {
-  const SetupProfilePage({super.key});
+  const SetupProfilePage({super.key, required this.signupData});
+
+  final SignupData signupData;
 
   @override
   State<SetupProfilePage> createState() => _SetupProfilePageState();
 }
 
 class _SetupProfilePageState extends State<SetupProfilePage> {
-  TextEditingController firstNameCntrl = TextEditingController();
-  TextEditingController lastNameCntrl = TextEditingController();
-  TextEditingController birthdayCntrl = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final firstNameCntrl = TextEditingController();
+  final lastNameCntrl = TextEditingController();
+  final birthdayCntrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool gender = true;
   DateTime? birthday;
 
@@ -89,21 +91,13 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   children: [
                     GenderSelectWidget(
                       selected: gender,
-                      onTap: () {
-                        setState(() {
-                          gender = true;
-                        });
-                      },
+                      onTap: () => setState(() => gender = true),
                       text: "Male",
                     ),
                     15.horizontalSpace,
                     GenderSelectWidget(
                       selected: !gender,
-                      onTap: () {
-                        setState(() {
-                          gender = false;
-                        });
-                      },
+                      onTap: () => setState(() => gender = false),
                       text: "Female",
                     ),
                   ],
@@ -151,6 +145,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
               lastName: lastNameCntrl.text,
               birthday: birthday!,
               gender: gender,
+              data: widget.signupData,
             ));
       }
     }

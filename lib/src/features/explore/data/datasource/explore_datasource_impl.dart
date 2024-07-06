@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/features/explore/domain/repository/explore_datasource.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:flutter/services.dart';
 
 class ExploreDatasourceImpl extends ExploreDatasource {

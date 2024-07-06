@@ -1,12 +1,12 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/cubit/explore_search_cubit.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_search_field.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -109,6 +109,6 @@ class OnboardingPage extends StatelessWidget {
   }
 
   void getStarted() {
-    AppUtils.push(const CreateAccountPage());
+    AppUtils.pushWidget(const CreateAccountPage());
   }
 }

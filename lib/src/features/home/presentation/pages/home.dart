@@ -1,6 +1,5 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
@@ -9,6 +8,7 @@ import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/home_carousel_widget.dart';
@@ -39,9 +39,7 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           if (state is HomeLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
           return RefreshIndicator(
             onRefresh: reload,

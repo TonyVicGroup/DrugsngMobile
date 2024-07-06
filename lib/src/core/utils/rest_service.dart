@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:drugs_ng/src/core/data/models/app_error.dart';
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 // import 'package:drugs_ng/src/core/utils/encryption.dart';
 import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
@@ -37,6 +36,13 @@ class RestService {
           },
           onResponse: (response, handler) {
             /// decryption happens here
+
+            if (response.data['responseCode'] == 90) {
+              response.statusCode = 90;
+            } else if (response.data['responseCode'] == 00) {
+              response.statusCode = 200;
+            }
+
             return handler.next(response);
           },
         ),
@@ -48,47 +54,51 @@ class RestService {
   ) async {
     try {
       final response = await request();
-      final data = json.decode(utf8.decode(response.data));
+      final data = Map<String, dynamic>.from(response.data);
 
       if (response.statusCode == 200) return ApiResponse(data: data);
 
       String msg = '';
       try {
-        msg = data['message'] ?? 'Error getting response from server';
+        msg = data['responseMessage'] ?? 'Error getting response from server';
       } catch (e) {
         dLog('Parsing error: _onRequest - $e');
       }
 
       return ApiError(message: msg);
     } on SocketException {
-      return ApiError(message: 'No internet connection');
-    } on TimeoutException catch (_) {
-      return ApiError(
-        message: 'The connection has timed out, Please try again!',
-      );
+      return ApiError.socket;
+    } on TimeoutException {
+      return ApiError.timeout;
     } catch (e) {
       dLog('Error: _onRequest - $e');
-      return ApiError(message: 'An unknown error has occured');
+      return ApiError.unknown;
     }
   }
 
-  /// Get
   Future<ApiResponse> get({
     required String url,
-    Map<String, String>? params,
+    Map<String, dynamic>? params,
   }) {
     return _handleResponse(() => _client.get(url, queryParameters: params));
   }
 
-  /// Post
   Future<ApiResponse> post({
     required String url,
-    Map<String, String>? data,
+    Map<String, dynamic>? data,
   }) {
     return _handleResponse(() => _client.post(url, data: data));
+  }
+
+  Future<ApiResponse> put({
+    required String url,
+    Map<String, dynamic>? data,
+  }) {
+    return _handleResponse(() => _client.put(url, data: data));
   }
 }
 
 extension ApiResponseExt on ApiResponse {
-  bool get hasError => ApiResponse is ApiError;
+  bool get hasError => this is ApiError;
+  ApiError get error => this as ApiError;
 }

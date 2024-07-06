@@ -1,13 +1,12 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
-import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
-import 'package:drugs_ng/src/features/auth/data/models/signup_data.dart';
-import 'package:drugs_ng/src/features/auth/data/repositories/auth_repository.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/privacy_policy_widget.dart';
@@ -27,10 +26,11 @@ class CreateAccountPage extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  TextEditingController emailCntrl = TextEditingController();
-  TextEditingController password1Cntrl = TextEditingController();
-  TextEditingController password2Cntrl = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final emailCntrl = TextEditingController();
+  final password1Cntrl = TextEditingController();
+  final password2Cntrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   bool obscurePassword1 = true;
   bool obscurePassword2 = true;
   bool acceptTerms = false;
@@ -115,11 +115,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 22.verticalSpace,
                 WeeklyUpdateWidget(
                   value: getWeeklyUpdate,
-                  onChanged: (v) {
-                    setState(() {
-                      getWeeklyUpdate = v;
-                    });
-                  },
+                  onChanged: (v) => setState(() => getWeeklyUpdate = v),
                 ),
                 const Spacer(),
                 BlocBuilder<SignupCubit, SignupState>(
@@ -179,25 +175,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       );
 
   void _toggleVisibility1() {
-    setState(() {
-      obscurePassword1 = !obscurePassword1;
-    });
+    setState(() => obscurePassword1 = !obscurePassword1);
   }
 
   void _openPrivacyPolicy() {}
 
   void _toggleVisibility2() {
-    setState(() {
-      obscurePassword2 = !obscurePassword2;
-    });
+    setState(() => obscurePassword2 = !obscurePassword2);
   }
 
   bool validate() {
     bool hasError = formKey.currentState?.validate() ?? false;
     if (!acceptTerms) {
-      acceptTermsHasError = true;
-      hasError = false;
-      setState(() {});
+      setState(() {
+        acceptTermsHasError = true;
+        hasError = false;
+      });
     }
     return hasError;
   }
@@ -213,12 +206,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 
   void _login() {
-    AppUtils.navKey.currentState?.pushAndRemoveUntil(
-        PageTransition(
-          type: PageTransitionType.fade,
-          child: const LoginPage(),
-          duration: const Duration(milliseconds: 600),
-        ),
-        (route) => route.isFirst);
+    Navigator.of(context).pushAndRemoveUntil(
+      PageTransition(
+        type: PageTransitionType.fade,
+        child: const LoginPage(),
+        duration: const Duration(milliseconds: 600),
+      ),
+      (route) => route.isFirst,
+    );
   }
 }

@@ -4,7 +4,7 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
-import 'package:drugs_ng/src/core/ui/confirmation_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/confirmation_page.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,9 +18,9 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  TextEditingController password1Cntrl = TextEditingController();
-  TextEditingController password2Cntrl = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final password1Cntrl = TextEditingController();
+  final password2Cntrl = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool obscurePassword1 = true;
   bool obscurePassword2 = true;
 
@@ -100,24 +100,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       );
 
   void _toggleVisibility1() {
-    setState(() {
-      obscurePassword1 = !obscurePassword1;
-    });
+    setState(() => obscurePassword1 = !obscurePassword1);
   }
 
   void _toggleVisibility2() {
-    setState(() {
-      obscurePassword2 = !obscurePassword2;
-    });
+    setState(() => obscurePassword2 = !obscurePassword2);
   }
 
   void _back() {
-    AppUtils.pop();
+    Navigator.of(context).pop();
   }
 
   void _resetPassword() {
     if (formKey.currentState?.validate() ?? false) {
-      AppUtils.push(
+      AppUtils.pushWidget(
         ConfirmationPage(
           title: "Password changed",
           subtitle: "Great! Your password has been changed successfully.",

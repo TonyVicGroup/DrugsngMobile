@@ -1,7 +1,7 @@
 import 'package:drugs_ng/src/core/enum/sort_type_enum.dart';
 import 'package:drugs_ng/src/features/explore/data/repository/explore_repository.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:equatable/equatable.dart';
 
 part 'explore_event.dart';

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/enum/rating_enum.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 

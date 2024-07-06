@@ -1,10 +1,10 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
-import 'package:drugs_ng/src/core/data/models/product.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/src/features/home/domain/product.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_review_page.dart';
 import 'package:drugs_ng/src/features/product/presentation/widgets/product_detail_carousel.dart';
