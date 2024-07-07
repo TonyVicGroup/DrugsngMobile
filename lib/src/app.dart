@@ -10,7 +10,12 @@ import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/e
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:drugs_ng/src/features/lab_test/data/repository/lab_test_repo_impl.dart';
+import 'package:drugs_ng/src/features/lab_test/domain/repository/lab_test_repo.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_discovery_cubit.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +37,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<ExploreRepository>(
           create: (context) => ExploreRepository(context.read()),
         ),
+        RepositoryProvider<LabTestRepository>(
+          create: (context) => LabTestRepositoryImpl(context.read()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -44,6 +52,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ExploreFilterBloc(exploreBloc: context.read<ExploreBloc>()),
+          ),
+          BlocProvider(
+            create: (context) => LabTestCubit(context.read()),
+          ),
+          BlocProvider(
+            create: (context) => LabTestDiscoveryCubit(context.read()),
           ),
         ],
         child: ScreenUtilInit(
@@ -62,7 +76,8 @@ class MyApp extends StatelessWidget {
                   fontFamily: AppText.fontFamily,
                   scaffoldBackgroundColor: AppColor.white,
                 ),
-                home: const OnboardingPage(),
+                // home: const OnboardingPage(),
+                home: const TabOverlay(),
               );
             }),
       ),

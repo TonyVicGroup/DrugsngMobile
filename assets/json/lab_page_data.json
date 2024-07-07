@@ -1,0 +1,70 @@
+{
+    "diagnostic_test": [
+        {
+            "icon": "assets/images/test_image/urinalysis_test.png",
+            "title": "Urinalysis",
+            "text": "Analyzes urine for a variety of health indicators, including kidney function, urinary tract infections, and more.",
+            "price": 80000
+        },
+        {
+            "icon": "assets/images/test_image/blood_count_test.png",
+            "title": "Complete Blood Count",
+            "text": "Measures the levels of different blood cells to assess overall health and detect a variety of disorders.",
+            "price": 15000
+        },
+        {
+            "icon": "assets/images/test_image/rh_test.png",
+            "title": "Blood type & Rh Factor",
+            "text": "Determines an individual's blood type and Rh factor, essential for blood transfusions and pregnancy.",
+            "price": 20000
+        },
+        {
+            "icon": "assets/images/test_image/sti_test.png",
+            "title": "STI Tests",
+            "text": "Screens for common sexually transmitted infections, such as HIV, syphilis, chlamydia, and gonorrhea.",
+            "price": 33000
+        }
+    ],
+    "test_packages": [
+        {
+            "discount": 60,
+            "title": "Family Test Package",
+            "text": "Ensure a healthy future with detailed health assessments for couples preparing for marriage.",
+            "image": "assets/images/test_image/test_package_1.png"
+        },
+        {
+            "discount": 30,
+            "title": "Women's Health",
+            "text": "Monitor and enhance women's health, from hormonal balance to reproductive wellness.",
+            "image": "assets/images/test_image/test_package_2.png"
+        },
+        {
+            "discount": 20,
+            "title": "Full Body Checkup",
+            "text": "Stay on top of your health with examinations that covers all essential aspects of your well-being.",
+            "image": "assets/images/test_image/test_package_1.png"
+        }
+    ],
+    "ads": [
+        {
+            "imageUrl": "assets/images/test_image/lab_ad.png",
+            "title": "Full Body Checkup",
+            "subtitle": "Stay on top of your health with full examinations at 30% discounted rate."
+        },
+        {
+            "imageUrl": "assets/images/test_image/lab_ad.png",
+            "title": "Full Body Checkup",
+            "subtitle": "Stay on top of your health with full examinations at 30% discounted rate."
+        },
+        {
+            "imageUrl": "assets/images/test_image/lab_ad.png",
+            "title": "Full Body Checkup",
+            "subtitle": "Stay on top of your health with full examinations at 30% discounted rate."
+        },
+        {
+            "imageUrl": "assets/images/test_image/lab_ad.png",
+            "title": "Full Body Checkup",
+            "subtitle": "Stay on top of your health with full examinations at 30% discounted rate."
+        }
+    ]
+}

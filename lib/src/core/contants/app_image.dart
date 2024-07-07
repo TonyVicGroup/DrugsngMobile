@@ -12,6 +12,18 @@ class AppImage {
   static const String molfix = "assets/images/test_image/molfix.png";
   static const String syrup = "assets/images/test_image/syrup.png";
   static const String vitamin = "assets/images/test_image/vitamin.png";
+  static const String urinalysisTest =
+      "assets/images/test_image/urinalysis_test.png";
+  static const String testAvatar = "assets/images/test_image/test_avatar.png";
+  static const String stiTest = "assets/images/test_image/sti_test.png";
+  static const String rhTest = "assets/images/test_image/rh_test.png";
+  static const String bloodCountTest =
+      "assets/images/test_image/blood_count_test.png";
+  static const String testPackage1 =
+      "assets/images/test_image/test_package_1.png";
+  static const String testPackage2 =
+      "assets/images/test_image/test_package_2.png";
+  static const String labAd = "assets/images/test_image/lab_ad.png";
 }
 
 class AppSvg {
@@ -54,4 +66,10 @@ class AppSvg {
   static const String work = "assets/svg/work.svg";
   static const String confirmCheck = "assets/svg/confirm_check.svg";
   static const String threeDot = "assets/svg/three_dots.svg";
+  static const String heartFilled = "assets/svg/heart_filled.svg";
+  static const String labTesting = "assets/svg/lab_testing.svg";
+  static const String idCard = "assets/svg/id_card.svg";
+  static const String syringe = "assets/svg/syringe.svg";
+  static const String listChecked = "assets/svg/list_checked.svg";
+  static const String calendarSchedule = "assets/svg/calendar_schedule.svg.svg";
 }

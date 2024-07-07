@@ -7,42 +7,47 @@ import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
-import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
-import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
-import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/home_carousel_widget.dart';
-import 'package:drugs_ng/src/features/home/presentation/widgets/order_prescription_widget.dart';
+import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
+import 'package:drugs_ng/src/features/lab_test/domain/models/diagnostic_test.dart';
+import 'package:drugs_ng/src/features/lab_test/domain/models/test_package.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/widgets/diagnostic_test_widget.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/widgets/test_package_widget.dart';
 import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LabTestPage extends StatefulWidget {
+  const LabTestPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LabTestPage> createState() => _LabTestPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LabTestPageState extends State<LabTestPage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getData();
+    context.read<LabTestCubit>().getData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
-      body: BlocBuilder<HomeCubit, HomeState>(
+      body: BlocConsumer<LabTestCubit, LabTestState>(
+        listener: (context, state) {},
         builder: (context, state) {
-          if (state is HomeLoading) {
-            return const Center(child: CircularProgressIndicator());
+          if (state is LabTestLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
           return RefreshIndicator(
-            onRefresh: reload,
+            onRefresh: () async {
+              await context.read<LabTestCubit>().reload();
+            },
             child: SafeArea(
               bottom: false,
               child: ListView(
@@ -58,12 +63,12 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             AppButton.svgIcon(
                               svg: AppSvg.notification,
-                              onTap: notification,
+                              onTap: () => notification(context),
                             ),
                             15.horizontalSpace,
                             AppButton.svgIcon(
                               svg: AppSvg.shopping,
-                              onTap: cart,
+                              onTap: () => cart(context),
                               color: AppColor.black,
                             ),
                           ],
@@ -76,12 +81,12 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: AppTextField.search(
                       hint: "Search for health products and tests",
-                      onTap: search,
+                      onTap: () => search(context),
                     ),
                   ),
                   30.verticalSpace,
                   HomeCarouselWidget(
-                    ads: state.data.homeAds,
+                    ads: state.data.ads,
                   ),
                   30.verticalSpace,
                   Padding(
@@ -93,83 +98,61 @@ class _HomePageState extends State<HomePage> {
                         AppText.sp14("View All")
                             .w400
                             .primaryColor
-                            .clickable(viewAllNewArrivals),
+                            .clickable(viewAllDiagnosticTest),
                       ],
                     ),
                   ),
-                  12.verticalSpace,
+                  2.verticalSpace,
                   SizedBox(
-                    height: 273.h,
+                    height: 255.h,
                     child: ListView.separated(
                       padding: EdgeInsets.symmetric(
                         horizontal: 16.w,
+                        vertical: 15.h,
                       ),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        Product arrive = state.data.newArrivals[index];
-                        return Padding(
-                          padding: EdgeInsets.only(top: 10.h),
-                          child: ProductCardWidget(
-                            image: arrive.image,
-                            name: arrive.name,
-                            category: arrive.category,
-                            price: arrive.price,
-                            prevPrice: arrive.prevPrice,
-                            rating: arrive.rating,
-                            totalRating: arrive.ratingCount,
-                            percentReduction: arrive.discountPercent,
-                          ),
-                        );
+                        DiagnosticTest test = state.data.tests[index];
+                        return DiagnosticTestWidget(test: test);
                       },
                       separatorBuilder: (context, index) => 15.horizontalSpace,
-                      itemCount: state.data.newArrivals.length,
+                      itemCount: state.data.tests.length,
                     ),
                   ),
-                  30.verticalSpace,
-                  const OrderPrescriptionWidget(),
-                  30.verticalSpace,
+                  20.verticalSpace,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AppText.sp16("Best Sellers").w500.black,
+                        AppText.sp16("Test Packages").w500.black,
                         AppText.sp14("View All")
                             .w400
                             .primaryColor
-                            .clickable(viewAllBestSellers),
+                            .clickable(viewAllTestPackages),
                       ],
                     ),
                   ),
-                  12.verticalSpace,
                   SizedBox(
-                    height: 273.h,
+                    height: 225.h,
                     child: ListView.separated(
                         padding: EdgeInsets.symmetric(
                           horizontal: 16.w,
+                          vertical: 12.h,
                         ),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          Product bSell = state.data.bestSellers[index];
-                          return Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: ProductCardWidget(
-                              image: bSell.image,
-                              name: bSell.name,
-                              category: bSell.category,
-                              price: bSell.price,
-                              prevPrice: bSell.prevPrice,
-                              rating: bSell.rating,
-                              totalRating: bSell.ratingCount,
-                              percentReduction: bSell.discountPercent,
-                            ),
+                          TestPackage package = state.data.packages[index];
+                          return TestPackageWidget(
+                            package: package,
+                            width: 295.w,
                           );
                         },
                         separatorBuilder: (context, index) =>
                             15.horizontalSpace,
-                        itemCount: state.data.bestSellers.length),
+                        itemCount: state.data.packages.length),
                   ),
-                  30.verticalSpace,
+                  80.verticalSpace,
                 ],
               ),
             ),
@@ -179,32 +162,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> reload() async {
-    await context.read<HomeCubit>().reloadData();
-  }
-
-  void search() {
+  void search(BuildContext context) {
     Navigator.push(
       context,
       AppUtils.transition(const ExploreSearchPage()),
     );
   }
 
-  void notification() {
+  void notification(BuildContext context) {
     Navigator.push(
       context,
       AppUtils.transition(const NotificationPage()),
     );
   }
 
-  void cart() {
+  void cart(BuildContext context) {
     Navigator.push(
       context,
       AppUtils.transition(const CartPage()),
     );
   }
 
-  void viewAllNewArrivals() {}
+  void viewAllDiagnosticTest() {}
 
-  void viewAllBestSellers() {}
+  void viewAllTestPackages() {}
 }

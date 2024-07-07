@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LabTestPage extends StatelessWidget {
-  const LabTestPage({super.key});
+class LabTestDiscovery extends StatelessWidget {
+  const LabTestDiscovery({super.key});
 
   @override
   Widget build(BuildContext context) {
