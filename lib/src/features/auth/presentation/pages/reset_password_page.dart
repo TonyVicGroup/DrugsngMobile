@@ -4,9 +4,14 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
+import 'package:drugs_ng/src/features/auth/presentation/cubit/reset_password_cubit.dart';
+import 'package:drugs_ng/src/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/confirmation_page.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,57 +38,76 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              64.verticalSpace,
-              AppButton.roundedBack(_back),
-              45.verticalSpace,
-              AppText.sp30("Reset password").w800.black,
-              13.verticalSpace,
-              AppText.sp16("Do well to type what you'll remember")
-                  .w400
-                  .darkGrey,
-              40.verticalSpace,
-              AppText.sp14("New password").w400.black,
-              6.verticalSpace,
-              AppTextField.text(
-                controller: password1Cntrl,
-                hint: "Must be 8 characters",
-                keyboardType: TextInputType.text,
-                suffixIcon: svgPicture(obscurePassword1),
-                obscureText: obscurePassword1,
-                clickSuffix: _toggleVisibility1,
-                validator: AppValidators.password,
-              ),
-              22.verticalSpace,
-              AppText.sp14("Confirm new password").w400.black,
-              6.verticalSpace,
-              AppTextField.text(
-                controller: password2Cntrl,
-                hint: "Must be 8 characters",
-                keyboardType: TextInputType.text,
-                suffixIcon: svgPicture(obscurePassword2),
-                obscureText: obscurePassword2,
-                clickSuffix: _toggleVisibility2,
-                validator: (v) {
-                  if (password1Cntrl.text != v) {
-                    return "Password must be same";
-                  }
-                  return null;
-                },
-              ),
-              40.verticalSpace,
-              const Spacer(),
-              AppButton.primary(text: "Reset password", onTap: _resetPassword),
-              54.verticalSpace,
-            ],
+    return BlocProvider(
+      create: (context) => VerifyEmailOtpCubit(context.read<AuthRepository>()),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                64.verticalSpace,
+                AppButton.roundedBack(_back),
+                45.verticalSpace,
+                AppText.sp30("Reset password").w800.black,
+                13.verticalSpace,
+                AppText.sp16("Do well to type what you'll remember")
+                    .w400
+                    .darkGrey,
+                40.verticalSpace,
+                AppText.sp14("New password").w400.black,
+                6.verticalSpace,
+                AppTextField.text(
+                  controller: password1Cntrl,
+                  hint: "Must be 8 characters",
+                  keyboardType: TextInputType.text,
+                  suffixIcon: svgPicture(obscurePassword1),
+                  obscureText: obscurePassword1,
+                  clickSuffix: _toggleVisibility1,
+                  validator: AppValidators.password,
+                ),
+                22.verticalSpace,
+                AppText.sp14("Confirm new password").w400.black,
+                6.verticalSpace,
+                AppTextField.text(
+                  controller: password2Cntrl,
+                  hint: "Must be 8 characters",
+                  keyboardType: TextInputType.text,
+                  suffixIcon: svgPicture(obscurePassword2),
+                  obscureText: obscurePassword2,
+                  clickSuffix: _toggleVisibility2,
+                  validator: (v) {
+                    if (password1Cntrl.text != v) {
+                      return "Password must be same";
+                    }
+                    return null;
+                  },
+                ),
+                40.verticalSpace,
+                const Spacer(),
+                BlocListener<ResetPasswordCubit, ResetPasswordState>(
+                  listener: (context, state) {
+                    Navigator.push(
+                      context,
+                      AppUtils.transition(ConfirmationPage(
+                        title: "Password changed",
+                        subtitle:
+                            "Great! Your password has been changed successfully.",
+                        btnText: "Back to login",
+                        onTap: _backToLogin,
+                      )),
+                    );
+                  },
+                  child: AppButton.primary(
+                      text: "Reset password",
+                      onTap: () => _resetPassword(context)),
+                ),
+                54.verticalSpace,
+              ],
+            ),
           ),
         ),
       ),
@@ -111,16 +135,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     Navigator.of(context).pop();
   }
 
-  void _resetPassword() {
+  void _resetPassword(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      AppUtils.pushWidget(
-        ConfirmationPage(
-          title: "Password changed",
-          subtitle: "Great! Your password has been changed successfully.",
-          btnText: "Back to login",
-          onTap: _backToLogin,
-        ),
-      );
+      context.read<ResetPasswordCubit>().resetPassword(
+            SetNewPasswordData(
+              newPassword: password1Cntrl.text,
+              token: "",
+              userId: "",
+            ),
+          );
     }
   }
 
