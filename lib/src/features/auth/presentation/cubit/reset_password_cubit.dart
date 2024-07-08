@@ -1,3 +1,4 @@
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     emit(ResetPasswordLoading());
     final result = await repo.setNewPassword(newPassword, otp);
     result.fold(
-      (left) => emit(ResetPasswordError(left.message)),
+      (left) => emit(ResetPasswordError(left)),
       (right) {
         emit(ResetPasswordSuccess());
       },

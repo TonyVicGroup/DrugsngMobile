@@ -9,8 +9,8 @@ import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/profile_setup_cubit.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/gender_select_widget.dart';
-import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,15 +110,15 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                 BlocConsumer<ProfileSetupCubit, ProfileSetupState>(
                   listener: (context, state) {
                     if (state is ProfileSetupError) {
-                      AppToast.warning(context, state.message);
+                      AppToast.warning(context, state.error.message);
                     } else if (state is ProfileSetupPermissionGranted) {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        AppUtils.transition(const TabOverlay()),
+                        AppUtils.transition(const LoginPage()),
                         (route) => route.isFirst,
                       );
                     } else if (state is ProfileSetupPermissionDenied) {
-                      AppToast.warning(context, state.message);
+                      AppToast.warning(context, state.error.message);
                     }
                   },
                   builder: (context, state) {

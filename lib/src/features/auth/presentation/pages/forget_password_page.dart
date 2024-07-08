@@ -45,7 +45,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               )),
             );
           } else if (state is ForgetPasswordError) {
-            AppToast.warning(context, state.message);
+            AppToast.warning(context, state.error.message);
           }
         },
         builder: (context, state) {

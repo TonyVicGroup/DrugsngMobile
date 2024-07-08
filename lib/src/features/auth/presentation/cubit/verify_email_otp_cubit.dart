@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +39,8 @@ class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
     emit(VerifyEmailOtpState(state.countdown, VerifyOtpStatus.loading, null));
     final result = await repo.verifyPasswordResetOTP(otp);
     result.fold(
-      (left) => emit(VerifyEmailOtpState(
-          state.countdown, VerifyOtpStatus.failed, left.message)),
+      (left) => emit(
+          VerifyEmailOtpState(state.countdown, VerifyOtpStatus.failed, left)),
       (right) {
         emit(VerifyEmailOtpState(
             state.countdown, VerifyOtpStatus.success, null));
@@ -51,8 +52,8 @@ class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
     emit(VerifyEmailOtpState(state.countdown, VerifyOtpStatus.loading, null));
     final result = await repo.sendPasswordReset(email);
     result.fold(
-      (left) => emit(VerifyEmailOtpState(
-          state.countdown, VerifyOtpStatus.failed, left.message)),
+      (left) => emit(
+          VerifyEmailOtpState(state.countdown, VerifyOtpStatus.failed, left)),
       (right) {
         emit(VerifyEmailOtpState(
             state.countdown, VerifyOtpStatus.waiting, null));

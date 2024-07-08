@@ -9,12 +9,12 @@ abstract class ProfileSetupState extends Equatable {
 class ProfileSetupInitial extends ProfileSetupState {}
 
 class ProfileSetupError extends ProfileSetupState {
-  final String message;
+  final AppError error;
 
-  const ProfileSetupError(this.message);
+  const ProfileSetupError(this.error);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [error];
 }
 
 class ProfileSetupLoading extends ProfileSetupState {}
@@ -22,11 +22,11 @@ class ProfileSetupLoading extends ProfileSetupState {}
 class ProfileSetupUpdated extends ProfileSetupState {}
 
 class ProfileSetupPermissionDenied extends ProfileSetupState {
-  final String message;
-  const ProfileSetupPermissionDenied(this.message);
+  final AppError error;
+  const ProfileSetupPermissionDenied(this.error);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [error];
 }
 
 class ProfileSetupPermissionGranted extends ProfileSetupState {}

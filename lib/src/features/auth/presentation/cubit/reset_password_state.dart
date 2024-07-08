@@ -14,10 +14,10 @@ class ResetPasswordLoading extends ResetPasswordState {}
 class ResetPasswordSuccess extends ResetPasswordState {}
 
 class ResetPasswordError extends ResetPasswordState {
-  final String message;
+  final AppError error;
 
-  const ResetPasswordError(this.message);
+  const ResetPasswordError(this.error);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [error];
 }

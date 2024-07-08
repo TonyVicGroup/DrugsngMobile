@@ -11,9 +11,9 @@ enum VerifyOtpStatus {
 class VerifyEmailOtpState extends Equatable {
   final int countdown;
   final VerifyOtpStatus status;
-  final String? message;
+  final AppError? error;
 
-  const VerifyEmailOtpState(this.countdown, this.status, this.message);
+  const VerifyEmailOtpState(this.countdown, this.status, this.error);
 
   factory VerifyEmailOtpState.initial() =>
       const VerifyEmailOtpState(0, VerifyOtpStatus.waiting, null);

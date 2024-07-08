@@ -1,3 +1,4 @@
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
@@ -15,7 +16,7 @@ class SignupCubit extends Cubit<SignupState> {
     emit(SignupStateLoading());
     final result = await repo.signup(data);
     result.fold(
-      (left) => emit(SignupStateError(left.message)),
+      (left) => emit(SignupStateError(left)),
       (right) {
         emit(SignupStateSuccess(right));
       },

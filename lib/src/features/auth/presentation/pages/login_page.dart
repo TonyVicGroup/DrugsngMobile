@@ -92,8 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                     if (state is LoggedInState) {
                       AppUtils.pushReplacement(const TabOverlay());
                     } else if (state is LoggedOutState) {
-                      if (state.status == Status.failed) {
-                        AppToast.warning(context, "Login failed");
+                      if (state.status == Status.failed &&
+                          state.error != null) {
+                        AppToast.warning(context, state.error!.message);
                       }
                     }
                   },

@@ -57,8 +57,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               context,
               AppUtils.transition(const ResetPasswordPage()),
             );
-          } else if (state.status == VerifyOtpStatus.failed) {
-            AppToast.warning(context, state.message ?? "");
+          } else if (state.status == VerifyOtpStatus.failed &&
+              state.error != null) {
+            AppToast.warning(context, state.error!.message);
           }
         },
         builder: (context, state) {

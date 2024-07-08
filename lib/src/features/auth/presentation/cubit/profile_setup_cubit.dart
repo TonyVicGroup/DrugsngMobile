@@ -1,11 +1,9 @@
-import 'package:drugs_ng/src/core/utils/app_utils.dart';
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
-import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart';
-import 'package:page_transition/page_transition.dart';
 
 part "profile_setup_state.dart";
 
@@ -19,7 +17,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     final result = await repo.setupProfile(id, profile);
 
     result.fold(
-      (left) => emit(ProfileSetupError(left.message)),
+      (left) => emit(ProfileSetupError(left)),
       (right) async {
         emit(ProfileSetupUpdated());
         await acceptPermission();
@@ -31,18 +29,12 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
     final location = Location();
     PermissionStatus permission = await location.requestPermission();
     if (permission == PermissionStatus.denied) {
-      emit(const ProfileSetupPermissionDenied(
-          "Location permission is required"));
+      emit(
+        const ProfileSetupPermissionDenied(
+            AppError("Location permission is required")),
+      );
     } else {
       emit(ProfileSetupPermissionGranted());
-      AppUtils.navKey.currentState?.pushAndRemoveUntil(
-        PageTransition(
-          type: PageTransitionType.fade,
-          child: const TabOverlay(),
-          duration: AppUtils.kPageTransitionDuration,
-        ),
-        (route) => route.isFirst,
-      );
     }
   }
 }

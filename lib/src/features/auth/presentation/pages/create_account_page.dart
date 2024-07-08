@@ -128,7 +128,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         ),
                       );
                     } else if (state is SignupStateError) {
-                      AppToast.warning(context, state.message);
+                      AppToast.warning(context, state.error.message);
                     }
                   },
                   builder: (context, state) {
