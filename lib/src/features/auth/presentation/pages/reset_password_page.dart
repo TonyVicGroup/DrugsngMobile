@@ -1,10 +1,11 @@
+import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
-import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/reset_password_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
@@ -88,22 +89,32 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
                 40.verticalSpace,
                 const Spacer(),
-                BlocListener<ResetPasswordCubit, ResetPasswordState>(
+                BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
                   listener: (context, state) {
-                    Navigator.push(
-                      context,
-                      AppUtils.transition(ConfirmationPage(
-                        title: "Password changed",
-                        subtitle:
-                            "Great! Your password has been changed successfully.",
-                        btnText: "Back to login",
-                        onTap: _backToLogin,
-                      )),
-                    );
+                    if (state is ResetPasswordSuccess) {
+                      Navigator.push(
+                        context,
+                        AppUtils.transition(ConfirmationPage(
+                          title: "Password changed",
+                          subtitle:
+                              "Great! Your password has been changed successfully.",
+                          btnText: "Back to login",
+                          onTap: _backToLogin,
+                        )),
+                      );
+                    }
+                    if (state is ResetPasswordError) {
+                      AppToast.warning(context, state.error.message);
+                    }
                   },
-                  child: AppButton.primary(
-                      text: "Reset password",
-                      onTap: () => _resetPassword(context)),
+                  builder: (context, state) {
+                    return AppButton.primary(
+                        text: "Reset password",
+                        onTap: () => _resetPassword(context),
+                        status: state is ResetPasswordLoading
+                            ? ButtonStatus.loading
+                            : ButtonStatus.active);
+                  },
                 ),
                 54.verticalSpace,
               ],
@@ -138,11 +149,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void _resetPassword(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
       context.read<ResetPasswordCubit>().resetPassword(
-            SetNewPasswordData(
-              newPassword: password1Cntrl.text,
-              token: "",
-              userId: "",
-            ),
+            password1Cntrl.text,
+            "",
           );
     }
   }

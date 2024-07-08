@@ -1,4 +1,5 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
@@ -23,6 +24,27 @@ class VerifyEmailPage extends StatefulWidget {
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   String code = "";
 
+  // CountdownTimerController? timerController;
+
+  @override
+  void initState() {
+    // _setupTimer();
+    super.initState();
+  }
+
+  // void _setupTimer() {
+  //   timerController?.dispose();
+  //   timerController = CountdownTimerController(
+  //     endTime: DateTime.now().millisecondsSinceEpoch + 60000,
+  //   )..start();
+  // }
+
+  @override
+  void dispose() {
+    // timerController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -35,6 +57,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               context,
               AppUtils.transition(const ResetPasswordPage()),
             );
+          } else if (state.status == VerifyOtpStatus.failed &&
+              state.error != null) {
+            AppToast.warning(context, state.error!.message);
           }
         },
         builder: (context, state) {

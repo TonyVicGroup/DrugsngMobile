@@ -1,4 +1,5 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
@@ -36,13 +37,15 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       create: (context) => ForgetPasswordCubit(context.read<AuthRepository>()),
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
         listener: (context, state) {
-          if (state == ForgetPasswordState.success) {
+          if (state is ForgetPasswordSuccess) {
             Navigator.push(
               context,
               AppUtils.transition(VerifyEmailPage(
                 email: emailCntrl.text,
               )),
             );
+          } else if (state is ForgetPasswordError) {
+            AppToast.warning(context, state.error.message);
           }
         },
         builder: (context, state) {
@@ -77,7 +80,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                     AppButton.primary(
                       text: "Send code",
                       onTap: () => _sendCode(context),
-                      status: state == ForgetPasswordState.loading
+                      status: state is ForgetPasswordLoading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     ),

@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class TokenPreference {
+class UserPreference {
   static const boxName = "LOGIN_TOKEN_BOX";
 
   static late Box<String> box;

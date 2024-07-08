@@ -1,21 +1,22 @@
-import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum ResetPasswordState { initial, failed, loading, success }
+part 'reset_password_state.dart';
 
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   final AuthRepository repo;
 
-  ResetPasswordCubit(this.repo) : super(ResetPasswordState.initial);
+  ResetPasswordCubit(this.repo) : super(ResetPasswordInitial());
 
-  Future<void> resetPassword(SetNewPasswordData data) async {
-    emit(ResetPasswordState.loading);
-    final result = await repo.setNewPassword(data);
+  Future<void> resetPassword(String newPassword, String otp) async {
+    emit(ResetPasswordLoading());
+    final result = await repo.setNewPassword(newPassword, otp);
     result.fold(
-      (left) => emit(ResetPasswordState.failed),
+      (left) => emit(ResetPasswordError(left)),
       (right) {
-        emit(ResetPasswordState.success);
+        emit(ResetPasswordSuccess());
       },
     );
   }

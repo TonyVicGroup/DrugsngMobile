@@ -1,4 +1,6 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/enum/request_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
@@ -41,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(context.read<AuthRepository>()),
+      create: (context) => AuthCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
@@ -85,20 +87,22 @@ class _LoginPageState extends State<LoginPage> {
                       .clickable(_forgetPassword),
                 ),
                 40.verticalSpace,
-                BlocConsumer<LoginCubit, LoginState>(
+                BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
-                    if (state == LoginState.success) {
-                      Navigator.pushReplacement(
-                        context,
-                        AppUtils.transition(const TabOverlay()),
-                      );
+                    if (state is LoggedInState) {
+                      AppUtils.pushReplacement(const TabOverlay());
+                    } else if (state is LoggedOutState) {
+                      if (state.status == Status.failed &&
+                          state.error != null) {
+                        AppToast.warning(context, state.error!.message);
+                      }
                     }
                   },
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Log in",
                       onTap: () => _login(context),
-                      status: state == LoginState.loading
+                      status: state.status == Status.loading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );
@@ -150,9 +154,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   void _toggleVisibility() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
+    setState(() => obscurePassword = !obscurePassword);
   }
 
   void _forgetPassword() {
@@ -161,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      context.read<LoginCubit>().login(loginCntrl.text, passwordCntrl.text);
+      context.read<AuthCubit>().login(loginCntrl.text, passwordCntrl.text);
     }
   }
 

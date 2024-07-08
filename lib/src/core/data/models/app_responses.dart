@@ -1,7 +1,12 @@
-class AppError {
+import 'package:equatable/equatable.dart';
+
+class AppError extends Equatable {
   final String message;
 
-  AppError(this.message);
+  const AppError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class ApiResponse {
@@ -21,4 +26,10 @@ class ApiError extends ApiResponse implements AppError {
   static const timeout = ApiError(
     message: 'The connection has timed out. Please try again!',
   );
+
+  @override
+  List<Object?> get props => [message, data];
+
+  @override
+  bool? get stringify => null;
 }
