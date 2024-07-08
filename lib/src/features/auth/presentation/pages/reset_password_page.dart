@@ -1,3 +1,5 @@
+import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
@@ -88,22 +90,32 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
                 40.verticalSpace,
                 const Spacer(),
-                BlocListener<ResetPasswordCubit, ResetPasswordState>(
+                BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
                   listener: (context, state) {
-                    Navigator.push(
-                      context,
-                      AppUtils.transition(ConfirmationPage(
-                        title: "Password changed",
-                        subtitle:
-                            "Great! Your password has been changed successfully.",
-                        btnText: "Back to login",
-                        onTap: _backToLogin,
-                      )),
-                    );
+                    if (state is ResetPasswordSuccess) {
+                      Navigator.push(
+                        context,
+                        AppUtils.transition(ConfirmationPage(
+                          title: "Password changed",
+                          subtitle:
+                              "Great! Your password has been changed successfully.",
+                          btnText: "Back to login",
+                          onTap: _backToLogin,
+                        )),
+                      );
+                    }
+                    if (state is ResetPasswordError) {
+                      AppToast.warning(context, state.message);
+                    }
                   },
-                  child: AppButton.primary(
-                      text: "Reset password",
-                      onTap: () => _resetPassword(context)),
+                  builder: (context, state) {
+                    return AppButton.primary(
+                        text: "Reset password",
+                        onTap: () => _resetPassword(context),
+                        status: state is ResetPasswordLoading
+                            ? ButtonStatus.loading
+                            : ButtonStatus.active);
+                  },
                 ),
                 54.verticalSpace,
               ],

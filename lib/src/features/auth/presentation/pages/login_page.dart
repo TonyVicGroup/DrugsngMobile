@@ -1,4 +1,5 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
@@ -87,18 +88,20 @@ class _LoginPageState extends State<LoginPage> {
                 40.verticalSpace,
                 BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
-                    if (state == LoginState.success) {
+                    if (state is LoginStateSuccess) {
                       Navigator.pushReplacement(
                         context,
                         AppUtils.transition(const TabOverlay()),
                       );
+                    } else if (state is LoginStateError) {
+                      AppToast.warning(context, state.message);
                     }
                   },
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Log in",
                       onTap: () => _login(context),
-                      status: state == LoginState.loading
+                      status: state is LoginStateLoading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );

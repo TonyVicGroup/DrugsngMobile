@@ -1,24 +1,22 @@
-import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
-import 'package:drugs_ng/src/features/auth/presentation/pages/setup_profile_page.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum SignupState { initial, loading, failed, success }
+part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   final AuthRepository repo;
 
-  SignupCubit(this.repo) : super(SignupState.initial);
+  SignupCubit(this.repo) : super(SignupStateInitial());
 
   Future createAccount(SignupData data) async {
-    emit(SignupState.loading);
+    emit(SignupStateLoading());
     final result = await repo.signup(data);
     result.fold(
-      (left) => emit(SignupState.failed),
+      (left) => emit(SignupStateError(left.message)),
       (right) {
-        emit(SignupState.success);
-        AppUtils.pushWidget(SetupProfilePage(signupData: data));
+        emit(SignupStateSuccess(data));
       },
     );
   }

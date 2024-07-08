@@ -1,23 +1,22 @@
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum ForgetPasswordState { initial, failed, loading, success }
+part 'forget_password_state.dart';
 
 class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   final AuthRepository repo;
 
-  ForgetPasswordCubit(this.repo) : super(ForgetPasswordState.initial);
+  ForgetPasswordCubit(this.repo) : super(ForgetPasswordInitial());
 
   Future<void> sendPasswordReset(String email) async {
-    emit(ForgetPasswordState.loading);
-    // final result = await repo.sendPasswordReset(email);
-    // result.fold(
-    //   (left) => emit(ForgetPasswordState.failed),
-    //   (right) {
-    //     emit(ForgetPasswordState.success);
-    //   },
-    // );
-    await Future.delayed(const Duration(seconds: 1));
-    emit(ForgetPasswordState.success);
+    emit(ForgetPasswordLoading());
+    final result = await repo.sendPasswordReset(email);
+    result.fold(
+      (left) => emit(ForgetPasswordError(left.message)),
+      (right) {
+        emit(ForgetPasswordSuccess());
+      },
+    );
   }
 }
