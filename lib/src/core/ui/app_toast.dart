@@ -9,12 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AppToast {
   static final FToast fToast = FToast();
 
-  // methods
-
-  static void init(BuildContext context) {
-    fToast.init(context);
-  }
-
   static Widget _toast(_ToastType toastType, String message) => Container(
         width: 300.w,
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
