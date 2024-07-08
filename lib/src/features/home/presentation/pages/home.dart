@@ -1,11 +1,14 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/enum/sort_type_enum.dart';
 import 'package:drugs_ng/src/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
+import 'package:drugs_ng/src/features/explore/presentation/pages/explore_category_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/src/features/home/domain/product.dart';
@@ -90,10 +93,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText.sp16("New Arrivals").w500.black,
-                        AppText.sp14("View All")
-                            .w400
-                            .primaryColor
-                            .clickable(viewAllNewArrivals),
+                        AppText.sp14("View All").w400.primaryColor.clickable(
+                            () => _moveToCategory(
+                                context, SortTypeEnum.newArrival)),
                       ],
                     ),
                   ),
@@ -134,10 +136,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText.sp16("Best Sellers").w500.black,
-                        AppText.sp14("View All")
-                            .w400
-                            .primaryColor
-                            .clickable(viewAllBestSellers),
+                        AppText.sp14("View All").w400.primaryColor.clickable(
+                            () => _moveToCategory(
+                                context, SortTypeEnum.newArrival)),
                       ],
                     ),
                   ),
@@ -204,7 +205,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void viewAllNewArrivals() {}
+  // void viewAllNewArrivals() {
+  //   _moveToCategory(SortTypeEnum.newArrival);
+  // }
 
-  void viewAllBestSellers() {}
+  // void viewAllBestSellers() {
+  //   _moveToCategory(SortTypeEnum.bestSeller);
+  // }
+
+  void _moveToCategory(BuildContext context, SortTypeEnum sortType) {
+    AppUtils.tabController.jumpToTab(1);
+    context.read<ExploreBloc>().add(
+          LoadExploreEvent(title: "title", defaultSort: sortType),
+        );
+    Navigator.push(
+      context,
+      AppUtils.transition(const ExploreCategoryPage()),
+    );
+  }
 }

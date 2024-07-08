@@ -9,11 +9,15 @@ abstract class ExploreEvent extends Equatable {
 
 class LoadExploreEvent extends ExploreEvent {
   final String title;
+  final SortTypeEnum defaultSort;
 
-  const LoadExploreEvent({required this.title});
+  const LoadExploreEvent({
+    required this.title,
+    this.defaultSort = SortTypeEnum.newArrival,
+  });
 
   @override
-  List<Object> get props => [title];
+  List<Object> get props => [title, defaultSort];
 }
 
 class ToggleGridEvent extends ExploreEvent {}

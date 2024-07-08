@@ -12,6 +12,7 @@ import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.da
 import 'package:drugs_ng/src/features/lab_test/domain/models/diagnostic_test.dart';
 import 'package:drugs_ng/src/features/lab_test/domain/models/test_package.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/pages/lab_test_discovery.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/widgets/diagnostic_test_widget.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/widgets/test_package_widget.dart';
 import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
@@ -183,7 +184,21 @@ class _LabTestPageState extends State<LabTestPage> {
     );
   }
 
-  void viewAllDiagnosticTest() {}
+  void viewAllDiagnosticTest() {
+    Navigator.push(
+      context,
+      AppUtils.transition(
+        const LabTestDiscovery(tabIndex: 0),
+      ),
+    );
+  }
 
-  void viewAllTestPackages() {}
+  void viewAllTestPackages() {
+    Navigator.push(
+      context,
+      AppUtils.transition(
+        const LabTestDiscovery(tabIndex: 1),
+      ),
+    );
+  }
 }

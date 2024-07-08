@@ -28,7 +28,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
           products: right,
           isGrid: true,
           title: event.title,
-          sortType: SortTypeEnum.newArrival,
+          sortType: event.defaultSort,
         ));
       },
     );
