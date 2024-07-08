@@ -24,6 +24,27 @@ class VerifyEmailPage extends StatefulWidget {
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   String code = "";
 
+  // CountdownTimerController? timerController;
+
+  @override
+  void initState() {
+    // _setupTimer();
+    super.initState();
+  }
+
+  // void _setupTimer() {
+  //   timerController?.dispose();
+  //   timerController = CountdownTimerController(
+  //     endTime: DateTime.now().millisecondsSinceEpoch + 60000,
+  //   )..start();
+  // }
+
+  @override
+  void dispose() {
+    // timerController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

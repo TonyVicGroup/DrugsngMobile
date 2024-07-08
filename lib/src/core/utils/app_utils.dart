@@ -3,7 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class AppUtils {
-  static const duration = Duration(milliseconds: 300);
+  static const kPageTransitionDuration = Duration(milliseconds: 300);
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -12,7 +12,7 @@ class AppUtils {
   static Route transition(Widget page) => PageTransition(
         type: PageTransitionType.fade,
         child: page,
-        duration: duration,
+        duration: kPageTransitionDuration,
       );
 
   static Future pushReplacement(Widget page) async {
@@ -20,7 +20,7 @@ class AppUtils {
       PageTransition(
         type: PageTransitionType.fade,
         child: page,
-        duration: duration,
+        duration: kPageTransitionDuration,
       ),
     );
   }
@@ -30,7 +30,7 @@ class AppUtils {
       PageTransition(
         type: PageTransitionType.fade,
         child: page,
-        duration: duration,
+        duration: kPageTransitionDuration,
       ),
     );
   }

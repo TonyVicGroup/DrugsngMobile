@@ -14,9 +14,9 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
 
   ProfileSetupCubit(this.repo) : super(ProfileSetupInitial());
 
-  Future createAccount(AuthUserProfile profile) async {
+  Future updateUserInfo(int id, AuthUserProfile profile) async {
     emit(ProfileSetupLoading());
-    final result = await repo.setupProfile(profile);
+    final result = await repo.setupProfile(id, profile);
 
     result.fold(
       (left) => emit(ProfileSetupError(left.message)),
@@ -39,7 +39,7 @@ class ProfileSetupCubit extends Cubit<ProfileSetupState> {
         PageTransition(
           type: PageTransitionType.fade,
           child: const TabOverlay(),
-          duration: const Duration(milliseconds: 600),
+          duration: AppUtils.kPageTransitionDuration,
         ),
         (route) => route.isFirst,
       );

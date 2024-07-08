@@ -1,22 +1,35 @@
+import 'package:drugs_ng/src/core/enum/request_status.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'login_state.dart';
+abstract class AuthState {
+  final Status status;
 
-class LoginCubit extends Cubit<LoginState> {
+  AuthState([this.status = Status.initial]);
+}
+
+class LoggedInState extends AuthState {
+  final User user;
+
+  LoggedInState(this.user);
+}
+
+class LoggedOutState extends AuthState {
+  LoggedOutState([super.status]);
+}
+
+class AuthCubit extends Cubit<AuthState> {
   final AuthRepository repo;
 
-  LoginCubit(this.repo) : super(LoginStateInitial());
+  AuthCubit(this.repo) : super(LoggedOutState());
 
   Future<void> login(String email, String password) async {
-    emit(LoginStateLoading());
+    emit(LoggedOutState(Status.loading));
     final result = await repo.login(email, password);
     result.fold(
-      (left) => emit(LoginStateError(left.message)),
-      (right) {
-        emit(LoginStateSuccess());
-      },
+      (left) => emit(LoggedOutState(Status.failed)),
+      (user) => emit(LoggedInState(user)),
     );
   }
 }

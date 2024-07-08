@@ -1,4 +1,5 @@
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class SignupCubit extends Cubit<SignupState> {
     result.fold(
       (left) => emit(SignupStateError(left.message)),
       (right) {
-        emit(SignupStateSuccess(data));
+        emit(SignupStateSuccess(right));
       },
     );
   }

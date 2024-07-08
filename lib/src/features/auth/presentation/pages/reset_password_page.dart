@@ -150,11 +150,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void _resetPassword(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
       context.read<ResetPasswordCubit>().resetPassword(
-            SetNewPasswordData(
-              newPassword: password1Cntrl.text,
-              token: "",
-              userId: "",
-            ),
+            password1Cntrl.text,
+            "",
           );
     }
   }

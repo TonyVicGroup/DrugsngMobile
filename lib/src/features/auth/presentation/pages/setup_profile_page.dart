@@ -6,6 +6,7 @@ import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
+import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/profile_setup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/gender_select_widget.dart';
@@ -16,9 +17,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class SetupProfilePage extends StatefulWidget {
-  const SetupProfilePage({super.key, required this.signupData});
+  const SetupProfilePage({super.key, required this.user});
 
-  final SignupData signupData;
+  final UserData user;
 
   @override
   State<SetupProfilePage> createState() => _SetupProfilePageState();
@@ -156,13 +157,16 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
       if (state is ProfileSetupPermissionDenied) {
         context.read<ProfileSetupCubit>().acceptPermission();
       } else {
-        context.read<ProfileSetupCubit>().createAccount(AuthUserProfile(
-              firstName: firstNameCntrl.text,
-              lastName: lastNameCntrl.text,
-              birthday: birthday!,
-              gender: gender,
-              data: widget.signupData,
-            ));
+        context.read<ProfileSetupCubit>().updateUserInfo(
+              widget.user.id,
+              AuthUserProfile(
+                firstName: firstNameCntrl.text,
+                lastName: lastNameCntrl.text,
+                birthday: birthday!,
+                gender: gender,
+                email: widget.user.email,
+              ),
+            );
       }
     }
   }

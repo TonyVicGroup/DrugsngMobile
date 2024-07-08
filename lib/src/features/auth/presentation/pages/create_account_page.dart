@@ -96,7 +96,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   clickSuffix: _toggleVisibility2,
                   validator: (v) {
                     if (password1Cntrl.text != v) {
-                      return "Password must be same";
+                      return "Passwords do not match";
                     }
                     return null;
                   },
@@ -108,9 +108,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   onChanged: (v) {
                     setState(() {
                       acceptTerms = v;
-                      if (v) {
-                        acceptTermsHasError = false;
-                      }
+                      if (v) acceptTermsHasError = false;
                     });
                   },
                   clickPolicy: _openPrivacyPolicy,
@@ -126,7 +124,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     if (state is SignupStateSuccess) {
                       Navigator.of(context).push(
                         AppUtils.transition(
-                          SetupProfilePage(signupData: state.data),
+                          SetupProfilePage(user: state.userData),
                         ),
                       );
                     } else if (state is SignupStateError) {
@@ -224,7 +222,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       PageTransition(
         type: PageTransitionType.fade,
         child: const LoginPage(),
-        duration: const Duration(milliseconds: 600),
+        duration: AppUtils.kPageTransitionDuration,
       ),
       (route) => route.isFirst,
     );
