@@ -26,7 +26,7 @@ class AppToast {
         child: Row(
           children: [
             Container(
-                padding: EdgeInsets.all(8.r),
+                padding: EdgeInsets.all(6.r),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: toastType.color,
@@ -35,8 +35,8 @@ class AppToast {
                   toastType.svg,
                   colorFilter:
                       const ColorFilter.mode(AppColor.white, BlendMode.srcIn),
-                  width: 20.w,
-                  height: 20.w,
+                  width: 15.w,
+                  height: 15.w,
                   fit: BoxFit.contain,
                 )),
             10.horizontalSpace,
@@ -55,7 +55,7 @@ class AppToast {
       child: _toast(type, message),
       positionedToastBuilder: (context, widget) {
         return Positioned(
-          top: MediaQuery.of(context).padding.top,
+          top: MediaQuery.of(context).padding.top + 8.h,
           left: 0,
           right: 0,
           child: widget,
