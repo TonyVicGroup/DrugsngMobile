@@ -40,9 +40,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           if (state is ForgetPasswordSuccess) {
             Navigator.push(
               context,
-              AppUtils.transition(VerifyEmailPage(
-                email: emailCntrl.text,
-              )),
+              AppUtils.transition(VerifyEmailPage(email: emailCntrl.text)),
             );
           } else if (state is ForgetPasswordError) {
             AppToast.warning(context, state.error.message);

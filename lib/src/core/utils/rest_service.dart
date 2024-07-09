@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/core/utils/encryption.dart';
-import 'package:drugs_ng/src/core/utils/environment.dart';
 import 'package:drugs_ng/src/core/utils/log_service.dart';
 import 'package:drugs_ng/src/features/auth/data/datasource/get_local_token.dart';
 
@@ -14,7 +13,7 @@ class RestService {
 
   RestService() {
     _client = Dio(BaseOptions(
-      baseUrl: AppEnvironment.baseApiUrl,
+      baseUrl: 'http://drugsng.com/api/v1/',
       connectTimeout: const Duration(seconds: 20),
     ))
       ..options.headers.addAll({
@@ -37,7 +36,7 @@ class RestService {
     }
 
     /// encryption happens here
-    // final encrypted = Encryption.encryptString(jsonEncode(options.data));
+    final encrypted = Encryption.encryptString(jsonEncode(options.data));
     // options.data = encrypted.toMap();
 
     return handler.next(options);

@@ -44,11 +44,7 @@ class _TabOverlayState extends State<TabOverlay> {
       navBarBuilder: (navBarConfig) => _CustomNavbar(
         navBarConfig: navBarConfig,
         navBarDecoration: const NavBarDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColor.black,
-            ),
-          ),
+          border: Border(top: BorderSide(color: AppColor.black)),
         ),
       ),
     );
@@ -88,9 +84,7 @@ class _CustomNavbar extends StatelessWidget {
   Widget _tab(String svg, String label, int index, bool selected) {
     return Expanded(
       child: InkWell(
-        onTap: () {
-          navBarConfig.onItemSelected(index);
-        },
+        onTap: () => navBarConfig.onItemSelected(index),
         child: SizedBox(
           height: 84.h,
           child: Column(
