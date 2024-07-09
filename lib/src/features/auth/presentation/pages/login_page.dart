@@ -28,10 +28,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController loginCntrl = TextEditingController();
-  TextEditingController passwordCntrl = TextEditingController();
+  final loginCntrl = TextEditingController();
+  final passwordCntrl = TextEditingController();
   bool obscurePassword = true;
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
+  // @override
+  // void initState() {
+  //   UserPreference.reset();
+  //   super.initState();
+  // }
 
   @override
   void dispose() {

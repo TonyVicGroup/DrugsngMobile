@@ -17,8 +17,8 @@ class RestService {
       connectTimeout: const Duration(seconds: 20),
     ))
       ..options.headers.addAll({
-        'Content-Type': 'application/json',
-        'Accept': '*/*',
+        Headers.contentTypeHeader: 'application/json',
+        Headers.acceptHeader: '*/*',
       })
       ..interceptors.add(
         InterceptorsWrapper(onRequest: _encryptRequestHandler),
