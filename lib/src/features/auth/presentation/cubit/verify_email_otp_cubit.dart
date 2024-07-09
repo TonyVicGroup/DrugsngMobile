@@ -48,7 +48,7 @@ class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
     );
   }
 
-  Future<void> resendOtp(String email, [int countdown = 30]) async {
+  Future<void> resendOtp(String email, [int countdown = 60]) async {
     emit(VerifyEmailOtpState(state.countdown, VerifyOtpStatus.loading, null));
     final result = await repo.sendPasswordReset(email);
     result.fold(

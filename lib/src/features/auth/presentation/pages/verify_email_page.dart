@@ -49,7 +49,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          VerifyEmailOtpCubit(context.read<AuthRepository>())..startTimer(30),
+          VerifyEmailOtpCubit(context.read<AuthRepository>())..startTimer(60),
       child: BlocConsumer<VerifyEmailOtpCubit, VerifyEmailOtpState>(
         listener: (context, state) {
           if (state.status == VerifyOtpStatus.success) {
