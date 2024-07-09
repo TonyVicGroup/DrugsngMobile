@@ -14,7 +14,7 @@ class ExploreRepository {
       final result = await datasource.loadCategory(category);
       return Right(result);
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return const Left(ApiError.unknown);
     }
   }
 
@@ -23,7 +23,7 @@ class ExploreRepository {
       final result = await datasource.getBrandNames(category);
       return Right(result);
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return const Left(ApiError.unknown);
     }
   }
 
@@ -32,7 +32,7 @@ class ExploreRepository {
       final result = await datasource.getSubcategories(category);
       return Right(result);
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return const Left(ApiError.unknown);
     }
   }
 }
