@@ -1,5 +1,6 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
 import 'package:drugs_ng/src/core/enum/request_status.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
@@ -90,6 +91,11 @@ class _LoginPageState extends State<LoginPage> {
                   listener: (context, state) {
                     if (state is LoggedInState) {
                       AppUtils.pushReplacement(const TabOverlay());
+                    } else if (state is LoggedOutState) {
+                      if (state.status == Status.failed &&
+                          state.error != null) {
+                        AppToast.warning(context, state.error!.message);
+                      }
                     }
                   },
                   builder: (context, state) {

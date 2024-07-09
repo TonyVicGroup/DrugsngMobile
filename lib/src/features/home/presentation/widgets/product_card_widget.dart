@@ -10,7 +10,7 @@ class ProductCardWidget extends StatelessWidget {
   final String image;
   final String category;
   final String name;
-  final int rating;
+  final double rating;
   final int totalRating;
   final double price;
   final double? prevPrice;

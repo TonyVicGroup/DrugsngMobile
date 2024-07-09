@@ -1,16 +1,17 @@
 import 'package:drugs_ng/src/core/enum/button_status.dart';
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
-import 'package:drugs_ng/src/core/enum/request_status.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/setup_profile_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/privacy_policy_widget.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/weekly_update_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -118,12 +119,23 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   onChanged: (v) => setState(() => getWeeklyUpdate = v),
                 ),
                 const Spacer(),
-                BlocBuilder<SignupCubit, Status>(
+                BlocConsumer<SignupCubit, SignupState>(
+                  listener: (context, state) {
+                    if (state is SignupStateSuccess) {
+                      Navigator.of(context).push(
+                        AppUtils.transition(
+                          SetupProfilePage(user: state.userData),
+                        ),
+                      );
+                    } else if (state is SignupStateError) {
+                      AppToast.warning(context, state.error.message);
+                    }
+                  },
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Next",
                       onTap: () => _next(context),
-                      status: state == Status.loading
+                      status: state is SignupStateLoading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );

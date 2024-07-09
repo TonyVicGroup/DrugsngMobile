@@ -1,0 +1,64 @@
+{
+    "general_health": [
+        {
+            "name": "Molfix Jumbp",
+            "image": "assets/images/test_image/molfix.png",
+            "category": "Pads",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Some Tablet",
+            "image": "assets/images/test_image/vitamin.png",
+            "category": "Supplement",
+            "rating": 3,
+            "ratingCount": 5,
+            "price": 1200.00,
+            "prevPrice": 1000.00,
+            "discountPercent": 40
+        },
+        {
+            "name": "Some Syrup",
+            "image": "assets/images/test_image/syrup.png",
+            "category": "Supplement",
+            "rating": 2,
+            "ratingCount": 15,
+            "price": 2200.00,
+            "prevPrice": 2000.00,
+            "discountPercent": 20
+        },
+        {
+            "name": "Molfix Jumbp",
+            "image": "assets/images/test_image/molfix.png",
+            "category": "Pads",
+            "rating": 5,
+            "ratingCount": 50,
+            "price": 200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Some Tablet",
+            "image": "assets/images/test_image/vitamin.png",
+            "category": "Supplement",
+            "rating": 3,
+            "ratingCount": 5,
+            "price": 1200.00,
+            "prevPrice": null,
+            "discountPercent": null
+        },
+        {
+            "name": "Some Syrup",
+            "image": "assets/images/test_image/syrup.png",
+            "category": "Supplement",
+            "rating": 2,
+            "ratingCount": 15,
+            "price": 2200.00,
+            "prevPrice": 2000.00,
+            "discountPercent": 20
+        }
+    ]
+}

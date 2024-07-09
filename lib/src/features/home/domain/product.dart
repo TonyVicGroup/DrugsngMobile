@@ -13,7 +13,7 @@ class Product extends Equatable {
   final String name;
   final String image;
   final String category;
-  final int rating;
+  final double rating;
   final int ratingCount;
   final double price;
   final double? prevPrice;
@@ -36,7 +36,7 @@ class Product extends Equatable {
       name: json[_nameKey],
       image: json[_imageKey],
       category: json[_categoryKey],
-      rating: json[_ratingKey],
+      rating: double.tryParse("${json[_ratingKey]}") ?? 0.0,
       ratingCount: json[_ratingCountKey],
       price: json[_priceKey],
       prevPrice: json[_prevPriceKey],

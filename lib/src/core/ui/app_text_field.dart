@@ -78,38 +78,47 @@ class AppTextField {
         ),
       );
 
-  static TextField search({required String hint, required Function() onTap}) =>
-      TextField(
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(
-            fontSize: 18.sp,
-            color: const Color(0xFFBDC4CD),
-          ),
-          suffixIcon: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: EdgeInsets.all(18.r),
+  static Widget search({required String hint, required Function() onTap}) =>
+      InkWell(
+        onTap: onTap,
+        child: TextField(
+          enabled: false,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 18.h,
+            ),
+            hintText: hint,
+            hintStyle: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFFBDC4CD),
+            ),
+            suffixIcon: Container(
+              width: 50.w,
+              alignment: Alignment.center,
               child: SvgPicture.asset(
                 AppSvg.search,
+                width: 20.r,
+                height: 20.r,
                 colorFilter: const ColorFilter.mode(
                   AppColor.darkGrey,
                   BlendMode.srcIn,
                 ),
               ),
             ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.r),
-            borderSide: const BorderSide(color: AppColor.lightGrey),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.r),
-            borderSide: const BorderSide(color: AppColor.lightGrey),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.r),
-            borderSide: const BorderSide(color: AppColor.lightGrey),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: const BorderSide(color: AppColor.lightGrey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: const BorderSide(color: AppColor.lightGrey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.r),
+              borderSide: const BorderSide(color: AppColor.lightGrey),
+            ),
           ),
         ),
       );

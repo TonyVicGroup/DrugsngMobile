@@ -1,4 +1,4 @@
-part of 'home_bloc.dart';
+part of 'home_cubit.dart';
 
 sealed class HomeState extends Equatable {
   final HomeData data;

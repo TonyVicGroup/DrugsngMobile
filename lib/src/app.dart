@@ -4,9 +4,12 @@ import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/rest_service.dart';
 import 'package:drugs_ng/src/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
+import 'package:drugs_ng/src/features/explore/data/repository/explore_repository.dart';
+import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
+import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/explore_filter_bloc.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
-import 'package:drugs_ng/src/features/home/presentation/bloc/home_bloc.dart';
+import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -26,14 +29,21 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(context.read()),
         ),
-        RepositoryProvider<AuthRepository>(
-          create: (context) => AuthRepositoryImpl(context.read())//..attemptLogin(),
-        )
+        RepositoryProvider<ExploreRepository>(
+          create: (context) => ExploreRepository(context.read()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => HomeBloc(context.read()),
+            create: (context) => HomeCubit(context.read()),
+          ),
+          BlocProvider(
+            create: (context) => ExploreBloc(context.read()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ExploreFilterBloc(exploreBloc: context.read<ExploreBloc>()),
           ),
         ],
         child: ScreenUtilInit(

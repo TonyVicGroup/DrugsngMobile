@@ -2,11 +2,14 @@ import 'package:drugs_ng/src/core/enum/button_status.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
+import 'package:drugs_ng/src/core/ui/app_toast.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/profile_setup_cubit.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/gender_select_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,12 +107,25 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   ],
                 ),
                 const Spacer(),
-                BlocBuilder<ProfileSetupCubit, ProfileSetupState>(
+                BlocConsumer<ProfileSetupCubit, ProfileSetupState>(
+                  listener: (context, state) {
+                    if (state is ProfileSetupError) {
+                      AppToast.warning(context, state.error.message);
+                    } else if (state is ProfileSetupPermissionGranted) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        AppUtils.transition(const LoginPage()),
+                        (route) => route.isFirst,
+                      );
+                    } else if (state is ProfileSetupPermissionDenied) {
+                      AppToast.warning(context, state.error.message);
+                    }
+                  },
                   builder: (context, state) {
                     return AppButton.primary(
                       text: "Done",
                       onTap: () => _done(context),
-                      status: state == ProfileSetupState.loading
+                      status: state is ProfileSetupLoading
                           ? ButtonStatus.loading
                           : ButtonStatus.active,
                     );
@@ -138,7 +154,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
   void _done(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
       final ProfileSetupState state = context.read<ProfileSetupCubit>().state;
-      if (state == ProfileSetupState.permissionDenied) {
+      if (state is ProfileSetupPermissionDenied) {
         context.read<ProfileSetupCubit>().acceptPermission();
       } else {
         context.read<ProfileSetupCubit>().updateUserInfo(
