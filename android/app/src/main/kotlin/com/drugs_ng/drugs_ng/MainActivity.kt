@@ -1,4 +1,4 @@
-package com.example.drugs_ng
+package com.drugs_ng.drugs_ng
 
 import io.flutter.embedding.android.FlutterActivity
 
