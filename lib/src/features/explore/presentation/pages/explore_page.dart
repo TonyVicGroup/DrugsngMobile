@@ -64,7 +64,7 @@ class ExplorePage extends StatelessWidget {
                 children: [
                   AppText.sp16("Major Categories").w500.black,
                   const Spacer(),
-                  AppText.sp14("Drug").w400.black,
+                  AppText.sp14("Drugs").w400.black,
                 ],
               ),
             ),

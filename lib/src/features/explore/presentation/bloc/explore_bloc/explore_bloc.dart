@@ -53,8 +53,6 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
           isGrid: sState.isGrid,
           title: sState.title,
           sortType: event.sortType));
-      print("updated");
-      print(event.sortType);
     }
   }
 }
