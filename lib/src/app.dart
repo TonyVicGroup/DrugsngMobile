@@ -4,7 +4,9 @@ import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/core/utils/rest_service.dart';
 import 'package:drugs_ng/src/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
+import 'package:drugs_ng/src/features/explore/data/datasource/explore_datasource_impl.dart';
 import 'package:drugs_ng/src/features/explore/data/repository/explore_repository.dart';
+import 'package:drugs_ng/src/features/explore/domain/repository/explore_datasource.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/explore_filter_bloc.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(context.read()),
+        ),
+        RepositoryProvider<ExploreDatasource>(
+          create: (context) => ExploreDatasourceImpl(),
         ),
         RepositoryProvider<ExploreRepository>(
           create: (context) => ExploreRepository(context.read()),
