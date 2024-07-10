@@ -7,7 +7,6 @@ import 'package:drugs_ng/src/features/auth/presentation/pages/reset_password_pag
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,15 +46,22 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final resendCodeTextStyle = TextStyle(
+      fontSize: 16.sp,
+      height: 1.25,
+      fontWeight: FontWeight.w800,
+      fontFamily: AppText.fontFamily,
+    );
     return BlocProvider(
-      create: (context) =>
-          VerifyEmailOtpCubit(context.read<AuthRepository>())..startTimer(60),
-      child: BlocConsumer<VerifyEmailOtpCubit, VerifyEmailOtpState>(
+      create: (context) {
+        return EmailOtpCubit(context.read<AuthRepository>())..startTimer(60);
+      },
+      child: BlocConsumer<EmailOtpCubit, EmailOtpState>(
         listener: (context, state) {
           if (state.status == VerifyOtpStatus.success) {
             Navigator.push(
               context,
-              AppUtils.transition(const ResetPasswordPage()),
+              AppUtils.transition(ResetPasswordPage(otp: code)),
             );
           } else if (state.status == VerifyOtpStatus.failed &&
               state.error != null) {
@@ -111,45 +117,50 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       activeFillColor: AppColor.lightGrey,
                       inactiveColor: AppColor.lightGrey,
                     ),
-                    onChanged: (pin) {
-                      code = pin;
-                    },
+                    onChanged: (pin) => setState(() => code = pin),
                   ),
                   20.verticalSpace,
                   AppButton.primary(
                     text: "Verify",
                     onTap: () => _verify(context),
-                    status: state.status == VerifyOtpStatus.loading
-                        ? ButtonStatus.loading
-                        : ButtonStatus.active,
+                    status: code.length < 4
+                        ? ButtonStatus.disabled
+                        : state.status == VerifyOtpStatus.loading
+                            ? ButtonStatus.loading
+                            : ButtonStatus.active,
                   ),
                   40.verticalSpace,
                   Align(
                     alignment: Alignment.center,
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Send code again  ",
-                        children: [
-                          TextSpan(
-                            text: _countdownText(state.countdown),
-                            style: TextStyle(
-                              color: AppColor.red,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => _resend(context),
+                    child: Builder(builder: (context) {
+                      if (state.countdown <= 0) {
+                        return GestureDetector(
+                          onTap: () => _resend(context),
+                          child: Text(
+                            'Send code again',
+                            style: resendCodeTextStyle,
                           ),
-                        ],
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w800,
-                          color: AppColor.darkGrey,
-                          fontFamily: AppText.fontFamily,
-                          height: 1.25,
+                        );
+                      }
+
+                      return RichText(
+                        text: TextSpan(
+                          text: "Send code again  ",
+                          children: [
+                            TextSpan(
+                              text: _countdownText(state.countdown),
+                              style: const TextStyle(
+                                color: AppColor.red,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                          style: resendCodeTextStyle.copyWith(
+                            color: AppColor.lightGrey,
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                   40.verticalSpace,
                 ],
@@ -166,16 +177,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   void _verify(BuildContext context) {
-    AppUtils.pushWidget(const ResetPasswordPage());
+    context.read<EmailOtpCubit>().verifyPasswordResetOTP(code);
   }
 
   void _resend(BuildContext context) {
-    // if (context.read<VerifyEmailOtpCubit>().state.status !=
-    //     VerifyOtpStatus.waiting) {
-    context.read<VerifyEmailOtpCubit>().resendOtp(widget.email);
-    // } else {
-    //   // display cant resend data
-    // }
+    context.read<EmailOtpCubit>().resendOtp(widget.email);
   }
 
   String _countdownText(int countdown) {

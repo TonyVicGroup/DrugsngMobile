@@ -7,14 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'verify_email_otp_state.dart';
 
-class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
+class EmailOtpCubit extends Cubit<EmailOtpState> {
   final AuthRepository repo;
   Timer? _timer;
 
-  VerifyEmailOtpCubit(this.repo) : super(VerifyEmailOtpState.initial());
+  EmailOtpCubit(this.repo) : super(EmailOtpState.initial());
 
   void startTimer(int seconds) {
-    emit(VerifyEmailOtpState(seconds, VerifyOtpStatus.waiting, null));
+    emit(state.copyWith(countdown: seconds, status: VerifyOtpStatus.waiting));
     // Cancel any existing timer
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -22,9 +22,15 @@ class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
 
       if (newTime <= 0) {
         _timer?.cancel();
-        emit(VerifyEmailOtpState(newTime, VerifyOtpStatus.active, null));
+        emit(state.copyWith(
+          countdown: newTime,
+          status: VerifyOtpStatus.active,
+        ));
       } else {
-        emit(VerifyEmailOtpState(newTime, VerifyOtpStatus.waiting, null));
+        emit(state.copyWith(
+          countdown: newTime,
+          status: VerifyOtpStatus.active,
+        ));
       }
     });
   }
@@ -35,28 +41,28 @@ class VerifyEmailOtpCubit extends Cubit<VerifyEmailOtpState> {
     return super.close();
   }
 
-  Future<void> sendPasswordReset(String otp) async {
-    emit(VerifyEmailOtpState(state.countdown, VerifyOtpStatus.loading, null));
+  Future<void> verifyPasswordResetOTP(String otp) async {
+    emit(state.copyWith(status: VerifyOtpStatus.loading));
     final result = await repo.verifyPasswordResetOTP(otp);
     result.fold(
-      (left) => emit(
-          VerifyEmailOtpState(state.countdown, VerifyOtpStatus.failed, left)),
+      (left) {
+        emit(state.copyWith(status: VerifyOtpStatus.failed, error: left));
+      },
       (right) {
-        emit(VerifyEmailOtpState(
-            state.countdown, VerifyOtpStatus.success, null));
+        emit(state.copyWith(status: VerifyOtpStatus.success));
       },
     );
   }
 
   Future<void> resendOtp(String email, [int countdown = 60]) async {
-    emit(VerifyEmailOtpState(state.countdown, VerifyOtpStatus.loading, null));
+    emit(state.copyWith(status: VerifyOtpStatus.loading));
     final result = await repo.sendPasswordReset(email);
     result.fold(
-      (left) => emit(
-          VerifyEmailOtpState(state.countdown, VerifyOtpStatus.failed, left)),
+      (left) {
+        emit(state.copyWith(status: VerifyOtpStatus.failed, error: left));
+      },
       (right) {
-        emit(VerifyEmailOtpState(
-            state.countdown, VerifyOtpStatus.waiting, null));
+        emit(state.copyWith(status: VerifyOtpStatus.waiting));
         startTimer(countdown);
       },
     );

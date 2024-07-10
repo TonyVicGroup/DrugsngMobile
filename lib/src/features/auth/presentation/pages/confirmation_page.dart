@@ -35,7 +35,7 @@ class ConfirmationPage extends StatelessWidget {
             40.verticalSpace,
             AppText.sp30(title).black,
             13.verticalSpace,
-            AppText.sp16(subtitle).darkGrey,
+            AppText.sp16(subtitle).darkGrey.centerText,
             60.verticalSpace,
             AppButton.primary(text: btnText, onTap: onTap),
             const Spacer(flex: 3),

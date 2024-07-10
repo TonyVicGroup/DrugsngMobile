@@ -18,7 +18,7 @@ class AppButton {
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppColor.primary,
+          color: status.isDisabled ? AppColor.lightBlue : AppColor.primary,
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: status.isLoading

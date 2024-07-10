@@ -8,16 +8,28 @@ enum VerifyOtpStatus {
   failed,
 }
 
-class VerifyEmailOtpState extends Equatable {
+class EmailOtpState extends Equatable {
   final int countdown;
   final VerifyOtpStatus status;
   final AppError? error;
 
-  const VerifyEmailOtpState(this.countdown, this.status, this.error);
+  const EmailOtpState(this.countdown, this.status, this.error);
 
-  factory VerifyEmailOtpState.initial() =>
-      const VerifyEmailOtpState(0, VerifyOtpStatus.waiting, null);
+  factory EmailOtpState.initial() =>
+      const EmailOtpState(0, VerifyOtpStatus.waiting, null);
+
+  EmailOtpState copyWith({
+    int? countdown,
+    VerifyOtpStatus? status,
+    AppError? error,
+  }) {
+    return EmailOtpState(
+      countdown ?? this.countdown,
+      status ?? this.status,
+      error ?? this.error,
+    );
+  }
 
   @override
-  List<Object?> get props => [countdown];
+  List<Object?> get props => [countdown, status];
 }

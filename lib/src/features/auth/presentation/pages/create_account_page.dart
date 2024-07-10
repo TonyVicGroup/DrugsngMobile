@@ -219,11 +219,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   void _login() {
     Navigator.of(context).pushAndRemoveUntil(
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: const LoginPage(),
-        duration: AppUtils.kPageTransitionDuration,
-      ),
+      AppUtils.transition(const LoginPage()),
       (route) => route.isFirst,
     );
   }
