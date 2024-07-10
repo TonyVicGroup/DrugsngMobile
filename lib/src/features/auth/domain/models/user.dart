@@ -9,6 +9,7 @@ class User {
     required this.authToken,
     required this.refreshToken,
     required this.isEmailConfirmed,
+    this.data,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
