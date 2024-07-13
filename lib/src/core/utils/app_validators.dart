@@ -4,7 +4,7 @@ class AppValidators {
 
   static final _phoneRegex = RegExp(r"^\+?[0-9]\d{1,20}$");
 
-  static final _password = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+  // static final _password = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
 
   static String? name(String? text) =>
       (text?.length ?? 0) <= 2 ? "Enter a valid name" : null;
@@ -15,7 +15,7 @@ class AppValidators {
   static String? phone(String? text) =>
       _phoneRegex.hasMatch(text ?? "") ? null : "Enter a valid phone number";
 
-  static String? password(String? text) => _password.hasMatch(text ?? "")
+  static String? password(String? text) => (text?.length ?? 0) > 7
       ? null
-      : "Password must be more than 8 characters with text and numbers";
+      : "Password must be at least 8 characters long";
 }

@@ -13,20 +13,21 @@ class RestService {
 
   RestService() {
     _client = Dio(BaseOptions(
-      baseUrl: 'http://drugsng.com/api/v1/',
+      baseUrl: 'https://drugsng.com/api/v1/',
       connectTimeout: const Duration(seconds: 20),
     ))
       ..options.headers.addAll({
-        Headers.contentTypeHeader: 'application/json',
-        Headers.acceptHeader: '*/*',
+        Headers.contentTypeHeader: Headers.jsonContentType,
+        Headers.acceptHeader: Headers.textPlainContentType,
       })
-      ..interceptors.add(
-        InterceptorsWrapper(onRequest: _encryptRequestHandler),
-      )
+      ..interceptors.addAll([
+        InterceptorsWrapper(onRequest: _handleUserTokenOnRequest),
+        // InterceptorsWrapper(onRequest: _encryptRequest),
+      ])
       ..options.validateStatus = (_) => true;
   }
 
-  void _encryptRequestHandler(
+  void _handleUserTokenOnRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
@@ -34,10 +35,16 @@ class RestService {
       final token = UserPreference.getToken();
       options.headers['AUTHORIZATION'] = 'Bearer $token';
     }
+    return handler.next(options);
+  }
 
+  void _encryptRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
     /// encryption happens here
     final encrypted = Encryption.encryptString(jsonEncode(options.data));
-    // options.data = encrypted.toMap();
+    options.data = encrypted.toMap();
 
     return handler.next(options);
   }
@@ -68,24 +75,24 @@ class RestService {
   }
 
   Future<ApiResponse> get({
-    required String url,
+    required String path,
     Map<String, dynamic>? params,
   }) {
-    return _handleResponse(() => _client.get(url, queryParameters: params));
+    return _handleResponse(() => _client.get(path, queryParameters: params));
   }
 
   Future<ApiResponse> post({
-    required String url,
+    required String path,
     Map<String, dynamic>? data,
   }) {
-    return _handleResponse(() => _client.post(url, data: data));
+    return _handleResponse(() => _client.post(path, data: data));
   }
 
   Future<ApiResponse> put({
-    required String url,
+    required String path,
     Map<String, dynamic>? data,
   }) {
-    return _handleResponse(() => _client.put(url, data: data));
+    return _handleResponse(() => _client.put(path, data: data));
   }
 }
 

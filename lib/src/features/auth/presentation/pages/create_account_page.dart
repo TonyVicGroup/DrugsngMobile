@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:page_transition/page_transition.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -34,8 +33,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final password2Cntrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  bool obscurePassword1 = true;
-  bool obscurePassword2 = true;
+  bool obscurePassword = true;
   bool acceptTerms = false;
   bool getWeeklyUpdate = false;
   bool acceptTermsHasError = false;
@@ -79,9 +77,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   controller: password1Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword1),
-                  obscureText: obscurePassword1,
-                  clickSuffix: _toggleVisibility1,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: AppValidators.password,
                 ),
                 22.verticalSpace,
@@ -91,9 +89,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   controller: password2Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword2),
-                  obscureText: obscurePassword2,
-                  clickSuffix: _toggleVisibility2,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: (v) {
                     if (password1Cntrl.text != v) {
                       return "Passwords do not match";
@@ -186,15 +184,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
       );
 
-  void _toggleVisibility1() {
-    setState(() => obscurePassword1 = !obscurePassword1);
+  void _toggleVisibility() {
+    setState(() => obscurePassword = !obscurePassword);
   }
 
   void _openPrivacyPolicy() {}
-
-  void _toggleVisibility2() {
-    setState(() => obscurePassword2 = !obscurePassword2);
-  }
 
   bool validate() {
     bool hasError = formKey.currentState?.validate() ?? false;

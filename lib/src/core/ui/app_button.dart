@@ -93,19 +93,14 @@ class AppButton {
   static Widget roundedBack(void Function() onTap) => InkWell(
         onTap: onTap,
         child: Container(
-          height: 39.h,
-          width: 39.w,
-          padding: EdgeInsets.symmetric(
-            horizontal: 10.w,
-            vertical: 12.h,
-          ),
+          height: 40.r,
+          width: 40.r,
+          padding: EdgeInsets.symmetric(horizontal: 10.r, vertical: 10.r),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(color: AppColor.lightGrey),
           ),
-          child: SvgPicture.asset(
-            AppSvg.chevronThick,
-          ),
+          child: SvgPicture.asset(AppSvg.chevronThick),
         ),
       );
 
