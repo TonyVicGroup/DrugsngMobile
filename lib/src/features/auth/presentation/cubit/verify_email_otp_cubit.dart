@@ -13,7 +13,7 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
 
   EmailOtpCubit(this.repo) : super(EmailOtpState.initial());
 
-  void startTimer(int seconds) {
+  void startTimer([int seconds = 60]) {
     emit(state.copyWith(countdown: seconds, status: VerifyOtpStatus.waiting));
     // Cancel any existing timer
     _timer?.cancel();
@@ -35,12 +35,6 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
     });
   }
 
-  @override
-  Future<void> close() {
-    _timer?.cancel();
-    return super.close();
-  }
-
   Future<void> verifyPasswordResetOTP(String otp) async {
     emit(state.copyWith(status: VerifyOtpStatus.loading));
     final result = await repo.verifyPasswordResetOTP(otp);
@@ -54,17 +48,30 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
     );
   }
 
-  Future<void> resendPasswordResetOtp(String email,
-      [int countdown = 60]) async {
+  Future<void> resendPasswordResetOtp(String email) async {
     emit(state.copyWith(status: VerifyOtpStatus.loading));
-    final result = await repo.sendPasswordReset(email);
+    final result = await repo.resendOtp(email, 2);
     result.fold(
       (left) {
         emit(state.copyWith(status: VerifyOtpStatus.failed, error: left));
       },
       (right) {
         emit(state.copyWith(status: VerifyOtpStatus.waiting));
-        startTimer(countdown);
+        startTimer();
+      },
+    );
+  }
+
+  Future<void> resendAccountConfirmOtp(String email) async {
+    emit(state.copyWith(status: VerifyOtpStatus.loading));
+    final result = await repo.resendOtp(email, 1);
+    result.fold(
+      (left) {
+        emit(state.copyWith(status: VerifyOtpStatus.failed, error: left));
+      },
+      (right) {
+        emit(state.copyWith(status: VerifyOtpStatus.waiting));
+        startTimer();
       },
     );
   }
@@ -80,5 +87,11 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
         emit(state.copyWith(status: VerifyOtpStatus.success));
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
   }
 }

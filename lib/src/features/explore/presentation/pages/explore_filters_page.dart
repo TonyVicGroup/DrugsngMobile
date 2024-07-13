@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:expandable/expandable.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ExploreFiltersPage extends StatefulWidget {
   const ExploreFiltersPage({super.key});

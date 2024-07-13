@@ -11,13 +11,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class EmailOtpHandler {
-  final String email;
   final void Function(EmailOtpCubit)? onResendOtp;
   final void Function(String otp, EmailOtpCubit) onVerifyOtp;
   final void Function(String otp) onSuccess;
 
   EmailOtpHandler({
-    required this.email,
     required this.onSuccess,
     required this.onVerifyOtp,
     this.onResendOtp,
@@ -25,9 +23,16 @@ class EmailOtpHandler {
 }
 
 class EmailOtpPage extends StatefulWidget {
+  final int inputLength;
+  final String email;
   final EmailOtpHandler handler;
 
-  const EmailOtpPage({super.key, required this.handler});
+  const EmailOtpPage({
+    super.key,
+    required this.email,
+    required this.handler,
+    this.inputLength = 6,
+  });
 
   @override
   State<EmailOtpPage> createState() => _EmailOtpPageState();
@@ -73,10 +78,6 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
         listener: (context, state) {
           if (state.status == VerifyOtpStatus.success) {
             widget.handler.onSuccess(code);
-            // Navigator.push(
-            //   context,
-            //   AppUtils.transition(ResetPasswordPage(otp: code)),
-            // );
           } else if (state.status == VerifyOtpStatus.failed &&
               state.error != null) {
             AppToast.warning(context, state.error!.message);
@@ -99,7 +100,7 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                       text: "We've sent a code to ",
                       children: [
                         TextSpan(
-                          text: widget.handler.email,
+                          text: widget.email,
                           style: const TextStyle(color: AppColor.black),
                         ),
                       ],
@@ -115,17 +116,17 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                     keyboardType: TextInputType.number,
                     appContext: context,
                     autoFocus: true,
-                    length: 4,
+                    length: widget.inputLength,
                     textStyle: TextStyle(
                       fontSize: 24.sp,
                       color: AppColor.black,
                     ),
                     pinTheme: PinTheme(
-                      selectedColor: AppColor.lightGrey,
+                      selectedColor: const Color.fromRGBO(189, 196, 205, 1),
                       shape: PinCodeFieldShape.box,
                       borderRadius: BorderRadius.circular(15.r),
                       fieldHeight: 64.h,
-                      fieldWidth: 63.w,
+                      fieldWidth: 56.w,
                       activeColor: AppColor.lightGrey,
                       inactiveFillColor: AppColor.lightGrey,
                       activeFillColor: AppColor.lightGrey,
@@ -139,7 +140,7 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                     onTap: () {
                       widget.handler.onVerifyOtp(code, context.read());
                     },
-                    status: code.length < 4
+                    status: code.length < widget.inputLength
                         ? ButtonStatus.disabled
                         : state.status == VerifyOtpStatus.loading
                             ? ButtonStatus.loading
@@ -150,7 +151,8 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                     Align(
                       alignment: Alignment.center,
                       child: Builder(builder: (context) {
-                        if (state.countdown <= 0) {
+                        if (state.countdown <= 0 &&
+                            state.status != VerifyOtpStatus.loading) {
                           return GestureDetector(
                             onTap: () {
                               widget.handler.onResendOtp!(context.read());
@@ -164,15 +166,16 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
 
                         return RichText(
                           text: TextSpan(
-                            text: "Send code again  ",
+                            text: "Send code again",
                             children: [
-                              TextSpan(
-                                text: _countdownText(state.countdown),
-                                style: const TextStyle(
-                                  color: AppColor.red,
-                                  fontWeight: FontWeight.w400,
+                              if (state.status != VerifyOtpStatus.loading)
+                                TextSpan(
+                                  text: '  ${_countdownText(state.countdown)}',
+                                  style: const TextStyle(
+                                    color: AppColor.red,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
                             ],
                             style: resendCodeTextStyle.copyWith(
                               color: AppColor.lightGrey,
@@ -190,14 +193,6 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
       ),
     );
   }
-
-  // void _verify(BuildContext context) {
-  //   context.read<EmailOtpCubit>().verifyPasswordResetOTP(code);
-  // }
-
-  // void _resend(BuildContext context) {
-  //   context.read<EmailOtpCubit>().resendOtp(widget.handler.email);
-  // }
 
   String _countdownText(int countdown) {
     int seconds = countdown % 60;

@@ -21,12 +21,12 @@ class ProfileSetupLoading extends ProfileSetupState {}
 
 class ProfileSetupUpdated extends ProfileSetupState {}
 
-class ProfileSetupPermissionDenied extends ProfileSetupState {
-  final AppError error;
-  const ProfileSetupPermissionDenied(this.error);
+// class ProfileSetupPermissionDenied extends ProfileSetupState {
+//   final AppError error;
+//   const ProfileSetupPermissionDenied(this.error);
 
-  @override
-  List<Object?> get props => [error];
-}
+//   @override
+//   List<Object?> get props => [error];
+// }
 
-class ProfileSetupPermissionGranted extends ProfileSetupState {}
+// class ProfileSetupPermissionGranted extends ProfileSetupState {}

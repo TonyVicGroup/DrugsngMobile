@@ -48,11 +48,12 @@ class AuthRepositoryImpl extends AuthRepository {
       if (response.hasError) return Left(response.error);
 
       final user = User.fromMap(response.data!['data']);
-      UserPreference.updateToken(token: user.authToken);
+      UserPreference.updateToken(user.authToken);
+      UserPreference.updateUser(user);
 
       final userData = await getUserData(user.id);
-      userData.fold((left) => null, (data) => user.data = data);
-
+      if (userData.isRight) user.data = userData.right;
+      
       return Right(user);
     } catch (e) {
       return const Left(ApiError.unknown);
@@ -149,6 +150,22 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       final response = await service.post(
         path: 'auth/verify-password-reset-token/$otp',
+      );
+
+      if (response.hasError) return Left(response.error);
+      return const Right(null);
+    } catch (e) {
+      return const Left(ApiError.unknown);
+    }
+  }
+
+  @override
+  AsyncApiErrorOr<void> resendOtp(String email, int otpType) async {
+    try {
+      //
+      final response = await service.post(
+        path: 'auth/user/resend-otp',
+        data: {"email": email, "tokenType": otpType},
       );
 
       if (response.hasError) return Left(response.error);

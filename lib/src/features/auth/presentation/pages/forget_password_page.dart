@@ -42,8 +42,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             Navigator.push(
               context,
               AppUtils.transition(EmailOtpPage(
+                email: emailCntrl.text,
                 handler: EmailOtpHandler(
-                  email: emailCntrl.text,
                   onSuccess: (otp) {
                     Navigator.push(
                       context,

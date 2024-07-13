@@ -111,14 +111,16 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   listener: (context, state) {
                     if (state is ProfileSetupError) {
                       AppToast.warning(context, state.error.message);
-                    } else if (state is ProfileSetupPermissionGranted) {
+                    } else if (state is ProfileSetupUpdated) {
                       Navigator.pushAndRemoveUntil(
                         context,
                         AppUtils.transition(const LoginPage()),
                         (route) => route.isFirst,
                       );
-                    } else if (state is ProfileSetupPermissionDenied) {
-                      AppToast.warning(context, state.error.message);
+                      AppToast.success(
+                        context,
+                        'Your account has been created.\nYou can now login.',
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -153,21 +155,16 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
 
   void _done(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      final ProfileSetupState state = context.read<ProfileSetupCubit>().state;
-      if (state is ProfileSetupPermissionDenied) {
-        context.read<ProfileSetupCubit>().acceptPermission();
-      } else {
-        context.read<ProfileSetupCubit>().updateUserInfo(
-              widget.user.id,
-              AuthUserProfile(
-                firstName: firstNameCntrl.text,
-                lastName: lastNameCntrl.text,
-                birthday: birthday!,
-                gender: gender,
-                email: widget.user.email,
-              ),
-            );
-      }
+      context.read<ProfileSetupCubit>().updateUserInfo(
+            widget.user.id,
+            AuthUserProfile(
+              firstName: firstNameCntrl.text,
+              lastName: lastNameCntrl.text,
+              birthday: birthday!,
+              gender: gender,
+              email: widget.user.email,
+            ),
+          );
     }
   }
 }

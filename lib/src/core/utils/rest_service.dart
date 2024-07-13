@@ -31,8 +31,8 @@ class RestService {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    if (UserPreference.hasToken()) {
-      final token = UserPreference.getToken();
+    final token = UserPreference.getToken();
+    if (token?.isNotEmpty ?? false) {
       options.headers['AUTHORIZATION'] = 'Bearer $token';
     }
     return handler.next(options);
@@ -61,15 +61,16 @@ class RestService {
         return ApiError(
           message: data['responseMessage'] ??
               data['title'] ??
-              'Error getting response from server',
+              'There was a problem with your request',
         );
       }
+      dLog('API response error: - ${response.data}');
     } on SocketException {
       return ApiError.socket;
     } on TimeoutException {
       return ApiError.timeout;
     } catch (e, s) {
-      dLog('Error: _onResponse - $e\n$s');
+      dLog('API request Exception: - $e\n$s');
     }
     return ApiError.unknown;
   }

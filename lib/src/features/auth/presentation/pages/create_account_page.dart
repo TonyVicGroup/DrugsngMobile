@@ -124,8 +124,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       Navigator.push(
                         context,
                         AppUtils.transition(EmailOtpPage(
+                          email: emailCntrl.text,
                           handler: EmailOtpHandler(
-                            email: emailCntrl.text,
                             onSuccess: (otp) {
                               Navigator.push(
                                 context,
@@ -136,6 +136,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             },
                             onVerifyOtp: (otp, bloc) {
                               bloc.verifyAccountConfirmOTP(otp);
+                            },
+                            onResendOtp: (bloc) {
+                              bloc.resendAccountConfirmOtp(emailCntrl.text);
                             },
                           ),
                         )),

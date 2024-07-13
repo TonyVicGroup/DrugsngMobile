@@ -26,20 +26,25 @@ class _TabOverlayState extends State<TabOverlay> {
       controller: AppUtils.tabController,
       tabs: [
         PersistentTabConfig(
-            screen: const HomePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const HomePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ExplorePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ExplorePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const LabTestPage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const LabTestPage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ConsultationPage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ConsultationPage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ProfilePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ProfilePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
       ],
       navBarBuilder: (navBarConfig) => _CustomNavbar(
         navBarConfig: navBarConfig,

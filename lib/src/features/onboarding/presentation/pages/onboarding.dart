@@ -51,7 +51,7 @@ class OnboardingPage extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
+                  padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 4.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -95,6 +95,7 @@ class OnboardingPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                      MediaQuery.of(context).viewPadding.bottom.verticalSpace,
                     ],
                   ),
                 ),
