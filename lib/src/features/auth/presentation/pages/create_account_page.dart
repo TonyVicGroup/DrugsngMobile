@@ -12,6 +12,7 @@ import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/setup_profile_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/privacy_policy_widget.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/weekly_update_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -120,10 +121,24 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 BlocConsumer<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state is SignupStateSuccess) {
-                      Navigator.of(context).push(
-                        AppUtils.transition(
-                          SetupProfilePage(user: state.userData),
-                        ),
+                      Navigator.push(
+                        context,
+                        AppUtils.transition(EmailOtpPage(
+                          handler: EmailOtpHandler(
+                            email: emailCntrl.text,
+                            onSuccess: (otp) {
+                              Navigator.push(
+                                context,
+                                AppUtils.transition(
+                                  SetupProfilePage(user: state.userData),
+                                ),
+                              );
+                            },
+                            onVerifyOtp: (otp, bloc) {
+                              bloc.verifyAccountConfirmOTP(otp);
+                            },
+                          ),
+                        )),
                       );
                     } else if (state is SignupStateError) {
                       AppToast.warning(context, state.error.message);

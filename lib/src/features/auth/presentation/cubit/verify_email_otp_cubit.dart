@@ -54,7 +54,8 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
     );
   }
 
-  Future<void> resendOtp(String email, [int countdown = 60]) async {
+  Future<void> resendPasswordResetOtp(String email,
+      [int countdown = 60]) async {
     emit(state.copyWith(status: VerifyOtpStatus.loading));
     final result = await repo.sendPasswordReset(email);
     result.fold(
@@ -64,6 +65,19 @@ class EmailOtpCubit extends Cubit<EmailOtpState> {
       (right) {
         emit(state.copyWith(status: VerifyOtpStatus.waiting));
         startTimer(countdown);
+      },
+    );
+  }
+
+  Future<void> verifyAccountConfirmOTP(String otp) async {
+    emit(state.copyWith(status: VerifyOtpStatus.loading));
+    final result = await repo.confirmAccount(otp);
+    result.fold(
+      (left) {
+        emit(state.copyWith(status: VerifyOtpStatus.failed, error: left));
+      },
+      (right) {
+        emit(state.copyWith(status: VerifyOtpStatus.success));
       },
     );
   }
