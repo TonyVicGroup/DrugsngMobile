@@ -10,11 +10,11 @@ import 'package:drugs_ng/src/features/explore/data/repository/explore_repository
 import 'package:drugs_ng/src/features/explore/domain/repository/explore_datasource.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/explore_filter_bloc.dart';
-import 'package:drugs_ng/src/features/home/data/repositories/home_repository.dart';
+import 'package:drugs_ng/src/features/home/data/repositories/home_repository_impl.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
-import 'package:drugs_ng/src/features/home/presentation/pages/home.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,16 +28,19 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<RestService>(create: (context) => RestService()),
         RepositoryProvider<HomeRepository>(
-          create: (context) => HomeRepositoryLocal(),
+          create: (context) => HomeRepositoryImpl(context.read()),
         ),
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(context.read()),
         ),
         RepositoryProvider<ExploreDatasource>(
-          create: (context) => ExploreDatasourceImpl(),
+          create: (context) => ExploreDatasourceImpl(context.read()),
         ),
         RepositoryProvider<ExploreRepository>(
           create: (context) => ExploreRepository(context.read()),
+        ),
+        RepositoryProvider<HomeRepository>(
+          create: (context) => HomeRepositoryImpl(context.read()),
         ),
       ],
       child: MultiBlocProvider(

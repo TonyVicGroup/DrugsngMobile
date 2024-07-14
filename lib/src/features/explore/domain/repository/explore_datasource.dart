@@ -1,4 +1,4 @@
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 
 abstract class ExploreDatasource {
   Future<List<Product>> loadCategory(String category);

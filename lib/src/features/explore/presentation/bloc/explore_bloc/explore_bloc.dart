@@ -1,6 +1,6 @@
 import 'package:drugs_ng/src/core/enum/sort_type_enum.dart';
 import 'package:drugs_ng/src/features/explore/data/repository/explore_repository.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,9 +20,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     emit(ExploreLoading());
     final result = await repo.loadCategory(event.title);
     result.fold(
-      (left) {
-        emit(ExploreFailed());
-      },
+      (left) => emit(ExploreFailed()),
       (right) {
         emit(ExploreSuccess(
           products: right,

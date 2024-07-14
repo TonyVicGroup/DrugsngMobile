@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               bottom: false,
               child: ListView(
                 children: [
-                  20.verticalSpace,
+                  16.verticalSpace,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(

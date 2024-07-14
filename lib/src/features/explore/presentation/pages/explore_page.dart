@@ -25,7 +25,7 @@ class ExplorePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            20.verticalSpace,
+            16.verticalSpace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
