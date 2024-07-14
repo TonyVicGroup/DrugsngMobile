@@ -8,7 +8,7 @@ import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/home_carousel_widget.dart';
@@ -99,23 +99,21 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 273.h,
                     child: ListView.separated(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         Product arrive = state.data.newArrivals[index];
                         return Padding(
                           padding: EdgeInsets.only(top: 10.h),
                           child: ProductCardWidget(
-                            image: arrive.image,
+                            image: arrive.imageUrls.first,
                             name: arrive.name,
-                            category: arrive.category,
+                            genericName: arrive.genericName,
                             price: arrive.price,
-                            prevPrice: arrive.prevPrice,
-                            rating: arrive.rating,
-                            totalRating: arrive.ratingCount,
-                            percentReduction: arrive.discountPercent,
+                            // prevPrice: arrive.prevPrice,
+                            // rating: arrive.rating,
+                            // totalRating: arrive.ratingCount,
+                            // percentReduction: arrive.discountPercent,
                           ),
                         );
                       },
@@ -152,14 +150,13 @@ class _HomePageState extends State<HomePage> {
                           return Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: ProductCardWidget(
-                              image: bSell.image,
+                              image: bSell.imageUrls.first,
                               name: bSell.name,
-                              category: bSell.category,
+                              genericName: bSell.genericName,
                               price: bSell.price,
-                              prevPrice: bSell.prevPrice,
-                              rating: bSell.rating,
-                              totalRating: bSell.ratingCount,
-                              percentReduction: bSell.discountPercent,
+                              // prevPrice: bSell.prevPrice,
+                              // rating: bSell.rating,
+                              // percentReduction: bSell.discountPercent,
                             ),
                           );
                         },

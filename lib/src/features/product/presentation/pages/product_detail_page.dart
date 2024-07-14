@@ -4,7 +4,7 @@ import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_review_page.dart';
 import 'package:drugs_ng/src/features/product/presentation/widgets/product_detail_carousel.dart';
@@ -42,11 +42,7 @@ class ProductDetailPage extends StatelessWidget {
       body: ListView(
         children: [
           ProductDetailCarousel(
-            images: const [
-              AppImage.syrup,
-              AppImage.vitamin,
-              AppImage.molfix,
-            ],
+            images: const [AppImage.syrup, AppImage.vitamin, AppImage.molfix],
             onLike: () {},
           ),
           20.verticalSpace,
@@ -75,28 +71,34 @@ class ProductDetailPage extends StatelessWidget {
                     .w700
                     .black,
                 20.verticalSpace,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    (product.rating >= 1) ? filledStar() : unselectedStar(),
-                    (product.rating >= 2) ? filledStar() : unselectedStar(),
-                    (product.rating >= 3) ? filledStar() : unselectedStar(),
-                    (product.rating >= 4) ? filledStar() : unselectedStar(),
-                    (product.rating >= 5) ? filledStar() : unselectedStar(),
-                    5.horizontalSpace,
-                    AppText.sp14(product.rating.toString())
-                        .w400
-                        .setColor(AppColor.primary),
-                    dot(),
-                    InkWell(
-                        onTap: () => viewReviews(context),
-                        child: iconText(
-                            AppSvg.reviews, "${product.ratingCount} reviews")),
-                    2.horizontalSpace,
-                    dot(),
-                    iconText(AppSvg.sold, "158 sold"),
-                  ],
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     ...List.generate(
+                //       5,
+                //       (i) {
+                //         return product.rating > i
+                //             ? filledStar()
+                //             : unselectedStar();
+                //       },
+                //     ),
+                //     5.horizontalSpace,
+                //     AppText.sp14(product.rating.toString())
+                //         .w400
+                //         .setColor(AppColor.primary),
+                //     dot(),
+                //     InkWell(
+                //       onTap: () => viewReviews(context),
+                //       child: iconText(
+                //         AppSvg.reviews,
+                //         "${product.ratingCount} reviews",
+                //       ),
+                //     ),
+                //     2.horizontalSpace,
+                //     dot(),
+                //     iconText(AppSvg.sold, "158 sold"),
+                //   ],
+                // ),
                 10.verticalSpace,
                 const ProductSpecificationWidget(),
                 20.verticalSpace,
@@ -127,9 +129,9 @@ class ProductDetailPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       itemBuilder: (context, index) {
                         return ProductCardWidget(
-                          image: product.image,
+                          image: product.imageUrls.first,
                           name: "name",
-                          category: "category",
+                          genericName: "category",
                           price: 1233,
                           rating: 3,
                           totalRating: 32,

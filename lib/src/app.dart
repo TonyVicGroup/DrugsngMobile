@@ -69,9 +69,9 @@ class MyApp extends StatelessWidget {
                 fontFamily: AppText.fontFamily,
                 scaffoldBackgroundColor: AppColor.white,
               ),
-              home: UserPreference.getUser() == null
+              home: UserPreference.getToken() == null
                   ? const OnboardingPage()
-                  : const HomePage(),
+                  : const TabOverlay(),
             );
           },
         ),

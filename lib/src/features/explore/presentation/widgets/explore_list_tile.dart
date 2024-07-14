@@ -10,7 +10,7 @@ class ExploreListTile extends StatelessWidget {
   final String img;
   final double rating;
   final int totalRating;
-  final String category;
+  final String genericName;
   final String name;
   final double? prevPrice;
   final double price;
@@ -20,9 +20,9 @@ class ExploreListTile extends StatelessWidget {
   const ExploreListTile({
     super.key,
     required this.img,
-    required this.rating,
-    required this.totalRating,
-    required this.category,
+    this.rating = 0,
+    this.totalRating = 0,
+    required this.genericName,
     required this.name,
     this.prevPrice,
     required this.price,
@@ -52,7 +52,10 @@ class ExploreListTile extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 1,
-              child: Image.asset(img),
+                child: Image.network(
+                  img,
+                  fit: BoxFit.cover,
+                )
             ),
             10.horizontalSpace,
             Expanded(
@@ -62,17 +65,15 @@ class ExploreListTile extends StatelessWidget {
                   const Spacer(),
                   AppText.sp14(name).w500.black.setMaxLines(1),
                   const Spacer(),
-                  AppText.sp10(category).w400.setColor(
+                  AppText.sp10(genericName).w400.setColor(
                         const Color(0xFF8B96A5),
                       ),
                   const Spacer(),
                   Row(
                     children: [
-                      (rating >= 1) ? filledStar() : outlinedStar(),
-                      (rating >= 2) ? filledStar() : outlinedStar(),
-                      (rating >= 3) ? filledStar() : outlinedStar(),
-                      (rating >= 4) ? filledStar() : outlinedStar(),
-                      (rating >= 5) ? filledStar() : outlinedStar(),
+                      ...List.generate(5, (i) {
+                        return rating > i ? filledStar() : outlinedStar();
+                      }),
                       5.horizontalSpace,
                       AppText.sp10("($totalRating)").w400.setColor(
                             const Color(0xFF8B96A5),

@@ -72,7 +72,6 @@ class _CustomNavbar extends StatelessWidget {
       // height: navBarConfig.navBarHeight,
 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _tab(AppSvg.home, "Home", 0, navBarConfig.selectedIndex == 0),
@@ -93,8 +92,8 @@ class _CustomNavbar extends StatelessWidget {
         child: SizedBox(
           height: 84.h,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
               SizedBox(
                 width: 22.r,
                 height: 22.r,
@@ -111,7 +110,6 @@ class _CustomNavbar extends StatelessWidget {
               selected
                   ? AppText.sp10(label).w700.primaryColor
                   : AppText.sp10(label).w400.lightGrey,
-              const Spacer(flex: 2),
             ],
           ),
         ),

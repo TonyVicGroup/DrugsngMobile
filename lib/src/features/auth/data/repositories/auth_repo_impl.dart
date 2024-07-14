@@ -53,7 +53,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
       final userData = await getUserData(user.id);
       if (userData.isRight) user.data = userData.right;
-      
+
       return Right(user);
     } catch (e) {
       return const Left(ApiError.unknown);
@@ -159,10 +159,18 @@ class AuthRepositoryImpl extends AuthRepository {
     }
   }
 
+  ///"tokenType" ->
+  ///
+  /// Email_Confirmation = 1,
+  ///
+  /// Password_Reset = 2,
+  ///
+  /// Login_Confirmation = 3,
+  ///
+  /// Phone_Confirmation,
   @override
   AsyncApiErrorOr<void> resendOtp(String email, int otpType) async {
     try {
-      //
       final response = await service.post(
         path: 'auth/user/resend-otp',
         data: {"email": email, "tokenType": otpType},
