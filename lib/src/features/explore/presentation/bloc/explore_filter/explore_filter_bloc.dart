@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:drugs_ng/src/core/enum/rating_enum.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -42,18 +42,18 @@ class ExploreFilterBloc extends Bloc<ExploreFilterEvent, ExploreFilterState> {
       Iterable<Product> products = exploreState.products.where((prod) {
         bool filterProd = true;
         // rating
-        if (event.rating != RatingEnum.all) {
-          filterProd = prod.rating.round() == event.rating.starCount;
-        }
+        // if (event.rating != RatingEnum.all) {
+        //   filterProd = prod.rating.round() == event.rating.starCount;
+        // }
         // brandName
         if (event.brandNames.isNotEmpty &&
-            event.brandNames.contains(prod.category)) {
+            event.brandNames.contains(prod.brandName)) {
           filterProd = false;
         }
         // subcategory
-        if (event.subcategory == prod.category) {
-          filterProd = filterProd && true;
-        }
+        // if (event.subcategory == prod.category) {
+        //   filterProd = filterProd && true;
+        // }
         return filterProd;
       });
       emit(

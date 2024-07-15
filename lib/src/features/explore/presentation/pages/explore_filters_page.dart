@@ -3,6 +3,7 @@ import 'package:drugs_ng/src/core/contants/app_image.dart';
 import 'package:drugs_ng/src/core/enum/rating_enum.dart';
 import 'package:drugs_ng/src/core/ui/app_checkbox.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/explore_filter_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_brand_name_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_subcategory_page.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:expandable/expandable.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ExploreFiltersPage extends StatefulWidget {
   const ExploreFiltersPage({super.key});
@@ -357,12 +357,8 @@ class _ExploreFiltersPageState extends State<ExploreFiltersPage> {
   Future _chooseBrandName() async {
     brands = await Navigator.push<Set<String>?>(
           context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: ExploreBrandNamePage(brandNames: brands),
-            duration: const Duration(
-              milliseconds: 600,
-            ),
+          AppUtils.transition(
+            ExploreBrandNamePage(brandNames: brands),
           ),
         ) ??
         brands;
@@ -372,12 +368,8 @@ class _ExploreFiltersPageState extends State<ExploreFiltersPage> {
   Future _chooseSubcategory() async {
     subcategory = await Navigator.push<String?>(
             context,
-            PageTransition(
-              type: PageTransitionType.fade,
-              child: ExploreSubcategoryPage(subcategory: subcategory),
-              duration: const Duration(
-                milliseconds: 600,
-              ),
+            AppUtils.transition(
+              ExploreSubcategoryPage(subcategory: subcategory),
             )) ??
         subcategory;
     setState(() {});

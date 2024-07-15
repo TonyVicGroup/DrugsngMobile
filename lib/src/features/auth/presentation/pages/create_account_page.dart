@@ -12,6 +12,7 @@ import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/setup_profile_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/privacy_policy_widget.dart';
 import 'package:drugs_ng/src/features/auth/presentation/widgets/weekly_update_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -19,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:page_transition/page_transition.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -34,8 +34,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final password2Cntrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  bool obscurePassword1 = true;
-  bool obscurePassword2 = true;
+  bool obscurePassword = true;
   bool acceptTerms = false;
   bool getWeeklyUpdate = false;
   bool acceptTermsHasError = false;
@@ -79,9 +78,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   controller: password1Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword1),
-                  obscureText: obscurePassword1,
-                  clickSuffix: _toggleVisibility1,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: AppValidators.password,
                 ),
                 22.verticalSpace,
@@ -91,9 +90,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   controller: password2Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword2),
-                  obscureText: obscurePassword2,
-                  clickSuffix: _toggleVisibility2,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: (v) {
                     if (password1Cntrl.text != v) {
                       return "Passwords do not match";
@@ -122,10 +121,27 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 BlocConsumer<SignupCubit, SignupState>(
                   listener: (context, state) {
                     if (state is SignupStateSuccess) {
-                      Navigator.of(context).push(
-                        AppUtils.transition(
-                          SetupProfilePage(user: state.userData),
-                        ),
+                      Navigator.push(
+                        context,
+                        AppUtils.transition(EmailOtpPage(
+                          email: emailCntrl.text,
+                          handler: EmailOtpHandler(
+                            onSuccess: (otp) {
+                              Navigator.push(
+                                context,
+                                AppUtils.transition(
+                                  SetupProfilePage(user: state.userData),
+                                ),
+                              );
+                            },
+                            onVerifyOtp: (otp, bloc) {
+                              bloc.verifyAccountConfirmOTP(otp);
+                            },
+                            onResendOtp: (bloc) {
+                              bloc.resendAccountConfirmOtp(emailCntrl.text);
+                            },
+                          ),
+                        )),
                       );
                     } else if (state is SignupStateError) {
                       AppToast.warning(context, state.error.message);
@@ -186,15 +202,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
       );
 
-  void _toggleVisibility1() {
-    setState(() => obscurePassword1 = !obscurePassword1);
+  void _toggleVisibility() {
+    setState(() => obscurePassword = !obscurePassword);
   }
 
   void _openPrivacyPolicy() {}
-
-  void _toggleVisibility2() {
-    setState(() => obscurePassword2 = !obscurePassword2);
-  }
 
   bool validate() {
     bool hasError = formKey.currentState?.validate() ?? false;
@@ -219,11 +231,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   void _login() {
     Navigator.of(context).pushAndRemoveUntil(
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: const LoginPage(),
-        duration: AppUtils.kPageTransitionDuration,
-      ),
+      AppUtils.transition(const LoginPage()),
       (route) => route.isFirst,
     );
   }

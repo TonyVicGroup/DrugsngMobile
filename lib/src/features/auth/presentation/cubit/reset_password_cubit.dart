@@ -15,9 +15,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     final result = await repo.setNewPassword(newPassword, otp);
     result.fold(
       (left) => emit(ResetPasswordError(left)),
-      (right) {
-        emit(ResetPasswordSuccess());
-      },
+      (right) => emit(ResetPasswordSuccess()),
     );
   }
 }

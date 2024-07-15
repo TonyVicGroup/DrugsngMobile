@@ -7,10 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreGridTile extends StatelessWidget {
-  final String img;
+  final String image;
   final double rating;
   final int totalRating;
-  final String category;
+  final String genericName;
   final String name;
   final double? prevPrice;
   final double price;
@@ -19,10 +19,10 @@ class ExploreGridTile extends StatelessWidget {
 
   const ExploreGridTile({
     super.key,
-    required this.img,
-    required this.rating,
-    required this.totalRating,
-    required this.category,
+    required this.image,
+    this.rating = 0,
+    this.totalRating = 0,
+    required this.genericName,
     required this.name,
     this.prevPrice,
     this.percentReduction,
@@ -59,11 +59,13 @@ class ExploreGridTile extends StatelessWidget {
                 children: [
                   Align(
                       alignment: Alignment.center,
-                      child: Image.asset(
-                        img,
+                    child: Image.network(
+                      image,
+                      fit: BoxFit.cover,
                         width: 100.w,
                         height: 100.w,
-                      )),
+                    ),
+                  ),
                   if (percentReduction != null)
                     Positioned(
                       top: 0,
@@ -96,11 +98,9 @@ class ExploreGridTile extends StatelessWidget {
           const Spacer(),
           Row(
             children: [
-              (rating >= 1) ? filledStar() : outlinedStar(),
-              (rating >= 2) ? filledStar() : outlinedStar(),
-              (rating >= 3) ? filledStar() : outlinedStar(),
-              (rating >= 4) ? filledStar() : outlinedStar(),
-              (rating >= 5) ? filledStar() : outlinedStar(),
+              ...List.generate(5, (i) {
+                return rating > i ? filledStar() : outlinedStar();
+              }),
               5.horizontalSpace,
               AppText.sp10("($totalRating)").w400.setColor(
                     const Color(0xFF8B96A5),
@@ -108,7 +108,7 @@ class ExploreGridTile extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          AppText.sp10(category).w400.setColor(
+          AppText.sp10(genericName).w400.setColor(
                 const Color(0xFF8B96A5),
               ),
           const Spacer(),

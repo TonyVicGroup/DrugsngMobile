@@ -8,7 +8,8 @@ import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/forget_password_cubit.dart';
-import 'package:drugs_ng/src/features/auth/presentation/pages/verify_email_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/email_otp_page.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,8 +41,22 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           if (state is ForgetPasswordSuccess) {
             Navigator.push(
               context,
-              AppUtils.transition(VerifyEmailPage(
+              AppUtils.transition(EmailOtpPage(
                 email: emailCntrl.text,
+                handler: EmailOtpHandler(
+                  onSuccess: (otp) {
+                    Navigator.push(
+                      context,
+                      AppUtils.transition(ResetPasswordPage(otp: otp)),
+                    );
+                  },
+                  onResendOtp: (bloc) {
+                    bloc.resendPasswordResetOtp(emailCntrl.text);
+                  },
+                  onVerifyOtp: (otp, bloc) {
+                    bloc.verifyPasswordResetOTP(otp);
+                  },
+                ),
               )),
             );
           } else if (state is ForgetPasswordError) {

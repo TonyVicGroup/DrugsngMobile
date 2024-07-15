@@ -9,7 +9,7 @@ class AppUtils {
 
   static PersistentTabController tabController = PersistentTabController();
 
-  static Route transition(Widget page) => PageTransition(
+  static Route<T> transition<T>(Widget page) => PageTransition(
         type: PageTransitionType.fade,
         child: page,
         duration: kPageTransitionDuration,
@@ -17,21 +17,13 @@ class AppUtils {
 
   static Future pushReplacement(Widget page) async {
     return await AppUtils.navKey.currentState?.pushReplacement(
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: page,
-        duration: kPageTransitionDuration,
-      ),
+      transition(page),
     );
   }
 
   static Future pushWidget(Widget page) async {
     return await AppUtils.navKey.currentState?.push(
-      PageTransition(
-        type: PageTransitionType.fade,
-        child: page,
-        duration: kPageTransitionDuration,
-      ),
+      transition(page),
     );
   }
 }

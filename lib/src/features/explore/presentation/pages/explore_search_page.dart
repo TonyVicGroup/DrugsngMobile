@@ -6,7 +6,7 @@ import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/exp
 import 'package:drugs_ng/src/features/explore/presentation/cubit/explore_search_cubit.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_search_field.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,14 +60,14 @@ class ExploreSearchPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Product product = state[index];
                       return ExploreListTile(
-                        img: product.image,
-                        rating: product.rating,
-                        totalRating: product.ratingCount,
-                        category: product.category,
+                        img: product.imageUrls.first,
+                        // rating: product.rating,
+                        // totalRating: product.ratingCount,
+                        genericName: product.genericName,
                         name: product.name,
                         price: product.price,
-                        prevPrice: product.prevPrice,
-                        percentReduction: product.discountPercent,
+                        // prevPrice: product.prevPrice,
+                        // percentReduction: product.discountPercent,
                         onTap: () => openProduct(context, product),
                       );
                     },
@@ -86,11 +86,7 @@ class ExploreSearchPage extends StatelessWidget {
   void openProduct(BuildContext context, Product product) {
     Navigator.push(
       context,
-      AppUtils.transition(
-        ProductDetailPage(
-          product: product,
-        ),
-      ),
+      AppUtils.transition(ProductDetailPage(product: product)),
     );
   }
 }

@@ -29,27 +29,19 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String email, String password) async {
     emit(LoggedOutState(Status.loading));
-    if (await acceptPermission()) {
-      final result = await repo.login(email, password);
-      if (result.isRight) {
-        await acceptPermission();
-        emit(LoggedInState(result.right));
-      } else {
-        emit(LoggedOutState(Status.failed, result.left));
-      }
+    final result = await repo.login(email, password);
+    if (result.isRight) {
+      emit(LoggedInState(result.right));
+      await acceptPermission();
     } else {
-      emit(
-        LoggedOutState(
-          Status.failed,
-          const AppError("location permission required"),
-        ),
-      );
+      emit(LoggedOutState(Status.failed, result.left));
     }
   }
 
   Future<bool> acceptPermission() async {
     final location = Location();
     final permission = await location.requestPermission();
+    // handle permision data
     return permission != PermissionStatus.denied;
   }
 }

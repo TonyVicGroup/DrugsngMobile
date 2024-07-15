@@ -8,7 +8,7 @@ class AppText {
   static Text sp41(String text) => Text(
         text,
         style: TextStyle(
-          fontSize: 41.sp,
+          fontSize: 40.sp,
           fontWeight: FontWeight.w500,
           height: 1.25,
         ),

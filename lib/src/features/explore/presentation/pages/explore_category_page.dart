@@ -10,7 +10,7 @@ import 'package:drugs_ng/src/features/explore/presentation/widgets/category_filt
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_grid_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/src/features/explore/presentation/widgets/explore_sort_modal.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
             if (state is ExploreLoading) {
               return const Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator()
                 ),
               );
             } else if (state is ExploreSuccess) {
@@ -159,14 +159,14 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
         itemBuilder: (context, index) {
           final product = products[index];
           return ExploreGridTile(
-            img: product.image,
-            rating: product.rating,
-            totalRating: product.ratingCount,
-            category: product.category,
+            image: product.imageUrls.first,
+            // rating: product.rating,
+            // totalRating: product.ratingCount,
+            genericName: product.genericName,
             name: product.name,
             price: product.price,
-            prevPrice: product.prevPrice,
-            percentReduction: product.discountPercent,
+            // prevPrice: product.prevPrice,
+            // percentReduction: product.discountPercent,
             onTap: () => openProduct(product),
           );
         },
@@ -177,14 +177,14 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
         itemBuilder: (context, index) {
           final product = products[index];
           return ExploreListTile(
-            img: product.image,
-            rating: product.rating,
-            totalRating: product.ratingCount,
-            category: product.category,
+            img: product.imageUrls.first,
+            // rating: product.rating,
+            // totalRating: product.ratingCount,
+            genericName: product.genericName,
             name: product.name,
             price: product.price,
-            prevPrice: product.prevPrice,
-            percentReduction: product.discountPercent,
+            // prevPrice: product.prevPrice,
+            // percentReduction: product.discountPercent,
             onTap: () => openProduct(product),
           );
         },
@@ -197,11 +197,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
   void openProduct(Product product) {
     Navigator.push(
       context,
-      AppUtils.transition(
-        ProductDetailPage(
-          product: product,
-        ),
-      ),
+      AppUtils.transition(ProductDetailPage(product: product)),
     );
   }
 

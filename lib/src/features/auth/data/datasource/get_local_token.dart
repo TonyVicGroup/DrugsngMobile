@@ -1,19 +1,27 @@
+import 'package:drugs_ng/src/features/auth/domain/models/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class UserPreference {
   static const boxName = "LOGIN_TOKEN_BOX";
+  static const _token = "TOKEN";
+  static const _user = "USER";
 
-  static late Box<String> box;
+  static late Box<dynamic> box;
 
   static Future init() async {
-    box = await Hive.openBox<String>(boxName);
+    box = await Hive.openBox<dynamic>(boxName);
   }
 
-  static bool hasToken() => (getToken() ?? '').isNotEmpty;
+  static String? getToken() => box.get(_token);
 
-  static String? getToken() => box.get(boxName);
+  static void updateToken(String token) => box.put(_token, token);
 
-  static void updateToken({required String token}) => box.put(boxName, token);
+  static User? getUser() {
+    final data = Map<String, dynamic>.from(box.get(_user) ?? {});
+    return data.isEmpty ? null : User.fromMap(data);
+  }
+
+  static void updateUser(User data) => box.put(_user, data.toMap());
 
   static Future reset() => box.clear();
 }
