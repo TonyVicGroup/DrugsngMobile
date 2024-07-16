@@ -58,11 +58,14 @@ class ProductCardWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                child: Image.network(
-                  image,
-                  fit: BoxFit.cover,
-                  height: 100.r,
-                  width: 100.r,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.r),
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    height: 100.r,
+                    width: 100.r,
+                  ),
                 ),
               ),
             ),

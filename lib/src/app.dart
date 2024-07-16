@@ -14,6 +14,9 @@ import 'package:drugs_ng/src/features/home/data/repositories/home_repository_imp
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:drugs_ng/src/features/product/data/repositories/product_repo_impl.dart';
+import 'package:drugs_ng/src/features/product/domain/repositories/product_repo.dart';
+import 'package:drugs_ng/src/features/product/presentation/cubit/product_cubit.dart';
 import 'package:drugs_ng/src/tab_overlay.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +45,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<HomeRepository>(
           create: (context) => HomeRepositoryImpl(context.read()),
         ),
+        RepositoryProvider<ProductRepository>(
+          create: (context) => ProductRepositoryImpl(context.read()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -54,6 +60,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ExploreFilterBloc(exploreBloc: context.read<ExploreBloc>()),
+          ),
+          BlocProvider(
+            create: (context) => ProductCubit(context.read()),
           ),
         ],
         child: ScreenUtilInit(
@@ -72,9 +81,11 @@ class MyApp extends StatelessWidget {
                 fontFamily: AppText.fontFamily,
                 scaffoldBackgroundColor: AppColor.white,
               ),
-              home: UserPreference.getToken() == null
-                  ? const OnboardingPage()
-                  : const TabOverlay(),
+              home:
+                  // UserPreference.getToken() == null
+                  //     ? const OnboardingPage()
+                  //     :
+                  const TabOverlay(),
             );
           },
         ),

@@ -86,7 +86,7 @@ class ExploreSearchPage extends StatelessWidget {
   void openProduct(BuildContext context, Product product) {
     Navigator.push(
       context,
-      AppUtils.transition(ProductDetailPage(product: product)),
+      AppUtils.transition(ProductDetailPage(productId: product.id)),
     );
   }
 }

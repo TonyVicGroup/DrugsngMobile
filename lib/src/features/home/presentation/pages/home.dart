@@ -14,6 +14,7 @@ import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_wid
 import 'package:drugs_ng/src/features/home/presentation/widgets/home_carousel_widget.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/order_prescription_widget.dart';
 import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
+import 'package:drugs_ng/src/features/product/presentation/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,6 +111,7 @@ class _HomePageState extends State<HomePage> {
                             name: arrive.name,
                             genericName: arrive.genericName,
                             price: arrive.price,
+                            onTap: () => _openProductPage(arrive),
                             // prevPrice: arrive.prevPrice,
                             // rating: arrive.rating,
                             // totalRating: arrive.ratingCount,
@@ -124,47 +126,49 @@ class _HomePageState extends State<HomePage> {
                   30.verticalSpace,
                   const OrderPrescriptionWidget(),
                   30.verticalSpace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppText.sp16("Best Sellers").w500.black,
-                        AppText.sp14("View All")
-                            .w400
-                            .primaryColor
-                            .clickable(viewAllBestSellers),
-                      ],
+                  if (state.data.bestSellers.isNotEmpty) ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText.sp16("Best Sellers").w500.black,
+                          AppText.sp14("View All")
+                              .w400
+                              .primaryColor
+                              .clickable(viewAllBestSellers),
+                        ],
+                      ),
                     ),
-                  ),
-                  12.verticalSpace,
-                  SizedBox(
-                    height: 273.h,
-                    child: ListView.separated(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          Product bSell = state.data.bestSellers[index];
-                          return Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: ProductCardWidget(
-                              image: bSell.imageUrls.first,
-                              name: bSell.name,
-                              genericName: bSell.genericName,
-                              price: bSell.price,
-                              // prevPrice: bSell.prevPrice,
-                              // rating: bSell.rating,
-                              // percentReduction: bSell.discountPercent,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                            15.horizontalSpace,
-                        itemCount: state.data.bestSellers.length),
-                  ),
-                  30.verticalSpace,
+                    12.verticalSpace,
+                    SizedBox(
+                      height: 273.h,
+                      child: ListView.separated(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                          ),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            Product bSell = state.data.bestSellers[index];
+                            return Padding(
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: ProductCardWidget(
+                                image: bSell.imageUrls.first,
+                                name: bSell.name,
+                                genericName: bSell.genericName,
+                                price: bSell.price,
+                                // prevPrice: bSell.prevPrice,
+                                // rating: bSell.rating,
+                                // percentReduction: bSell.discountPercent,
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              15.horizontalSpace,
+                          itemCount: state.data.bestSellers.length),
+                    ),
+                    30.verticalSpace,
+                  ]
                 ],
               ),
             ),
@@ -202,4 +206,13 @@ class _HomePageState extends State<HomePage> {
   void viewAllNewArrivals() {}
 
   void viewAllBestSellers() {}
+
+  void _openProductPage(Product product) {
+    Navigator.push(
+      context,
+      AppUtils.transition(
+        ProductDetailPage(productId: product.id),
+      ),
+    );
+  }
 }

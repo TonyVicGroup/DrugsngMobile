@@ -1,25 +1,33 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/data/models/product_detail.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
-import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/product_card_widget.dart';
+import 'package:drugs_ng/src/features/product/presentation/cubit/product_cubit.dart';
 import 'package:drugs_ng/src/features/product/presentation/pages/product_review_page.dart';
 import 'package:drugs_ng/src/features/product/presentation/widgets/product_detail_carousel.dart';
 import 'package:drugs_ng/src/features/product/presentation/widgets/product_information_widget.dart';
 import 'package:drugs_ng/src/features/product/presentation/widgets/product_specification_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  final Product product;
-  const ProductDetailPage({super.key, required this.product});
+  final int productId;
+  const ProductDetailPage({
+    super.key,
+    required this.productId,
+  });
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductCubit>().getData(productId);
+    });
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.black.withOpacity(0.2),
@@ -39,112 +47,124 @@ class ProductDetailPage extends StatelessWidget {
         title: AppText.sp18("Product Details").w700.black,
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          ProductDetailCarousel(
-            images: const [AppImage.syrup, AppImage.vitamin, AppImage.molfix],
-            onLike: () {},
-          ),
-          20.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          if (state is ProductLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is ProductSuccess) {
+            ProductDetail product = state.product;
+            return ListView(
               children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppSvg.checkMark,
-                      width: 9.w,
-                      colorFilter: const ColorFilter.mode(
-                        AppColor.green,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    8.horizontalSpace,
-                    AppText.sp12("In Stock").w400.setColor(AppColor.green),
-                  ],
+                ProductDetailCarousel(
+                  images: product.imageUrls,
+                  onLike: () {},
                 ),
-                2.verticalSpace,
-                AppText.sp16(
-                        "Genexa Kid's Allergy (Diphenhydramine HCI) Antihistamine")
-                    .w700
-                    .black,
                 20.verticalSpace,
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     ...List.generate(
-                //       5,
-                //       (i) {
-                //         return product.rating > i
-                //             ? filledStar()
-                //             : unselectedStar();
-                //       },
-                //     ),
-                //     5.horizontalSpace,
-                //     AppText.sp14(product.rating.toString())
-                //         .w400
-                //         .setColor(AppColor.primary),
-                //     dot(),
-                //     InkWell(
-                //       onTap: () => viewReviews(context),
-                //       child: iconText(
-                //         AppSvg.reviews,
-                //         "${product.ratingCount} reviews",
-                //       ),
-                //     ),
-                //     2.horizontalSpace,
-                //     dot(),
-                //     iconText(AppSvg.sold, "158 sold"),
-                //   ],
-                // ),
-                10.verticalSpace,
-                const ProductSpecificationWidget(),
-                20.verticalSpace,
-                const ProductInformationWidget(),
-                43.verticalSpace,
-                AppText.sp12("1 item added to cart").w400.black,
-                5.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppButton.primary(
-                        text: "ADD TO CART",
-                        onTap: () => addToCart(context),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.checkMark,
+                            width: 9.w,
+                            colorFilter: const ColorFilter.mode(
+                              AppColor.green,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          8.horizontalSpace,
+                          AppText.sp12("In Stock")
+                              .w400
+                              .setColor(AppColor.green),
+                        ],
                       ),
-                    ),
-                    21.horizontalSpace,
-                    const _CheckoutIcon(),
-                  ],
+                      2.verticalSpace,
+                      AppText.sp16(product.name).w700.black,
+                      20.verticalSpace,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...List.generate(
+                            5,
+                            (i) {
+                              // return product.rating > i
+                              return 4 > i ? filledStar() : unselectedStar();
+                            },
+                          ),
+                          5.horizontalSpace,
+                          AppText.sp14("4").w400.setColor(AppColor.primary),
+                          dot(),
+                          InkWell(
+                            onTap: () => viewReviews(context),
+                            child: iconText(
+                              AppSvg.reviews,
+                              "${product.reviews.length} reviews",
+                            ),
+                          ),
+                          2.horizontalSpace,
+                          dot(),
+                          iconText(AppSvg.sold, "158 sold"),
+                        ],
+                      ),
+                      10.verticalSpace,
+                      ProductSpecificationWidget(product: product),
+                      20.verticalSpace,
+                      ProductInformationWidget(product: product),
+                      43.verticalSpace,
+                      AppText.sp12("1 item added to cart").w400.black,
+                      5.verticalSpace,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton.primary(
+                              text: "ADD TO CART",
+                              onTap: () => addToCart(context),
+                            ),
+                          ),
+                          21.horizontalSpace,
+                          const _CheckoutIcon(),
+                        ],
+                      ),
+                      40.verticalSpace,
+                      AppText.sp16("Similar Product").w500.black,
+                      22.verticalSpace,
+                      SizedBox(
+                        height: 263.h,
+                        width: double.maxFinite,
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            itemBuilder: (context, index) {
+                              return ProductCardWidget(
+                                image: product.imageUrls.first,
+                                name: "name",
+                                genericName: "category",
+                                price: 1233,
+                                rating: 3,
+                                totalRating: 32,
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                15.horizontalSpace,
+                            itemCount: 5),
+                      ),
+                      50.verticalSpace,
+                    ],
+                  ),
                 ),
-                40.verticalSpace,
-                AppText.sp16("Similar Product").w500.black,
-                22.verticalSpace,
-                SizedBox(
-                  height: 263.h,
-                  width: double.maxFinite,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      itemBuilder: (context, index) {
-                        return ProductCardWidget(
-                          image: product.imageUrls.first,
-                          name: "name",
-                          genericName: "category",
-                          price: 1233,
-                          rating: 3,
-                          totalRating: 32,
-                        );
-                      },
-                      separatorBuilder: (context, index) => 15.horizontalSpace,
-                      itemCount: 5),
-                ),
-                50.verticalSpace,
               ],
-            ),
-          ),
-        ],
+            );
+          } else {
+            return Center(
+              child: AppText.sp16("Something went wrong").w500,
+            );
+          }
+        },
       ),
     );
   }

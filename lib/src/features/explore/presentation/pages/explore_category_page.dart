@@ -33,9 +33,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
           builder: (context, filterState) {
             if (state is ExploreLoading) {
               return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator()
-                ),
+                body: Center(child: CircularProgressIndicator()),
               );
             } else if (state is ExploreSuccess) {
               return Scaffold(
@@ -197,7 +195,9 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
   void openProduct(Product product) {
     Navigator.push(
       context,
-      AppUtils.transition(ProductDetailPage(product: product)),
+      AppUtils.transition(
+        ProductDetailPage(productId: product.id),
+      ),
     );
   }
 
