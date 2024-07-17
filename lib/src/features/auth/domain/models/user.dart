@@ -9,6 +9,7 @@ class User {
     required this.authToken,
     required this.refreshToken,
     required this.isEmailConfirmed,
+    this.data,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
@@ -17,8 +18,17 @@ class User {
       authToken: map['jwtToken'],
       refreshToken: map['refreshToken'],
       isEmailConfirmed: map['isEmailConfirmed'],
+      data: map['data'] == null ? null : UserData.fromMap(map['data']),
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        'userId': id,
+        'jwtToken': authToken,
+        'refreshToken': refreshToken,
+        'isEmailConfirmed': isEmailConfirmed,
+        'data': data?.toMap(),
+      };
 }
 
 class UserData {
@@ -41,4 +51,11 @@ class UserData {
       lastName: map['lastName'],
     );
   }
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+      };
 }

@@ -14,7 +14,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   AsyncApiErrorOr<UserData> getUserData(int id) async {
     try {
-      final response = await service.get(url: 'auth/user/$id');
+      final response = await service.get(path: 'auth/user/$id');
 
       if (response.hasError) return Left(response.error);
 
@@ -28,18 +28,32 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<User> login(String email, String password) async {
     try {
       final response = await service.post(
-        url: 'auth/login',
+        path: 'auth/login',
         data: {"emailAddress": email, "password": password},
       );
+
+      // return Right(User(
+      //   id: 0,
+      //   authToken: '',
+      //   refreshToken: '',
+      //   isEmailConfirmed: true,
+      //   data: UserData(
+      //     id: 0,
+      //     firstName: 'Eric',
+      //     lastName: 'Onyeulo',
+      //     email: email,
+      //   ),
+      // ));
 
       if (response.hasError) return Left(response.error);
 
       final user = User.fromMap(response.data!['data']);
-      UserPreference.updateToken(token: user.authToken);
+      UserPreference.updateToken(user.authToken);
+      UserPreference.updateUser(user);
 
       final userData = await getUserData(user.id);
-      userData.fold((left) => null, (data) => user.data = data);
-      
+      if (userData.isRight) user.data = userData.right;
+
       return Right(user);
     } catch (e) {
       return const Left(ApiError.unknown);
@@ -50,7 +64,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<UserData> signup(SignupData data) async {
     try {
       final response = await service.post(
-        url: 'auth/register',
+        path: 'auth/register',
         data: {
           "firstName": "_",
           "lastName": "_",
@@ -71,7 +85,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<void> setupProfile(int id, AuthUserProfile data) async {
     try {
       final response = await service.put(
-        url: 'auth/$id/update-user',
+        path: 'auth/$id/update-user',
         data: data.toMap(),
       );
 
@@ -86,7 +100,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<void> confirmAccount(String otp) async {
     try {
       final response = await service.post(
-        url: 'auth/account-confirmation',
+        path: 'auth/account-confirmation',
         data: {"token": otp},
       );
 
@@ -101,7 +115,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<void> sendPasswordReset(String email) async {
     try {
       final response = await service.post(
-        url: 'auth/reset-password',
+        path: 'auth/reset-password',
         data: {"email": email},
       );
 
@@ -116,7 +130,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<void> setNewPassword(String newPassword, String otp) async {
     try {
       final response = await service.put(
-        url: 'auth/set-password',
+        path: 'auth/set-password',
         data: {
           "newPassword": newPassword,
           "confirmPassword": newPassword,
@@ -135,7 +149,31 @@ class AuthRepositoryImpl extends AuthRepository {
   AsyncApiErrorOr<void> verifyPasswordResetOTP(String otp) async {
     try {
       final response = await service.post(
-        url: 'auth/verify-password-reset-token/$otp',
+        path: 'auth/verify-password-reset-token/$otp',
+      );
+
+      if (response.hasError) return Left(response.error);
+      return const Right(null);
+    } catch (e) {
+      return const Left(ApiError.unknown);
+    }
+  }
+
+  ///"tokenType" ->
+  ///
+  /// Email_Confirmation = 1,
+  ///
+  /// Password_Reset = 2,
+  ///
+  /// Login_Confirmation = 3,
+  ///
+  /// Phone_Confirmation,
+  @override
+  AsyncApiErrorOr<void> resendOtp(String email, int otpType) async {
+    try {
+      final response = await service.post(
+        path: 'auth/user/resend-otp',
+        data: {"email": email, "tokenType": otpType},
       );
 
       if (response.hasError) return Left(response.error);

@@ -8,13 +8,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductCardWidget extends StatelessWidget {
   final String image;
-  final String category;
+  final String genericName;
   final String name;
   final double rating;
   final int totalRating;
   final double price;
-  final double? prevPrice;
-  final int? percentReduction;
+  // final double? prevPrice;
+  // final int? percentReduction;
   final void Function()? onTap;
   final void Function()? onLike;
 
@@ -22,15 +22,15 @@ class ProductCardWidget extends StatelessWidget {
     super.key,
     required this.image,
     required this.name,
-    required this.category,
-    this.prevPrice,
+    required this.genericName,
+    // this.prevPrice,
     required this.price,
-    required this.rating,
-    required this.totalRating,
+    this.rating = 0,
+    this.totalRating = 0,
     this.onTap,
     this.onLike,
-    this.percentReduction,
-  }) : assert(rating <= 5 && price > 0);
+    // this.percentReduction,
+  }) : assert(rating <= 5 && price >= 0);
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +58,14 @@ class ProductCardWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                child: Image.asset(
-                  image,
-                  height: 100.r,
-                  width: 100.r,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.r),
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    height: 100.r,
+                    width: 100.r,
+                  ),
                 ),
               ),
             ),
@@ -105,11 +109,9 @@ class ProductCardWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      (rating >= 1) ? filledStar() : outlinedStar(),
-                      (rating >= 2) ? filledStar() : outlinedStar(),
-                      (rating >= 3) ? filledStar() : outlinedStar(),
-                      (rating >= 4) ? filledStar() : outlinedStar(),
-                      (rating >= 5) ? filledStar() : outlinedStar(),
+                      ...List.generate(5, (i) {
+                        return rating > i ? filledStar() : outlinedStar();
+                      }),
                       5.horizontalSpace,
                       AppText.sp10("($totalRating)").w400.setColor(
                             const Color(0xFF8B96A5),
@@ -117,7 +119,7 @@ class ProductCardWidget extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  AppText.sp10(category).w400.setColor(
+                  AppText.sp10(genericName).w400.setColor(
                         const Color(0xFF8B96A5),
                       ),
                   const Spacer(),
@@ -125,13 +127,13 @@ class ProductCardWidget extends StatelessWidget {
                   const Spacer(),
                   Row(
                     children: [
-                      if (prevPrice != null) ...[
-                        AppText.sp12("₦${TextFormater.amount(prevPrice!)}")
-                            .w500
-                            .setColor(const Color(0xFF8B96A5))
-                            .strikeThrough,
-                        2.horizontalSpace,
-                      ],
+                      // if (prevPrice != null) ...[
+                      //   AppText.sp12("₦${TextFormater.amount(prevPrice!)}")
+                      //       .w500
+                      //       .setColor(const Color(0xFF8B96A5))
+                      //       .strikeThrough,
+                      //   2.horizontalSpace,
+                      // ],
                       AppText.sp12("₦${TextFormater.amount(price)}")
                           .w800
                           .primaryColor,
@@ -141,21 +143,21 @@ class ProductCardWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (percentReduction != null)
-              Positioned(
-                top: 8.h,
-                left: 8.w,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.r),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFF5252).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(29.r),
-                  ),
-                  child: AppText.sp10("-${percentReduction!}%")
-                      .w400
-                      .setColor(const Color(0xFFFF5252)),
-                ),
-              ),
+            // if (percentReduction != null)
+            //   Positioned(
+            //     top: 8.h,
+            //     left: 8.w,
+            //     child: Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.r),
+            //       decoration: BoxDecoration(
+            //         color: const Color(0xFFFF5252).withOpacity(0.1),
+            //         borderRadius: BorderRadius.circular(29.r),
+            //       ),
+            //       child: AppText.sp10("-${percentReduction!}%")
+            //           .w400
+            //           .setColor(const Color(0xFFFF5252)),
+            //     ),
+            //   ),
           ],
         ),
       ),

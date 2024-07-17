@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/core/utils/app_data_types.dart';
-import 'package:drugs_ng/src/features/home/data/models/home_data.dart';
+import 'package:drugs_ng/src/features/home/domain/models/home_data.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/services.dart';

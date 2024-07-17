@@ -1,7 +1,10 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
+import 'package:drugs_ng/src/core/data/models/product_detail.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
+import 'package:drugs_ng/src/core/utils/app_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 List<(String, List<String>)> data1 = [
   (
@@ -34,8 +37,10 @@ List<(String, List<String>)> data2 = [
 ];
 
 class ProductInformationWidget extends StatelessWidget {
+  final ProductDetail product;
   const ProductInformationWidget({
     super.key,
+    required this.product,
   });
 
   @override
@@ -47,7 +52,9 @@ class ProductInformationWidget extends StatelessWidget {
           children: [
             AppText.sp14("Price:").w400.setColor(const Color(0xFF8B96A5)),
             const Spacer(),
-            AppText.sp16("₦15,000").w700.primaryColor,
+            AppText.sp16("₦${TextFormater.amount(product.price)}")
+                .w700
+                .primaryColor,
             AppText.sp12(" *final price shown at checkout")
                 .w400
                 .setColor(const Color(0xFF8B96A5)),
@@ -56,10 +63,20 @@ class ProductInformationWidget extends StatelessWidget {
         12.verticalSpace,
         _divider(),
         12.verticalSpace,
-        ...data1.map((dt) => _infoRow(dt.$1, dt.$2)),
+        _infoRow("Description", [product.description]),
+        _infoRow("Brand", [product.brandName]),
+        _infoRow(
+          "Delivery",
+          [
+            DateFormat("dd MMMM yyyy").format(product.deliveryTime),
+          ],
+        ),
+        // ...data1.map((dt) => _infoRow(dt.$1, dt.$2)),
         _divider(),
         12.verticalSpace,
-        ...data2.map((dt) => _infoRow(dt.$1, dt.$2)),
+        _infoRow("Ingredients", []),
+        _infoRow("Dosage", [product.dosage]),
+        _infoRow("Warnings", [product.warning]),
         _divider(),
       ],
     );

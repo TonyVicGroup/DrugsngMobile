@@ -1,20 +1,28 @@
-import 'dart:convert';
-
+import 'package:drugs_ng/src/core/data/models/product_detail.dart';
+import 'package:drugs_ng/src/core/utils/rest_service.dart';
+import 'package:drugs_ng/src/features/explore/domain/models/major_category.dart';
 import 'package:drugs_ng/src/features/explore/domain/repository/explore_datasource.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
-import 'package:flutter/services.dart';
 
 class ExploreDatasourceImpl extends ExploreDatasource {
+  final RestService service;
+  ExploreDatasourceImpl(this.service);
+
   @override
-  Future<List<Product>> loadCategory(String category) async {
-    await Future.delayed(const Duration(seconds: 3));
-    final data = await rootBundle.loadString("assets/json/explore_data.json");
-    final mapData = Map<String, dynamic>.from(json.decode(data));
-    List<Product> products =
-        List<Map<String, dynamic>>.from(mapData["general_health"])
-            .map<Product>((dt) => Product.fromJson(dt))
-            .toList();
-    return products;
+  Future<List<ProductDetail>> loadDrugCategory() async {
+    final response = await service.get(path: 'product/drugs');
+    if (response.hasError) throw response.error;
+    return List<Map>.from(response.data!['data'])
+        .map((prod) => ProductDetail.fromJson(prod))
+        .toList();
+  }
+
+  @override
+  Future<List<ProductDetail>> loadHealthCareCategory() async {
+    final response = await service.get(path: 'product/health-care');
+    if (response.hasError) throw response.error;
+    return List<Map>.from(response.data!['data'])
+        .map((prod) => ProductDetail.fromJson(prod))
+        .toList();
   }
 
   @override
@@ -47,5 +55,12 @@ class ExploreDatasourceImpl extends ExploreDatasource {
       "brand",
       "name"
     ];
+  }
+
+  @override
+  Future<MajorCategoryData> getMajorCategories() async {
+    final response = await service.get(path: 'category/categories');
+    if (response.hasError) throw response.error;
+    return MajorCategoryData.fromJson(response.data!['data']);
   }
 }

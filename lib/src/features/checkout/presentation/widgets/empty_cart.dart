@@ -16,7 +16,7 @@ class EmptyCart extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
-          const Spacer(flex: 2),
+          const Spacer(flex: 3),
           SvgPicture.asset(
             AppSvg.emptyCart,
             width: 100.r,
@@ -31,12 +31,10 @@ class EmptyCart extends StatelessWidget {
                   "It looks like you haven't added anything to your cart yet. Browse our products and find what you need!")
               .w400
               .centerText
-              .setColor(
-                const Color(0xFF8B96A5),
-              ),
+              .setColor(const Color(0xFF8B96A5)),
           const Spacer(flex: 3),
           AppButton.primary(text: "Start Shopping", onTap: () {}),
-          100.verticalSpace,
+          120.verticalSpace,
         ],
       ),
     );

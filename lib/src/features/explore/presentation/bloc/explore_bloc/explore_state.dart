@@ -1,43 +1,81 @@
 part of 'explore_bloc.dart';
 
 abstract class ExploreState extends Equatable {
-  const ExploreState();
+  final List<ProductDetail> drugProducts;
+  final List<ProductDetail> healthCareProducts;
+  final MajorCategoryType categoryType;
+  final bool isGrid;
+  final SortTypeEnum sortType;
+  const ExploreState(
+    this.drugProducts,
+    this.healthCareProducts,
+    this.categoryType,
+    this.isGrid,
+    this.sortType,
+  );
 
   @override
-  List<Object> get props => [];
+  List<Object> get props =>
+      [drugProducts, healthCareProducts, categoryType, isGrid, sortType];
 }
 
-class ExploreInitial extends ExploreState {}
+class ExploreInitial extends ExploreState {
+  ExploreInitial()
+      : super([], [], MajorCategoryType.drug, true, SortTypeEnum.newArrival);
+}
 
 class ExploreSuccess extends ExploreState {
-  final List<Product> products;
-  final bool isGrid;
-  final String title;
-  final SortTypeEnum sortType;
-
   const ExploreSuccess({
-    required this.products,
-    required this.isGrid,
-    required this.title,
-    required this.sortType,
-  });
+    required List<ProductDetail> drugProducts,
+    required List<ProductDetail> healthCareProducts,
+    required MajorCategoryType categoryType,
+    required bool isGrid,
+    required SortTypeEnum sortType,
+  }) : super(
+          drugProducts,
+          healthCareProducts,
+          categoryType,
+          isGrid,
+          sortType,
+        );
 
   ExploreSuccess copy(
-          {List<Product>? products,
+          {List<ProductDetail>? drugProducts,
+          List<ProductDetail>? healthCareProducts,
+          MajorCategoryType? categoryType,
           bool? isGrid,
-          String? title,
           SortTypeEnum? sortType}) =>
       ExploreSuccess(
-        products: products ?? this.products,
+        drugProducts: drugProducts ?? this.drugProducts,
+        healthCareProducts: healthCareProducts ?? this.healthCareProducts,
+        categoryType: categoryType ?? this.categoryType,
         isGrid: isGrid ?? this.isGrid,
-        title: title ?? this.title,
         sortType: sortType ?? this.sortType,
       );
 
   @override
-  List<Object> get props => [products, isGrid, title, sortType];
+  List<Object> get props =>
+      [drugProducts, healthCareProducts, categoryType, isGrid, sortType];
 }
 
-class ExploreLoading extends ExploreState {}
+class ExploreLoading extends ExploreState {
+  const ExploreLoading(super.drugProducts, super.healthCareProducts,
+      super.categoryType, super.isGrid, super.sortType);
+}
 
-class ExploreFailed extends ExploreState {}
+class ExploreFailed extends ExploreState {
+  final AppError error;
+
+  const ExploreFailed(super.drugProducts, super.healthCareProducts,
+      super.categoryType, super.isGrid, super.sortType, this.error);
+
+  @override
+  List<Object> get props => [
+        drugProducts,
+        healthCareProducts,
+        categoryType,
+        error,
+        isGrid,
+        sortType,
+      ];
+}

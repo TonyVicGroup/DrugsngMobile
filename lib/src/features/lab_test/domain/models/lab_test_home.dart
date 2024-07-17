@@ -1,4 +1,4 @@
-import 'package:drugs_ng/src/features/home/data/models/home_ads.dart';
+import 'package:drugs_ng/src/features/home/domain/models/home_ads.dart';
 import 'package:drugs_ng/src/features/lab_test/domain/models/diagnostic_test.dart';
 import 'package:drugs_ng/src/features/lab_test/domain/models/test_package.dart';
 import 'package:equatable/equatable.dart';

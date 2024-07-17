@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreCategoryWidget extends StatelessWidget {
-  final String img;
+  final String? img;
   final String title;
   final String subtitle;
   final void Function() onTap;
@@ -33,8 +33,8 @@ class ExploreCategoryWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 95.w,
-              height: 95.h,
+              width: 95.r,
+              height: 95.r,
               padding: EdgeInsets.symmetric(
                 horizontal: 10.w,
                 vertical: 10.h,
@@ -43,7 +43,7 @@ class ExploreCategoryWidget extends StatelessWidget {
                 color: AppColor.white,
                 borderRadius: BorderRadius.circular(5.r),
               ),
-              child: Image.asset(img),
+              child: (img != null) ? Image.network(img!) : null,
             ),
             15.horizontalSpace,
             Expanded(
@@ -53,7 +53,10 @@ class ExploreCategoryWidget extends StatelessWidget {
                 children: [
                   AppText.sp16(title).w500.black,
                   2.verticalSpace,
-                  AppText.sp14(subtitle).w400.setColor(const Color(0xFF8B96A5)),
+                  AppText.sp14(subtitle)
+                      .w400
+                      .setColor(const Color(0xFF8B96A5))
+                      .setMaxLines(3),
                 ],
               ),
             ),

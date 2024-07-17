@@ -26,29 +26,30 @@ class _TabOverlayState extends State<TabOverlay> {
       controller: AppUtils.tabController,
       tabs: [
         PersistentTabConfig(
-            screen: const HomePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const HomePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ExplorePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ExplorePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const LabTestPage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const LabTestPage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ConsultationPage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ConsultationPage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
         PersistentTabConfig(
-            screen: const ProfilePage(),
-            item: ItemConfig(icon: const Icon(Icons.home))),
+          screen: const ProfilePage(),
+          item: ItemConfig(icon: const Icon(Icons.home)),
+        ),
       ],
       navBarBuilder: (navBarConfig) => _CustomNavbar(
         navBarConfig: navBarConfig,
         navBarDecoration: const NavBarDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColor.black,
-            ),
-          ),
+          border: Border(top: BorderSide(color: AppColor.black)),
         ),
       ),
     );
@@ -71,7 +72,6 @@ class _CustomNavbar extends StatelessWidget {
       // height: navBarConfig.navBarHeight,
 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _tab(AppSvg.home, "Home", 0, navBarConfig.selectedIndex == 0),
@@ -88,14 +88,12 @@ class _CustomNavbar extends StatelessWidget {
   Widget _tab(String svg, String label, int index, bool selected) {
     return Expanded(
       child: InkWell(
-        onTap: () {
-          navBarConfig.onItemSelected(index);
-        },
+        onTap: () => navBarConfig.onItemSelected(index),
         child: SizedBox(
           height: 84.h,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
               SizedBox(
                 width: 22.r,
                 height: 22.r,
@@ -112,7 +110,6 @@ class _CustomNavbar extends StatelessWidget {
               selected
                   ? AppText.sp10(label).w700.primaryColor
                   : AppText.sp10(label).w400.lightGrey,
-              const Spacer(flex: 2),
             ],
           ),
         ),

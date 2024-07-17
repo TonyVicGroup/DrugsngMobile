@@ -31,7 +31,7 @@ class _ProductDetailCarouselState extends State<ProductDetailCarousel> {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Image.asset(
+            child: Image.network(
               widget.images[imageIdx],
               width: 250.w,
               height: 250.h,
@@ -89,7 +89,7 @@ class _ProductDetailCarouselState extends State<ProductDetailCarousel> {
                           ? Border.all(color: const Color(0xFF8B96A5))
                           : null,
                     ),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.images[index],
                       fit: BoxFit.contain,
                     ),

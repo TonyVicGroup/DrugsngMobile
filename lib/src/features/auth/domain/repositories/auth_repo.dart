@@ -8,6 +8,7 @@ abstract class AuthRepository {
   AsyncApiErrorOr<UserData> getUserData(int id);
   AsyncApiErrorOr<void> setupProfile(int id, AuthUserProfile data);
   AsyncApiErrorOr<void> confirmAccount(String otp);
+  AsyncApiErrorOr<void> resendOtp(String email, int otpType);
   AsyncApiErrorOr<void> sendPasswordReset(String email);
   AsyncApiErrorOr<void> verifyPasswordResetOTP(String otp);
   AsyncApiErrorOr<void> setNewPassword(String newPassword, String otp);

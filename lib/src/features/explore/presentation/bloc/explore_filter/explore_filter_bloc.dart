@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:drugs_ng/src/core/data/models/product_detail.dart';
 import 'package:drugs_ng/src/core/enum/rating_enum.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
-import 'package:drugs_ng/src/features/home/domain/product.dart';
+import 'package:drugs_ng/src/features/explore/presentation/cubit/explore_major_category_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -38,35 +39,37 @@ class ExploreFilterBloc extends Bloc<ExploreFilterEvent, ExploreFilterState> {
   void _onUpdateExploreFilter(
       UpdateExploreFilter event, Emitter<ExploreFilterState> emit) {
     final exploreState = _exploreBloc.state;
-    if (exploreState is ExploreSuccess) {
-      Iterable<Product> products = exploreState.products.where((prod) {
-        bool filterProd = true;
-        // rating
-        if (event.rating != RatingEnum.all) {
-          filterProd = prod.rating.round() == event.rating.starCount;
-        }
-        // brandName
-        if (event.brandNames.isNotEmpty &&
-            event.brandNames.contains(prod.category)) {
-          filterProd = false;
-        }
-        // subcategory
-        if (event.subcategory == prod.category) {
-          filterProd = filterProd && true;
-        }
-        return filterProd;
-      });
-      emit(
-        ExploreFilterState(
-          products: products.toList(),
-          ratingEnum: event.rating,
-          brandName: event.brandNames.toSet(),
-          subcategory: event.subcategory,
-          minPriceRange: event.minPriceRange,
-          maxPriceRange: event.maxPriceRange,
-        ),
-      );
-    }
+    List<ProductDetail> prod =
+        exploreState.categoryType == MajorCategoryType.drug
+            ? exploreState.drugProducts
+            : exploreState.healthCareProducts;
+    Iterable<ProductDetail> products = prod.where((prod) {
+      bool filterProd = true;
+      // rating
+      // if (event.rating != RatingEnum.all) {
+      //   filterProd = prod.rating.round() == event.rating.starCount;
+      // }
+      // brandName
+      if (event.brandNames.isNotEmpty &&
+          event.brandNames.contains(prod.brandName)) {
+        filterProd = false;
+      }
+      // subcategory
+      // if (event.subcategory == prod.category) {
+      //   filterProd = filterProd && true;
+      // }
+      return filterProd;
+    });
+    emit(
+      ExploreFilterState(
+        products: products.toList(),
+        ratingEnum: event.rating,
+        brandName: event.brandNames.toSet(),
+        subcategory: event.subcategory,
+        minPriceRange: event.minPriceRange,
+        maxPriceRange: event.maxPriceRange,
+      ),
+    );
   }
 
   void _onResetExploreFilter(
@@ -74,7 +77,9 @@ class ExploreFilterBloc extends Bloc<ExploreFilterEvent, ExploreFilterState> {
     final exploreState = _exploreBloc.state;
     if (exploreState is ExploreSuccess) {
       emit(ExploreFilterState(
-        products: exploreState.products,
+        products: exploreState.categoryType == MajorCategoryType.drug
+            ? exploreState.drugProducts
+            : exploreState.healthCareProducts,
         ratingEnum: RatingEnum.all,
         brandName: const {},
         subcategory: null,

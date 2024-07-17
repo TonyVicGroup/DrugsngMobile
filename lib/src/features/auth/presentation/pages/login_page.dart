@@ -28,10 +28,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController loginCntrl = TextEditingController();
-  TextEditingController passwordCntrl = TextEditingController();
+  final loginCntrl = TextEditingController();
+  final passwordCntrl = TextEditingController();
   bool obscurePassword = true;
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
+  // @override
+  // void initState() {
+  //   UserPreference.reset();
+  //   super.initState();
+  // }
 
   @override
   void dispose() {
@@ -92,8 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (state is LoggedInState) {
                       AppUtils.pushReplacement(const TabOverlay());
                     } else if (state is LoggedOutState) {
-                      if (state.status == Status.failed &&
-                          state.error != null) {
+                      if (state.status == Status.failed) {
                         AppToast.warning(context, state.error!.message);
                       }
                     }

@@ -1,6 +1,6 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
-import 'package:drugs_ng/src/features/home/data/models/home_ads.dart';
+import 'package:drugs_ng/src/features/home/domain/models/home_ads.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

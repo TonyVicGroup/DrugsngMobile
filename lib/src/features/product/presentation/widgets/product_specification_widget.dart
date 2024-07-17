@@ -1,13 +1,16 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/data/models/product_detail.dart';
 import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProductSpecificationWidget extends StatelessWidget {
+  final ProductDetail product;
   const ProductSpecificationWidget({
     super.key,
+    required this.product,
   });
 
   @override
@@ -20,11 +23,11 @@ class ProductSpecificationWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _info("Syrup", "Form"),
+          _info(product.productFormName, "Form"),
           _divider(),
-          _info("118mL", "Size"),
+          _info(product.size, "Size"),
           _divider(),
-          _info("1", "Quantity"),
+          _info(product.quantity.toString(), "Quantity"),
         ],
       ),
     );

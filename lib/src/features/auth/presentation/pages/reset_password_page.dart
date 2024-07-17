@@ -8,16 +8,17 @@ import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/src/features/auth/presentation/cubit/reset_password_cubit.dart';
-import 'package:drugs_ng/src/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
 import 'package:drugs_ng/src/features/auth/presentation/pages/confirmation_page.dart';
 import 'package:drugs_ng/src/core/utils/app_validators.dart';
+import 'package:drugs_ng/src/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+  const ResetPasswordPage({super.key, required this.otp});
+  final String otp;
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
@@ -27,8 +28,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final password1Cntrl = TextEditingController();
   final password2Cntrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool obscurePassword1 = true;
-  bool obscurePassword2 = true;
+  bool obscurePassword = true;
 
   @override
   void dispose() {
@@ -40,7 +40,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => VerifyEmailOtpCubit(context.read<AuthRepository>()),
+      create: (context) => ResetPasswordCubit(context.read<AuthRepository>()),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
@@ -65,9 +65,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   controller: password1Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword1),
-                  obscureText: obscurePassword1,
-                  clickSuffix: _toggleVisibility1,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: AppValidators.password,
                 ),
                 22.verticalSpace,
@@ -77,12 +77,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   controller: password2Cntrl,
                   hint: "Must be 8 characters",
                   keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(obscurePassword2),
-                  obscureText: obscurePassword2,
-                  clickSuffix: _toggleVisibility2,
+                  suffixIcon: svgPicture(obscurePassword),
+                  obscureText: obscurePassword,
+                  clickSuffix: _toggleVisibility,
                   validator: (v) {
                     if (password1Cntrl.text != v) {
-                      return "Password must be same";
+                      return "Passwords do not match";
                     }
                     return null;
                   },
@@ -128,34 +128,28 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget svgPicture(bool visible) => SvgPicture.asset(
         visible ? AppSvg.visible : AppSvg.notVisible,
         width: 17.w,
-        colorFilter: const ColorFilter.mode(
-          AppColor.darkGrey,
-          BlendMode.srcIn,
-        ),
+        colorFilter: const ColorFilter.mode(AppColor.darkGrey, BlendMode.srcIn),
       );
 
-  void _toggleVisibility1() {
-    setState(() => obscurePassword1 = !obscurePassword1);
+  void _toggleVisibility() {
+    setState(() => obscurePassword = !obscurePassword);
   }
 
-  void _toggleVisibility2() {
-    setState(() => obscurePassword2 = !obscurePassword2);
-  }
-
-  void _back() {
-    Navigator.of(context).pop();
-  }
+  void _back() => Navigator.of(context).pop();
 
   void _resetPassword(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
       context.read<ResetPasswordCubit>().resetPassword(
             password1Cntrl.text,
-            "",
+            widget.otp,
           );
     }
   }
 
   void _backToLogin() {
-    AppUtils.navKey.currentState?.popUntil((route) => route.isFirst);
+    Navigator.of(context).pushAndRemoveUntil(
+      AppUtils.transition(const LoginPage()),
+      (route) => route.isFirst,
+    );
   }
 }

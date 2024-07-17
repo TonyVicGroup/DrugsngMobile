@@ -7,20 +7,22 @@ abstract class ExploreEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadExploreEvent extends ExploreEvent {
-  final String title;
-  final SortTypeEnum defaultSort;
+class LoadDrugEvent extends ExploreEvent {}
 
-  const LoadExploreEvent({
-    required this.title,
-    this.defaultSort = SortTypeEnum.newArrival,
-  });
-
-  @override
-  List<Object> get props => [title, defaultSort];
-}
+class LoadHealthCareEvent extends ExploreEvent {}
 
 class ToggleGridEvent extends ExploreEvent {}
+
+class RefreshCategoryEvent extends ExploreEvent {
+  final MajorCategoryType categoryType;
+  final bool forceReload;
+
+  const RefreshCategoryEvent(
+      {required this.categoryType, required this.forceReload});
+
+  @override
+  List<Object> get props => [categoryType, forceReload];
+}
 
 class ChangeExploreSort extends ExploreEvent {
   final SortTypeEnum sortType;
