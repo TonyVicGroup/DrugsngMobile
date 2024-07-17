@@ -1,7 +1,7 @@
 part of 'explore_filter_bloc.dart';
 
 class ExploreFilterState extends Equatable {
-  final List<Product> products;
+  final List<ProductDetail> products;
   final RatingEnum ratingEnum;
   final Set<String> brandName;
   final String? subcategory;
@@ -29,7 +29,7 @@ class ExploreFilterState extends Equatable {
   }
 
   ExploreFilterState copy({
-    List<Product>? products,
+    List<ProductDetail>? products,
     RatingEnum? ratingEnum,
     Set<String>? brandName,
     String? subcategory,

@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreCategoryWidget extends StatelessWidget {
-  final String img;
+  final String? img;
   final String title;
   final String subtitle;
   final void Function() onTap;
@@ -43,7 +43,7 @@ class ExploreCategoryWidget extends StatelessWidget {
                 color: AppColor.white,
                 borderRadius: BorderRadius.circular(5.r),
               ),
-              child: Image.asset(img),
+              child: (img != null) ? Image.network(img!) : null,
             ),
             15.horizontalSpace,
             Expanded(

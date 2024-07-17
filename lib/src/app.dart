@@ -10,6 +10,7 @@ import 'package:drugs_ng/src/features/explore/data/repository/explore_repository
 import 'package:drugs_ng/src/features/explore/domain/repository/explore_datasource.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_bloc/explore_bloc.dart';
 import 'package:drugs_ng/src/features/explore/presentation/bloc/explore_filter/explore_filter_bloc.dart';
+import 'package:drugs_ng/src/features/explore/presentation/cubit/explore_major_category_cubit.dart';
 import 'package:drugs_ng/src/features/home/data/repositories/home_repository_impl.dart';
 import 'package:drugs_ng/src/features/home/domain/repositories/home_repository.dart';
 import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
@@ -60,6 +61,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ExploreFilterBloc(exploreBloc: context.read<ExploreBloc>()),
+          ),
+          BlocProvider(
+            create: (context) => ExploreMajorCategoryCubit(context.read()),
           ),
           BlocProvider(
             create: (context) => ProductCubit(context.read()),
