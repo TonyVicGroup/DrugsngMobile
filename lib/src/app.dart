@@ -53,6 +53,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<ProductRepository>(
           create: (context) => ProductRepositoryImpl(context.read()),
         ),
+        RepositoryProvider<LabTestRepository>(
+          create: (context) => LabTestRepositoryImpl(context.read()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -71,6 +74,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => ProductCubit(context.read()),
+          ),
+          BlocProvider(
+            create: (context) => LabTestCubit(context.read()),
           ),
         ],
         child: ScreenUtilInit(
