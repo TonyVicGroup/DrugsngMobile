@@ -1,15 +1,20 @@
 import 'package:drugs_ng/src/core/contants/app_color.dart';
 import 'package:drugs_ng/src/core/contants/app_image.dart';
+import 'package:drugs_ng/src/core/enum/request_status.dart';
 import 'package:drugs_ng/src/core/ui/app_button.dart';
+import 'package:drugs_ng/src/core/ui/app_text.dart';
 import 'package:drugs_ng/src/core/ui/app_text_field.dart';
 import 'package:drugs_ng/src/core/ui/tab_title_widget.dart';
 import 'package:drugs_ng/src/core/utils/app_utils.dart';
 import 'package:drugs_ng/src/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/src/features/explore/presentation/pages/explore_search_page.dart';
 import 'package:drugs_ng/src/features/home/presentation/widgets/location_chip.dart';
+import 'package:drugs_ng/src/features/lab_test/domain/models/diagnostic_test.dart';
+import 'package:drugs_ng/src/features/lab_test/domain/models/test_package.dart';
 import 'package:drugs_ng/src/features/lab_test/domain/repository/lab_test_repo.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_discovery_cubit.dart';
-import 'package:drugs_ng/src/features/lab_test/presentation/widgets/diagnostic_and_test_packages.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/widgets/diagnostic_test_widget.dart';
+import 'package:drugs_ng/src/features/lab_test/presentation/widgets/test_package_widget.dart';
 import 'package:drugs_ng/src/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,28 +89,66 @@ class _LabTestDiscoveryState extends State<LabTestDiscovery> {
                 ),
               ),
               30.verticalSpace,
-              Align(
-                alignment: Alignment.center,
-                child: TabTitleWidget(
-                    title1: "Tests",
-                    title2: "Packages",
-                    overallWidth: 187.w,
-                    width1: 74.w,
-                    width2: 102.w,
-                    isTab1: tabIndex == 0,
-                    onChanged: (v) {
-                      setState(() {
-                        if (v) {
-                          tabIndex = 0;
-                        } else {
-                          tabIndex = 1;
-                        }
-                      });
-                    }),
-              ),
-              30.verticalSpace,
-              DiagnosticTestAndPackages(
-                controller: controller,
+              BlocBuilder<LabTestDiscoveryCubit, LabTestDiscoveryState>(
+                builder: (context, state) {
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: TabTitleWidget(
+                              title1: "Tests",
+                              title2: "Packages",
+                              overallWidth: 187.w,
+                              width1: 74.w,
+                              width2: 102.w,
+                              isTab1: state.testTab,
+                              onChanged: (v) {
+                                context
+                                    .read<LabTestDiscoveryCubit>()
+                                    .toggleTab(v);
+                                Duration duration =
+                                    const Duration(milliseconds: 600);
+                                Curve curve = Curves.easeOut;
+                                if (v) {
+                                  controller.animateToPage(
+                                    0,
+                                    duration: duration,
+                                    curve: curve,
+                                  );
+                                } else {
+                                  controller.animateToPage(
+                                    1,
+                                    duration: duration,
+                                    curve: curve,
+                                  );
+                                }
+                                // setState(() {
+                                //   if (v) {
+                                //     tabIndex = 0;
+                                //   } else {
+                                //     tabIndex = 1;
+                                //   }
+                                // });
+                              }),
+                        ),
+                        30.verticalSpace,
+                        Expanded(
+                          // child: state.testTab
+                          //     ? diagnosticTest(context)
+                          //     : testPackages(context),
+                          child: PageView.builder(
+                            controller: controller,
+                            itemCount: 2,
+                            itemBuilder: (context, index) => index == 0
+                                ? diagnosticTest(context)
+                                : testPackages(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           )),
@@ -140,6 +183,63 @@ class _LabTestDiscoveryState extends State<LabTestDiscovery> {
       await context.read<LabTestDiscoveryCubit>().getTests();
     } else {
       await context.read<LabTestDiscoveryCubit>().getPackages();
+    }
+  }
+
+  Widget testPackages(BuildContext context) {
+    final state = context.read<LabTestDiscoveryCubit>().state;
+    if (state.packageStatus == Status.initial) {
+      context.read<LabTestDiscoveryCubit>().getPackages();
+    }
+    if (state.packageStatus == Status.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (state.packageStatus == Status.success) {
+      return ListView.separated(
+        padding: EdgeInsets.fromLTRB(16.w, 2.h, 16.w, 100.h),
+        itemBuilder: (context, index) {
+          TestPackage package = state.packages[index];
+          return TestPackageWidget(package: package);
+        },
+        separatorBuilder: (context, index) => 30.verticalSpace,
+        itemCount: state.packages.length,
+      );
+    } else {
+      return Center(
+        child: AppText.sp16("An error occured"),
+      );
+    }
+  }
+
+  Widget diagnosticTest(BuildContext context) {
+    final state = context.read<LabTestDiscoveryCubit>().state;
+    if (state.testStatus == Status.initial) {
+      context.read<LabTestDiscoveryCubit>().getTests();
+    }
+    if (state.testStatus == Status.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (state.testStatus == Status.success) {
+      return GridView.builder(
+        itemCount: state.tests.length,
+        padding: EdgeInsets.fromLTRB(16.w, 2.h, 16.w, 100.h),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.85,
+          mainAxisSpacing: 30.h,
+          crossAxisSpacing: 16.w,
+        ),
+        itemBuilder: (context, index) {
+          DiagnosticTest test = state.tests[index];
+          return DiagnosticTestWidget(test: test);
+        },
+      );
+    } else {
+      return Center(
+        child: AppText.sp16("An error occured"),
+      );
     }
   }
 }

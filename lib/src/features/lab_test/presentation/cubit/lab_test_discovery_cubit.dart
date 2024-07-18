@@ -9,57 +9,50 @@ part 'lab_test_discovery_state.dart';
 
 class LabTestDiscoveryCubit extends Cubit<LabTestDiscoveryState> {
   final LabTestRepository repo;
-  LabTestDiscoveryCubit(this.repo) : super(LabTestDiscoveryInitial());
+
+  LabTestDiscoveryCubit(this.repo) : super(LabTestDiscoveryState.initial());
 
   Future<void> getTests() async {
-    emit(LabTestDiscoveryLoading(
-      state.tests,
-      state.packages,
-      Status.loading,
-      state.packageStatus,
+    emit(state.copy(
+      testStatus: Status.loading,
+      testTab: true,
     ));
     final result = await repo.getTests();
     result.fold((error) {
-      emit(LabTestDiscoveryFailed(
-        state.tests,
-        state.packages,
-        Status.failed,
-        state.packageStatus,
-        error.message,
+      emit(state.copy(
+        testStatus: Status.failed,
+        testTab: true,
       ));
     }, (data) {
-      emit(LabTestDiscoverySuccess(
-        data,
-        state.packages,
-        Status.success,
-        state.packageStatus,
+      emit(state.copy(
+        testStatus: Status.success,
+        tests: data,
+        testTab: true,
       ));
     });
   }
 
   Future<void> getPackages() async {
-    emit(LabTestDiscoveryLoading(
-      state.tests,
-      state.packages,
-      state.testStatus,
-      Status.loading,
+    emit(state.copy(
+      packageStatus: Status.loading,
+      testTab: false,
     ));
     final result = await repo.getPackages();
     result.fold((error) {
-      emit(LabTestDiscoveryFailed(
-        state.tests,
-        state.packages,
-        state.testStatus,
-        Status.failed,
-        error.message,
+      emit(state.copy(
+        packageStatus: Status.failed,
+        testTab: false,
       ));
     }, (data) {
-      emit(LabTestDiscoverySuccess(
-        state.tests,
-        data,
-        state.testStatus,
-        Status.loading,
+      emit(state.copy(
+        packageStatus: Status.success,
+        packages: data,
+        testTab: false,
       ));
     });
+  }
+
+  void toggleTab(bool isTab1) {
+    emit(state.copy(testTab: isTab1));
   }
 }

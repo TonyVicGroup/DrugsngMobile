@@ -1,3 +1,4 @@
+import 'package:drugs_ng/src/features/product/domain/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drugs_ng/src/core/data/models/app_responses.dart';
 import 'package:drugs_ng/src/core/data/models/product_detail.dart';
@@ -15,7 +16,13 @@ class ProductCubit extends Cubit<ProductState> {
     final result = await repo.getProduct(id);
     result.fold(
       (l) => emit(ProductError(l)),
-      (r) => emit(ProductSuccess(r)),
+      (r) async {
+        emit(ProductSuccess(r));
+        final similar = await repo.getSimillarProducts(id);
+        if (similar.isRight) {
+          emit(ProductSuccess(r, similar.right));
+        }
+      },
     );
   }
 }

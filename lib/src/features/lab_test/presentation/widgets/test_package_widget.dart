@@ -26,7 +26,7 @@ class TestPackageWidget extends StatelessWidget {
         ],
       ),
       child: Container(
-        padding: EdgeInsets.all(12.r),
+        padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 9.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.r),
           image: DecorationImage(
@@ -40,7 +40,7 @@ class TestPackageWidget extends StatelessWidget {
           children: [
             if (package.discount != null)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.r),
                   color: const Color(0xFF31B5ED).withOpacity(0.5),
@@ -48,11 +48,11 @@ class TestPackageWidget extends StatelessWidget {
                 child: AppText.sp12("${package.discount}% OFF").w800.white,
               )
             else
-              const SizedBox.shrink(),
+              SizedBox(height: 20.h),
             AppText.sp16(package.title).w800.white,
             SizedBox(
               width: 249.w,
-              child: AppText.sp12(package.text).w400.white,
+              child: AppText.sp12(package.text).w400.white.setMaxLines(2),
             ),
             Container(
               height: 30.h,

@@ -17,7 +17,6 @@ import 'package:drugs_ng/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/src/features/lab_test/data/repository/lab_test_repo_impl.dart';
 import 'package:drugs_ng/src/features/lab_test/domain/repository/lab_test_repo.dart';
 import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_cubit.dart';
-import 'package:drugs_ng/src/features/lab_test/presentation/cubit/lab_test_discovery_cubit.dart';
 import 'package:drugs_ng/src/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:drugs_ng/src/features/product/data/repositories/product_repo_impl.dart';
 import 'package:drugs_ng/src/features/product/domain/repositories/product_repo.dart';
@@ -95,11 +94,9 @@ class MyApp extends StatelessWidget {
                 fontFamily: AppText.fontFamily,
                 scaffoldBackgroundColor: AppColor.white,
               ),
-              home:
-                  // UserPreference.getToken() == null
-                  //     ? const OnboardingPage()
-                  //     :
-                  const TabOverlay(),
+              home: UserPreference.getToken() == null
+                  ? const OnboardingPage()
+                  : const TabOverlay(),
             );
           },
         ),
