@@ -1,0 +1,119 @@
+import 'dart:ui';
+
+import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
+import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
+import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
+import 'package:drugs_ng/src/tab_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key});
+
+  static Route<dynamic> route(RouteSettings route) {
+    return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppImage.home),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+                border: Border(
+                  top: BorderSide(
+                    width: 2,
+                    color: AppColor.white.withOpacity(0.5),
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  ),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColor.white.withOpacity(0.2),
+                    AppColor.white.withOpacity(0.5),
+                  ],
+                ),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 4.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(AppImage.logo, width: 35.w),
+                          5.horizontalSpace,
+                          AppText.sp14("DrugsNG").primaryColor.w700,
+                        ],
+                      ),
+                      8.verticalSpace,
+                      AppText.sp41(
+                        "Your Trusted\nOnline\nPharmacy",
+                      ).white.w500.setLineHeight(1),
+                      30.verticalSpace,
+                      AppText.sp20(
+                        "Get your medications, health products, and professional consultations all in one place. Convenient, fast, and reliable.",
+                      ).whiteBlue.w400,
+                      30.verticalSpace,
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: AppButton.primary(
+                              text: "Login",
+                              onTap: login,
+                            ),
+                          ),
+                          16.horizontalSpace,
+                          Expanded(
+                            flex: 5,
+                            child: AppButton.secondary(
+                              text: "Get Started",
+                              onTap: () => getStarted(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                      MediaQuery.of(context).viewPadding.bottom.verticalSpace,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void login() {
+    AppUtils.pushReplacement(const LoginPage());
+  }
+
+  void getStarted(BuildContext context) {
+    // AppUtils.pushWidget(const CreateAccountPage());
+    // allow users to enter the app without creating an account
+    Navigator.of(
+      context,
+    ).pushAndRemoveUntil(AppUtils.transition(TabOverlay()), (_) => false);
+  }
+}

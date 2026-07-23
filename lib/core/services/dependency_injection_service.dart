@@ -1,0 +1,55 @@
+import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
+import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
+import 'package:drugs_ng/features/checkout/presentation/cubit/state_and_city_cubit.dart';
+import 'package:drugs_ng/features/consultation/presentation/cubit/consultation_cubit.dart';
+import 'package:drugs_ng/features/consultation/presentation/cubit/doctor_cubit.dart';
+import 'package:drugs_ng/features/consultation/presentation/cubit/user_consultations_cubit.dart';
+import 'package:drugs_ng/features/explore/presentation/cubit/explore_cubit.dart';
+import 'package:drugs_ng/features/explore/presentation/cubit/explore_major_category_cubit.dart';
+import 'package:drugs_ng/features/home/presentation/cubit/get_country_cubit.dart';
+import 'package:drugs_ng/features/home/presentation/cubit/home_cubit.dart';
+import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
+import 'package:drugs_ng/features/product/presentation/cubit/product_cubit.dart';
+import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dart';
+import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
+import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
+import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
+import 'package:get_it/get_it.dart';
+
+class DependencyInjectionService {
+  static final GetIt inst = GetIt.instance;
+
+  static void init() {
+    inst
+      // register supabase client
+      ..registerLazySingleton<NavigationTabCubit>(NavigationTabCubit.new)
+      // datasources
+      ..registerLazySingleton<HomeCubit>(HomeCubit.new)
+      ..registerLazySingleton<AuthCubit>(AuthCubit.new)
+      ..registerLazySingleton<ExploreCubit>(ExploreCubit.new)
+      // repositories
+      ..registerLazySingleton<ExploreMajorCategoryCubit>(
+        ExploreMajorCategoryCubit.new,
+      )
+      ..registerLazySingleton<ProductCubit>(ProductCubit.new)
+      ..registerLazySingleton<LabTestCubit>(LabTestCubit.new)
+      // cubits
+      ..registerLazySingleton<CartCubit>(CartCubit.new)
+      ..registerLazySingleton<PrescriptionCubit>(PrescriptionCubit.new)
+      ..registerLazySingleton<OrderHistoryCubit>(OrderHistoryCubit.new)
+      ..registerLazySingleton<WishlistCubit>(WishlistCubit.new)
+      ..registerLazySingleton<AddressCubit>(AddressCubit.new)
+      ..registerLazySingleton<DoctorCubit>(DoctorCubit.new)
+      ..registerLazySingleton<ConsultationCubit>(ConsultationCubit.new)
+      ..registerLazySingleton<UserConsultationsCubit>(
+        UserConsultationsCubit.new,
+      )
+      ..registerLazySingleton<CardCubit>(CardCubit.new)
+      ..registerLazySingleton<StateAndCityCubit>(StateAndCityCubit.new)
+      ..registerLazySingleton<GetCountryCubit>(GetCountryCubit.new)
+      ..registerLazySingleton<ReviewsCubit>(ReviewsCubit.new);
+  }
+}
