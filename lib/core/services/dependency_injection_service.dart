@@ -1,5 +1,7 @@
 import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/state_and_city_cubit.dart';
@@ -29,6 +31,8 @@ class DependencyInjectionService {
       // datasources
       ..registerLazySingleton<HomeCubit>(HomeCubit.new)
       ..registerLazySingleton<AuthCubit>(AuthCubit.new)
+      ..registerLazySingleton<LoginCubit>(LoginCubit.new)
+      ..registerLazySingleton<SignupCubit>(SignupCubit.new)
       ..registerLazySingleton<ExploreCubit>(ExploreCubit.new)
       // repositories
       ..registerLazySingleton<ExploreMajorCategoryCubit>(

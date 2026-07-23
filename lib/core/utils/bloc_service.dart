@@ -1,4 +1,6 @@
 import 'package:drugs_ng/core/services/dependency_injection_service.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/features/home/presentation/cubit/get_country_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +32,12 @@ class BlocService {
     ),
     BlocProvider(
       create: (_) => DependencyInjectionService.inst.get<AuthCubit>(),
+    ),
+    BlocProvider(
+      create: (_) => DependencyInjectionService.inst.get<LoginCubit>(),
+    ),
+    BlocProvider(
+      create: (_) => DependencyInjectionService.inst.get<SignupCubit>(),
     ),
     BlocProvider(
       create: (_) => DependencyInjectionService.inst.get<ExploreCubit>(),

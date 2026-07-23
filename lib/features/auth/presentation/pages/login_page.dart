@@ -13,6 +13,7 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/app_text_field.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
@@ -39,6 +40,20 @@ class _LoginPageState extends State<LoginPage> {
   final passwordCntrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<LoginCubit>().reset();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AuthCubit>().state.isLoggedIn) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const TabOverlay()),
+          (route) => false,
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -124,10 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                     return AppButton.primary(
                       text: "Log in",
                       onTap: () => _login(context),
-                      status:
-                          state is AuthLoadingState
-                              ? ButtonStatus.loading
-                              : ButtonStatus.active,
+                      // status:
+                      //     state is AuthLoadingState
+                      //         ? ButtonStatus.loading
+                      //         : ButtonStatus.active,
                     );
                   },
                 ),
@@ -183,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      context.read<AuthCubit>().login(loginCntrl.text, passwordCntrl.text);
+      context.read<LoginCubit>().login(loginCntrl.text, passwordCntrl.text);
     }
   }
 
