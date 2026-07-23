@@ -6,6 +6,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
@@ -62,10 +63,11 @@ class OnboardingScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Image.asset(
-                            Assets.images.splashLogo.path,
-                            width: 35.w,
-                          ),
+                          CustomImage(Assets.images.drugs.path, width: 35.w),
+                          // Image.asset(
+                          //   Assets.images.splashLogo.path,
+                          //   width: 35.w,
+                          // ),
                           5.horizontalSpace,
                           AppText.sp14("DrugsNG").primaryColor.w700,
                         ],

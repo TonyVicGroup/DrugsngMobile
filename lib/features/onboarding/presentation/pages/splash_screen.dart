@@ -231,11 +231,13 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _checkComplete() {
     if (!mounted) return;
-    final userData = UserPreference.getUser();
-    // if(userData.firstTimeUser){
-    Navigator.of(context).pushNamed(AppRoutes.onboarding);
-    // }else{
-    //   Navigator.of(context).pushNamed(AppRoutes.home);
-    // }
+    if (isAnimationComplete && isLoginCheckCompleted) {
+      final userData = UserPreference.getUser();
+      // if(userData.firstTimeUser){
+      Navigator.of(context).pushNamed(AppRoutes.onboarding);
+      // }else{
+      //   Navigator.of(context).pushNamed(AppRoutes.home);
+      // }
+    }
   }
 }

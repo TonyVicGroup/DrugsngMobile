@@ -1,7 +1,4 @@
-import 'package:drugs_ng/core/enum/button_status.dart';
-import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
-import 'package:drugs_ng/core/enum/request_status.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -77,8 +74,14 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 72.h),
+          padding: EdgeInsets.all(10.r),
+          decoration: BoxDecoration(
+            color: AppColor.colorFFFFFF,
+            borderRadius: BorderRadius.circular(30.r),
+            boxShadow: AppColor.shadow,
+          ),
           child: Form(
             key: formKey,
             child: Column(
