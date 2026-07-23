@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/forget_password_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';

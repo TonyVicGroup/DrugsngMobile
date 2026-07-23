@@ -6,7 +6,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 // import 'package:drugs_ng/src/features/auth/domain/repositories/auth_repo.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/confirmation_page.dart';

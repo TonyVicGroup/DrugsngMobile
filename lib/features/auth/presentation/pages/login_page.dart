@@ -7,14 +7,19 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:drugs_ng/features/auth/presentation/widgets/or_text_divider.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +38,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final loginCntrl = TextEditingController();
+  final emailCntrl = TextEditingController();
   final passwordCntrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool obscurePassword = true;
@@ -54,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    loginCntrl.dispose();
+    emailCntrl.dispose();
     passwordCntrl.dispose();
     super.dispose();
   }
@@ -85,69 +90,117 @@ class _LoginPageState extends State<LoginPage> {
           child: Form(
             key: formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                148.verticalSpace,
-                AppText.sp30("Log in").w800.black,
-                13.verticalSpace,
-                AppText.sp16("Welcome back!").w400.darkGrey,
-                30.verticalSpace,
-                AppText.sp14("Email").w400.black,
-                6.verticalSpace,
-                AppTextField.text(
-                  controller: loginCntrl,
-                  keyboardType: TextInputType.text,
-                  hint: "Your Email",
-                  validator: AppValidators.email,
+                32.verticalSpace,
+                CustomImage(Assets.images.authImage.path, height: 87.h),
+                12.verticalSpace,
+                AppText.sp30("Log in").w500.black,
+                5.verticalSpace,
+                AppText.sp18(
+                  "Welcome back!",
+                ).w400.setColor(AppColor.color6D6D6D),
+                12.verticalSpace,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText.sp14("Email").w400.setColor(AppColor.color333333),
+                    6.verticalSpace,
+                    BorderTextField(
+                      hint: "Your email",
+                      controller: emailCntrl,
+                      keyboardType: TextInputType.text,
+                      clickSuffix: _toggleVisibility,
+                      validator: AppValidators.email,
+                    ),
+                  ],
                 ),
-                22.verticalSpace,
-                AppText.sp14("Password").w400.black,
-                6.verticalSpace,
-                AppTextField.text(
-                  hint: "Password",
-                  controller: passwordCntrl,
-                  keyboardType: TextInputType.text,
-                  suffixIcon: svgPicture(),
-                  obscureText: obscurePassword,
-                  clickSuffix: _toggleVisibility,
-                  validator: AppValidators.password,
+                12.verticalSpace,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText.sp14("Password").w400
+                      ..setColor(AppColor.color333333),
+                    6.verticalSpace,
+                    BorderTextField(
+                      hint: "Password",
+                      controller: passwordCntrl,
+                      keyboardType: TextInputType.text,
+                      suffixIcon: svgPicture(),
+                      obscureText: obscurePassword,
+                      clickSuffix: _toggleVisibility,
+                      validator: AppValidators.password,
+                    ),
+                  ],
                 ),
-                15.verticalSpace,
+                16.verticalSpace,
                 Align(
                   alignment: Alignment.centerRight,
-                  child: AppText.sp14(
-                    "Forgot password?",
-                  ).black.w400.clickable(_forgetPassword),
+                  child: AppText.sp14("Forgot password?")
+                      .setColor(AppColor.color0B8AE1)
+                      .w400
+                      .clickable(_forgetPassword),
                 ),
-                40.verticalSpace,
-                BlocConsumer<AuthCubit, AuthState>(
-                  listener: (BuildContext context, AuthState state) {
-                    if (state.isLoggedIn) {
-                      if (state.error != null) {
-                        AppToast.warning(context, state.error!);
-                        // handle confirmation of email if needed
-                        if (state.error!.toLowerCase().contains(
-                          "confirm your email",
-                        )) {
-                          EmailOtpPage.verifyOtp(
-                            context: context,
-                            email: loginCntrl.text,
-                            otpType: OtpTypeEnum.emailConfirmation,
-                          );
-                        }
-                      }
-                    }
+                16.verticalSpace,
+                BlocConsumer<LoginCubit, LoginState>(
+                  listenWhen: (previous, current) => context.isOnScreen,
+                  listener: (BuildContext context, LoginState state) {
+                    // if (state.isLoggedIn) {
+                    //   if (state.error != null) {
+                    //     AppToast.warning(context, state.error!);
+                    //     // handle confirmation of email if needed
+                    //     if (state.error!.toLowerCase().contains(
+                    //       "confirm your email",
+                    //     )) {
+                    //       EmailOtpPage.verifyOtp(
+                    //         context: context,
+                    //         email: emailCntrl.text,
+                    //         otpType: OtpTypeEnum.emailConfirmation,
+                    //       );
+                    //     }
+                    //   }
+                    // }
                   },
                   builder: (context, state) {
                     return AppButton.primary(
-                      text: "Log in",
+                      text: "Login",
                       onTap: () => _login(context),
-                      // status:
-                      //     state is AuthLoadingState
-                      //         ? ButtonStatus.loading
-                      //         : ButtonStatus.active,
                     );
                   },
+                ),
+                16.verticalSpace,
+                OrTextDivider(),
+                16.verticalSpace,
+                AppButtonAnimator(
+                  onTap: _useBiometric,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 69.r,
+                        height: 69.r,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: AppColor.colorFFFFFF,
+                          boxShadow: AppColor.shadow,
+                          shape: BoxShape.circle,
+                        ),
+                        child: CustomImage(
+                          Assets.svg.biometric,
+                          width: 33.r,
+                          height: 33.r,
+                        ),
+                      ),
+                      6.verticalSpace,
+                      AppText.sp14(
+                        "Use Biometric Login",
+                      ).w500.setColor(AppColor.color333333),
+                      AppText.sp14(
+                        "Face ID / Touch ID",
+                      ).w400.setColor(AppColor.color333333),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 Align(
@@ -159,24 +212,24 @@ class _LoginPageState extends State<LoginPage> {
                         TextSpan(
                           text: " Sign up",
                           style: TextStyle(
-                            color: AppColor.primary,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w800,
+                            color: AppColor.color0B8AE1,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
                           ),
                           recognizer: TapGestureRecognizer()..onTap = _signup,
                         ),
                       ],
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
-                        color: AppColor.darkGrey,
+                        color: AppColor.color333333,
                         fontFamily: AppText.fontFamily,
                         height: 1.25,
                       ),
                     ),
                   ),
                 ),
-                54.verticalSpace,
+                20.verticalSpace,
               ],
             ),
           ),
@@ -186,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget svgPicture() => SvgPicture.asset(
-    obscurePassword ? AppSvg.visible : AppSvg.notVisible,
+    obscurePassword ? Assets.svg.visible : Assets.svg.nonVisible,
     width: 17.w,
     colorFilter: const ColorFilter.mode(AppColor.darkGrey, BlendMode.srcIn),
   );
@@ -199,9 +252,11 @@ class _LoginPageState extends State<LoginPage> {
     AppUtils.pushWidget(const ForgetPasswordPage());
   }
 
+  void _useBiometric() {}
+
   void _login(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {
-      context.read<LoginCubit>().login(loginCntrl.text, passwordCntrl.text);
+      context.read<LoginCubit>().login(emailCntrl.text, passwordCntrl.text);
     }
   }
 

@@ -21,7 +21,7 @@ class AppButton {
       // onTap: status.isActive ? onTap : null,
       onTap: onTap ?? () {},
       child: Container(
-        height: 58.sp,
+        height: 51.h,
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -38,7 +38,7 @@ class AppButton {
                   text,
                   style: TextStyle(
                     fontSize: 17.sp,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w500,
                     color: AppColor.white,
                   ),
                 ),
@@ -54,7 +54,7 @@ class AppButton {
     return InkWell(
       onTap: status.isActive ? onTap : null,
       child: Container(
-        height: 58.sp,
+        height: 51.h,
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -68,7 +68,7 @@ class AppButton {
                   text,
                   style: TextStyle(
                     fontSize: 17.sp,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w500,
                     color: AppColor.primary,
                   ),
                 ),

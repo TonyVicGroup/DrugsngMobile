@@ -3,7 +3,7 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_input_formaters.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';

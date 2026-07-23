@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';

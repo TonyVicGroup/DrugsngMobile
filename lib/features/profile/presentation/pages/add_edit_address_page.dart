@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/enum/address_type_enum.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';

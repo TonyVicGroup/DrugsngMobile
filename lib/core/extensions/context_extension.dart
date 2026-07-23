@@ -1,3 +1,5 @@
+import 'package:drugs_ng/core/widgets/modal/animated_bottom_modal_widget.dart';
+import 'package:drugs_ng/core/widgets/modal/animated_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -67,21 +69,12 @@ extension ContextExtension on BuildContext {
     bool fullBleed = false,
     // bool animatePopup = true,
   }) {
-    // if (animatePopup) {
-    //   return showDialog<T>(
-    //     context: this,
-    //     barrierDismissible: barrierDismissible,
-    //     useRootNavigator: useRootNavigator,
-    //     builder: (context) => AnimatedPopupWidget(child: child),
-    //   );
-    // } else {
     return showDialog<T>(
       context: this,
       barrierDismissible: barrierDismissible,
       useRootNavigator: useRootNavigator,
-      builder: (context) => Center(child: child),
+      builder: (context) => AnimatedPopupWidget(child: child),
     );
-    // }
   }
 
   Future<T?> showBottomModal<T>({
@@ -96,8 +89,7 @@ extension ContextExtension on BuildContext {
       useRootNavigator: useRootNavigator,
       backgroundColor: Colors.transparent,
       isDismissible: isDismissible,
-      // builder: (context) => AnimatedBottomModalWidget(child: child),
-      builder: (context) => child,
+      builder: (context) => AnimatedBottomModalWidget(child: child),
     );
   }
 

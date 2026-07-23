@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/coming_soon_widget.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';

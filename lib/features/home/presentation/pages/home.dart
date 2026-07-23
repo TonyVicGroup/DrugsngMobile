@@ -6,7 +6,7 @@ import 'package:drugs_ng/core/enum/sort_type_enum.dart';
 import 'package:drugs_ng/core/services/location_service.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
