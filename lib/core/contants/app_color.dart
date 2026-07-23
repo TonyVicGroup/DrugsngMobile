@@ -15,8 +15,44 @@ class AppColor {
   static const Color red = Color(0xFFFF5252);
   static const Color green = Color(0xFF39C316);
   static const Color successPrimary = Color(0xFF00A86B);
+  //
+
+  /// Grays
+  static const Color color555555 = Color(0xFF555555);
+  static const Color color333333 = Color(0xFF333333);
+
+  /// Primary
+  static const Color color0B8AE1 = Color(0xFF0B8AE1);
+
+  /// Secondary
+  static const Color colorFF8118 = Color(0xFFFF8118);
+
+  /// Page background
+  static const Color colorF3F5F9 = Color(0xFFF3F5F9);
+
+  /// Accent Colors
+  static const Color color0C7190 = Color(0xFF0C7190);
+  static const Color colorEAF2FD = Color(0xFFEAF2FD);
+  static const Color colorE6F9F9 = Color(0xFFE6F9F9);
+  static const Color color02C0BB = Color(0xFF02C0BB);
+  static const Color colorEDF6FE = Color(0xFFEDF6FE);
+  static const Color colorF4F4FD = Color(0xFFF4F4FD);
+  static const Color colorFEF6EF = Color(0xFFFEF6EF);
+  static const Color color823AFC = Color(0xFF823AFC);
+  //
+  static const Color colorFFFFFF = Color(0xFFFFFFFF);
 
   // shimmer loader colors
   static const Color shimmerBase = Color(0xFFe0e0e0);
   static const Color shimmerHighlight = Color(0xFFFFFFFF);
+
+  // shadow
+  static const List<BoxShadow> shadow = [
+    BoxShadow(
+      offset: Offset(0, 0),
+      blurRadius: 20,
+      spreadRadius: 0,
+      color: Color.fromRGBO(0, 0, 0, 0.05),
+    ),
+  ];
 }

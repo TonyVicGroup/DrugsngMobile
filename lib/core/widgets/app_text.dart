@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppText {
-  static const String fontFamily = "Sf-Pro-Display";
+  static const String fontFamily = "Rubik";
 
   static Text sp41(String text) => Text(
     text,
@@ -89,6 +89,14 @@ class AppText {
     text,
     style: TextStyle(
       fontSize: 14.sp,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    ),
+  );
+  static Text sp13(String text) => Text(
+    text,
+    style: TextStyle(
+      fontSize: 13.sp,
       fontWeight: FontWeight.w500,
       height: 1.25,
     ),
