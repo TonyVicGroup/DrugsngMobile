@@ -1,10 +1,14 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/onboarding/presentation/widgets/splash_button_widget.dart';
 import 'package:drugs_ng/features/onboarding/presentation/widgets/splash_card_options_widget.dart';
 import 'package:drugs_ng/features/onboarding/presentation/widgets/splash_screen_header.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -40,6 +44,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   // 5. Loader – fades in last
   late final Animation<double> _loaderFade;
+
+  bool isAnimationComplete = false;
+  bool isLoginCheckCompleted = false;
 
   CurvedAnimation _interval(
     double begin,
@@ -100,6 +107,16 @@ class _SplashScreenState extends State<SplashScreen>
       end: 1.0,
     ).animate(_interval(0.82, 1.0, Curves.easeIn));
 
+    // add listener to controller
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        isAnimationComplete = true;
+        _checkComplete();
+      }
+    });
+
+    _checkLogin();
+    //
     _controller.forward();
   }
 
@@ -204,5 +221,21 @@ class _SplashScreenState extends State<SplashScreen>
         ],
       ),
     );
+  }
+
+  Future<void> _checkLogin() async {
+    await context.read<AuthCubit>().tokenLogin();
+    isLoginCheckCompleted = true;
+    _checkComplete();
+  }
+
+  void _checkComplete() {
+    if (!mounted) return;
+    final userData = UserPreference.getUser();
+    // if(userData.firstTimeUser){
+    Navigator.of(context).pushNamed(AppRoutes.onboarding);
+    // }else{
+    //   Navigator.of(context).pushNamed(AppRoutes.home);
+    // }
   }
 }

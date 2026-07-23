@@ -1,6 +1,6 @@
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/models/state_and_city.dart';
 
@@ -8,7 +8,7 @@ class AddressDatasource {
   final RestService service = RestService(baseUrl: AppUtils.baseUrl);
 
   Future<UserAddress> addAddreses(UserAddress address) async {
-    final userId = UserPreference.getUser()!.userId;
+    final userId = UserPreference.getUser().accountModel!.userId;
     final response = await service.post(
       path: 'profile/user/$userId/address',
       data: address.toJson(),
@@ -43,7 +43,7 @@ class AddressDatasource {
   }
 
   Future<List<UserAddress>> getAddreses() async {
-    final userId = UserPreference.getUser()!.userId;
+    final userId = UserPreference.getUser().accountModel!.userId;
     final response = await service.get(
       path: 'profile/user/$userId/addresses',
       params: {'PageNumber': 1, 'PageSize': 20},

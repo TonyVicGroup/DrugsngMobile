@@ -1,11 +1,10 @@
 import 'package:drugs_ng/core/enum/account_type_enum.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/features/auth/domain/models/account_model.dart';
 import 'package:drugs_ng/features/delivery/data/models/delivery_profile_model.dart';
 import 'package:drugs_ng/features/doctor/data/models/doctor_profile_model.dart';
-import 'package:drugs_ng/features/auth/domain/models/lab_profile_model.dart';
 import 'package:drugs_ng/features/auth/domain/models/user_profile_model.dart';
 import 'package:drugs_ng/features/doctor/data/repositories/doctor_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -21,20 +20,42 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool get isLoggedIn => state.user != null;
 
+  void _updateAccountData(AccountModel account) {
+    final user = UserPreference.getUser().copyWith(accountModel: account);
+    UserPreference.updateUser(user);
+    emit(state.copyWith(account: account));
+  }
+
   /// Login using saved token
   /// if token has expired or is invalid, user will be logged out
   Future<void> tokenLogin() async {
-    final account = UserPreference.getUser();
-    if (account == null) {
-      return;
-    }
-    await getProfile(account);
+    final accountData = UserPreference.getUser();
+    if (accountData.accountModel == null) return;
+    await getProfile(accountData.accountModel!);
   }
 
   /// logout from account
   Future<void> logout() async {
     UserPreference.reset();
     emit(AuthState());
+  }
+
+  Future<void> loginAccount({
+    required String email,
+    required String password,
+    required AccountModel account,
+    bool? setBiometric,
+  }) async {
+    // set email password and set biometric
+    final user =
+        UserPreference.getUser()..copyWith(
+          email: email,
+          password: password,
+          setBiometric: setBiometric ?? false,
+        );
+    UserPreference.updateUser(user);
+    //
+    await getProfile(account);
   }
 
   Future<void> getProfile(AccountModel account) async {

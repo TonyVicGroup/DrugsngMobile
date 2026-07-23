@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drugs_ng/core/services/dependency_injection_service.dart';
 import 'package:drugs_ng/core/widgets/error/app_error_widget.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

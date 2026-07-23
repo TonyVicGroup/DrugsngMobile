@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:drugs_ng/core/error/app_responses.dart';
 import 'package:drugs_ng/core/services/log_service.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 
 class RestService {
   final _errorStream = StreamController<Response<dynamic>>.broadcast();
@@ -52,10 +52,10 @@ class RestService {
   ) {
     options.headers['accept'] ??= 'application/json';
     options.headers['Content-Type'] ??= 'application/json';
-    final token = UserPreference.getToken();
-    if (token?.isNotEmpty ?? false) {
-      options.headers['AUTHORIZATION'] = 'Bearer $token';
-    }
+    // final token = UserPreference.getUser().accountModel.getToken();
+    // if (token?.isNotEmpty ?? false) {
+    //   options.headers['AUTHORIZATION'] = 'Bearer $token';
+    // }
     return handler.next(options);
   }
 

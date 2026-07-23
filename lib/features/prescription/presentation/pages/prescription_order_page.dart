@@ -7,7 +7,7 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/widgets/recent_upload_loader.dart';

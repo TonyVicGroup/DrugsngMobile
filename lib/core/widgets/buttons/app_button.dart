@@ -3,6 +3,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +17,19 @@ class AppButton {
     required void Function()? onTap,
     ButtonStatus status = ButtonStatus.active,
   }) {
-    return InkWell(
-      onTap: status.isActive ? onTap : null,
+    return AppButtonAnimator(
+      // onTap: status.isActive ? onTap : null,
+      onTap: onTap ?? () {},
       child: Container(
         height: 58.sp,
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: status.isDisabled ? AppColor.lightBlue : AppColor.primary,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(100.r),
+          gradient: LinearGradient(
+            colors: [const Color(0xFF0D5CC2), const Color(0xFF00D6EF)],
+          ),
         ),
         child:
             status.isLoading
@@ -54,7 +59,7 @@ class AppButton {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColor.whiteBlue,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(100.r),
         ),
         child:
             status.isLoading

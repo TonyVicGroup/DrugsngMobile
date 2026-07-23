@@ -1,6 +1,6 @@
 import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/utils/app_data_types.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/consultation/data/datasource/consultation_datasource.dart';
 import 'package:drugs_ng/features/consultation/data/models/consult_service.dart';
 import 'package:drugs_ng/features/consultation/data/models/consultation_data.dart';

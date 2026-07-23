@@ -14,6 +14,15 @@ class AppText {
     ),
   );
 
+  static Text sp40(String text) => Text(
+    text,
+    style: TextStyle(
+      fontSize: 40.sp,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    ),
+  );
+
   static Text sp31(String text) => Text(
     text,
     style: TextStyle(
@@ -53,6 +62,15 @@ class AppText {
     text,
     style: TextStyle(
       fontSize: 18.sp,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    ),
+  );
+
+  static Text sp19(String text) => Text(
+    text,
+    style: TextStyle(
+      fontSize: 19.sp,
       fontWeight: FontWeight.w500,
       height: 1.25,
     ),

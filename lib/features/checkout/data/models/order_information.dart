@@ -1,4 +1,4 @@
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/models/cart.dart';
 
@@ -18,7 +18,7 @@ class OrderInformation {
   });
 
   Map<String, dynamic> toJson() {
-    final userId = UserPreference.getUser()!.userId;
+    final userId = UserPreference.getUser().accountModel!.userId;
     return {
       "userId": userId,
       "email": email,

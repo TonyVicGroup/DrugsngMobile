@@ -1,6 +1,6 @@
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
+import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/explore/domain/models/page_filter.dart';
 import 'package:drugs_ng/features/profile/data/models/debit_card.dart';
 import 'package:drugs_ng/features/profile/data/models/order_detail_model.dart';
@@ -14,7 +14,7 @@ class ProfileDatasource {
     PageFilter pageFilter,
     String status,
   ) async {
-    final userId = UserPreference.getUser()!.userId;
+    final userId = UserPreference.getUser().accountModel!.userId;
     final params = pageFilter.toJson();
     final query = {
       "OrderState": status,
@@ -93,7 +93,7 @@ class ProfileDatasource {
   }
 
   Future<List<DebitCard>> getCards(PageFilter pageFilter) async {
-    final userId = UserPreference.getUser()!.userId;
+    final userId = UserPreference.getUser().accountModel!.userId;
     final response = await service.get(
       path: 'profile/user/$userId/cards',
       params: pageFilter.toJson(),

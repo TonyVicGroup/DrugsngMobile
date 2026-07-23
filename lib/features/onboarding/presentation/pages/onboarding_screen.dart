@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
@@ -8,6 +9,7 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,9 +24,9 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DecoratedBox(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AppImage.home),
+            image: AssetImage(Assets.images.onboardingImage.path),
             fit: BoxFit.cover,
           ),
         ),
@@ -60,19 +62,22 @@ class OnboardingScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Image.asset(AppImage.logo, width: 35.w),
+                          Image.asset(
+                            Assets.images.splashLogo.path,
+                            width: 35.w,
+                          ),
                           5.horizontalSpace,
                           AppText.sp14("DrugsNG").primaryColor.w700,
                         ],
                       ),
                       8.verticalSpace,
-                      AppText.sp41(
-                        "Your Trusted\nOnline\nPharmacy",
+                      AppText.sp40(
+                        "Your Trusted\nOnline Pharmacy",
                       ).white.w500.setLineHeight(1),
                       30.verticalSpace,
-                      AppText.sp20(
+                      AppText.sp19(
                         "Get your medications, health products, and professional consultations all in one place. Convenient, fast, and reliable.",
-                      ).whiteBlue.w400,
+                      ).whiteBlue.w500,
                       30.verticalSpace,
                       Row(
                         children: [
@@ -80,7 +85,7 @@ class OnboardingScreen extends StatelessWidget {
                             flex: 3,
                             child: AppButton.primary(
                               text: "Login",
-                              onTap: login,
+                              onTap: () => login(context),
                             ),
                           ),
                           16.horizontalSpace,
@@ -105,8 +110,8 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  void login() {
-    AppUtils.pushReplacement(const LoginPage());
+  void login(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (_) => false);
   }
 
   void getStarted(BuildContext context) {
