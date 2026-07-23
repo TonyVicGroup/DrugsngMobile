@@ -167,10 +167,7 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
                           : ButtonStatus.active,
                   onTap: () async {
                     try {
-                      final userId =
-                          (context.read<AuthCubit>().state as UserLoggedInState)
-                              .user
-                              .id;
+                      final userId = context.read<AuthCubit>().state.user!.id;
                       context.read<PrescriptionCubit>().addData(userId, file!);
                     } catch (e) {
                       AppToast.warning(

@@ -2,6 +2,7 @@ import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_details.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_parameters.dart';
+import 'package:drugs_ng/features/doctor/data/models/doctor_profile_model.dart';
 import 'package:drugs_ng/features/doctor/data/repositories/doctor_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -93,7 +94,7 @@ class DoctorCubit extends Cubit<DoctorState> {
     );
   }
 
-  Future<(DoctorDetails?, String)> getSingleDoctor(int id) async {
+  Future<(DoctorProfileModel?, String)> getSingleDoctor(int id) async {
     final result = await repo.getDoctor(id);
     if (result.isRight) {
       return (result.right, '');

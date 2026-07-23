@@ -65,7 +65,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
             20.verticalSpace,
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
-                if (state is UserLoggedInState) {
+                if (state.isLoggedIn) {
                   return Row(
                     children: [
                       Container(
@@ -77,7 +77,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                           color: Color(0xFFEDF8FF),
                         ),
                         child: Text(
-                          state.user.avatar,
+                          state.user!.avatar,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20.sp,
@@ -88,7 +88,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppText.sp16(state.user.fullName).w800.black,
+                          AppText.sp16(state.user!.fullName).w800.black,
                           4.verticalSpace,
                           AppText.sp12(
                             "Posting Publicly",
@@ -241,7 +241,7 @@ class _NewReviewPageState extends State<NewReviewPage> {
       message: msgCntrl.text,
       rating: rating,
       isPublic: true,
-      userId: (context.read<AuthCubit>().state as UserLoggedInState).user.id,
+      userId: context.read<AuthCubit>().state.user!.id,
     );
   }
 }

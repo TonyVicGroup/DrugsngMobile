@@ -13,8 +13,8 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
   ProfileUpdateCubit({required this.authCubit}) : super(ProfileUpdateState());
 
   Future<void> updateProfile(AuthUserProfile profile) async {
-    if (authCubit.state is! UserLoggedInState) return;
-    final currentUser = (authCubit.state as UserLoggedInState).account;
+    if (!authCubit.state.isLoggedIn) return;
+    final currentUser = authCubit.state.account!;
     emit(state.copyWith(status: LoadStatusEnum.loading));
     final result = await authRepository.setupProfile(
       currentUser.userId,
@@ -26,7 +26,7 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
       },
       (updatedUser) {
         emit(state.copyWith(status: LoadStatusEnum.success));
-        authCubit.updateUserInfo(profile);
+        // authCubit.updateUserInfo(profile);
       },
     );
   }

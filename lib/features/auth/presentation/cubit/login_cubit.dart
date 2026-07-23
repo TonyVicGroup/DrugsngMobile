@@ -1,10 +1,8 @@
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
-import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/features/auth/data/repositories/auth_repository.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository repo = AuthRepository();
@@ -20,7 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginState(error: error.message, status: LoadStatusEnum.failed));
       },
       (result) {
-        _authCubit.getUserProfile(result);
+        _authCubit.getProfile(result);
         emit(LoginState(status: LoadStatusEnum.success));
       },
     );

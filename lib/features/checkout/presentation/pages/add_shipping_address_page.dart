@@ -50,7 +50,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
   @override
   void initState() {
     super.initState();
-    final userData = context.read<AuthCubit>().user;
+    final userData = context.read<AuthCubit>().state.user;
     final phoneInfo = (userData?.phoneNumber ?? '').split(' ');
 
     addressType = widget.address?.addressType ?? AddressTypeEnum.home;

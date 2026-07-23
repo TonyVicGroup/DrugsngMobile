@@ -36,7 +36,8 @@ class DoctorHome extends StatelessWidget {
                   12.horizontalSpace,
                   BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
-                      final name = context.read<AuthCubit>().user?.fullName;
+                      final name =
+                          context.read<AuthCubit>().state.user?.fullName;
                       return AppText.sp14('hi ${name ?? 'User'}').w400;
                     },
                   ),

@@ -156,7 +156,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
   Future placeOrder() async {
     if (selected != null) {
       btnStatus.value = ButtonStatus.loading;
-      final userData = context.read<AuthCubit>().user;
+      final userData = context.read<AuthCubit>().state.user;
       final result = await context.read<CartCubit>().placeOrder(
         OrderInformation(
           fullname: userData?.fullName ?? '',

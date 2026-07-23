@@ -42,8 +42,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   void initState() {
     super.initState();
-    final userData =
-        (context.read<AuthCubit>().state as UserLoggedInState).user;
+    final userData = (context.read<AuthCubit>().state.user)!;
 
     firstName = TextEditingController(text: userData.firstName);
     lastName = TextEditingController(text: userData.lastName);
@@ -267,7 +266,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               ),
               child:
                   AppText.sp41(
-                    context.read<AuthCubit>().user?.avatar ?? '',
+                    context.read<AuthCubit>().state.user?.avatar ?? '',
                   ).w700.primaryColor,
             ),
           ),

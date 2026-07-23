@@ -7,7 +7,6 @@ import 'package:drugs_ng/core/widgets/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_input_formaters.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/domain/models/user_profile_model.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/profile/data/models/debit_card.dart';
@@ -204,7 +203,7 @@ class _AddCardPageState extends State<AddCardPage> {
 
   Future<void> addCard() async {
     if (formKey.currentState?.validate() ?? false) {
-      UserAccount? user = context.read<AuthCubit>().user;
+      final user = context.read<AuthCubit>().state.user;
       if (user == null) {
         AppToast.warning(context, 'Login session expired');
         Navigator.pushAndRemoveUntil(

@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
-import 'package:drugs_ng/core/services/log_service.dart';
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/get_local_token.dart';
 import 'package:drugs_ng/features/auth/domain/models/account_model.dart';
 import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/features/auth/domain/models/user_profile_model.dart';
@@ -16,7 +14,7 @@ class AuthDatasource {
   Future<UserProfileModel> getUserData(int id) async {
     final response = await _client.get(path: 'auth/user/$id');
     if (response.hasError) throw response.error;
-    return UserAccount.fromJson(response.data!['data']);
+    return UserProfileModel.fromJson(response.data!['data']);
   }
 
   Future<AbstractAccount> getDoctorData(int id) async {

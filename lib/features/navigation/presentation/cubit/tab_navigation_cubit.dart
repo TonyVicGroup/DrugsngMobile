@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabNavigationCubit extends Cubit<TabNavigationState> {
   TabNavigationCubit(this._authCubit) : super(TabNavigationState()) {
-    _authCubit.stream.listen((state) {
-      emit(state.copyWith(accountType: state.accountType));
+    _authCubit.stream.listen((st) {
+      emit(state.copyWith(accountType: st.accountType));
     });
   }
 

@@ -54,7 +54,7 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
     isEdit = widget.address != null;
     context.read<StateAndCityCubit>().resetData();
     context.read<StateAndCityCubit>().getCountries();
-    final userData = context.read<AuthCubit>().user;
+    final userData = context.read<AuthCubit>().state.user;
     addressType = widget.address?.addressType ?? AddressTypeEnum.home;
     nameCntrl = TextEditingController(text: userData?.fullName);
     phoneCntrl = TextEditingController(text: ''); // userData?.phoneNumber);

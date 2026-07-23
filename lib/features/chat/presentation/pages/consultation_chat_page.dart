@@ -41,7 +41,7 @@ class _ConsultationChatPageState extends State<ConsultationChatPage> {
   @override
   void initState() {
     super.initState();
-    final id = context.read<AuthCubit>().user?.id ?? 0;
+    final id = context.read<AuthCubit>().state.account?.userId ?? 0;
     channelName = 'Consultation-${widget.consultation.id}';
     userId = 'user-$id';
     _initializePubNub();

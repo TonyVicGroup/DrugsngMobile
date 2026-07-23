@@ -5,7 +5,6 @@ import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:drugs_ng/features/product/presentation/cubit/product_review_cubit.dart';
 import 'package:drugs_ng/features/profile/data/models/review.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class _EditReviewPageState extends State<EditReviewPage> {
             20.verticalSpace,
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
-                if (state is UserLoggedInState) {
+                if (state.isLoggedIn) {
                   return Row(
                     children: [
                       Container(
@@ -80,7 +79,7 @@ class _EditReviewPageState extends State<EditReviewPage> {
                           color: Color(0xFFEDF8FF),
                         ),
                         child: Text(
-                          state.user.avatar,
+                          state.user!.avatar,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20.sp,
@@ -91,7 +90,7 @@ class _EditReviewPageState extends State<EditReviewPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppText.sp16(state.user.fullName).w800.black,
+                          AppText.sp16(state.user!.fullName).w800.black,
                           4.verticalSpace,
                           AppText.sp12(
                             "Posting Publicly",

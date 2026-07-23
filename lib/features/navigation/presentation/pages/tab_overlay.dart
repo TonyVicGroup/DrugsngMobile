@@ -55,10 +55,10 @@ class _TabOverlayState extends State<TabOverlay> {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthCubit>().state;
     late final AccountTypeEnum accountType;
-    if (authState is! LoggedInState) {
+    if (authState.isLoggedIn) {
       accountType = AccountTypeEnum.user;
     } else {
-      accountType = authState.account.accountType;
+      accountType = authState.account!.accountType;
     }
     return BlocBuilder<NavigationTabCubit, bool>(
       builder: (context, state) {
@@ -66,8 +66,6 @@ class _TabOverlayState extends State<TabOverlay> {
           skipTraversal: true,
           canRequestFocus: false,
           child: PersistentTabView(
-            drawer:
-                accountType == AccountTypeEnum.lab ? const _NavDrawer() : null,
             controller: AppUtils.tabController,
             navBarOverlap: const NavBarOverlap.none(),
             hideNavigationBar: state,
@@ -100,7 +98,7 @@ class _TabOverlayState extends State<TabOverlay> {
         // _tabPage(const ConsultationPage()),
         _tabPage(const ProfilePage()),
       ],
-      AccountTypeEnum.lab => [_tabPage(const LabHome())],
+      AccountTypeEnum.delivery => [_tabPage(const LabHome())],
       AccountTypeEnum.doctor => [
         _tabPage(const DoctorHome()),
         _tabPage(const AppointmentScreen()),
@@ -115,161 +113,6 @@ class _TabOverlayState extends State<TabOverlay> {
     return PersistentTabConfig(
       screen: FocusScope(child: page),
       item: ItemConfig(icon: const Icon(Icons.home)),
-    );
-  }
-}
-
-class _NavDrawer extends StatelessWidget {
-  const _NavDrawer();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 321.w,
-      height: 1.sh,
-      child: Material(
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(25.r, 25.r, 25.r, 10.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: MediaQuery.of(context).padding.top),
-              Row(
-                children: [
-                  CustomImage(AppImage.logo, height: 23.r),
-                  5.horizontalSpace,
-                  AppText.sp18('Drugs.NG').primaryColor.w600,
-                ],
-              ),
-              20.verticalSpace,
-              AppText.sp15('Menu').w600.subText,
-              20.verticalSpace,
-              _MenuButton(
-                text: 'Dashboard',
-                svg: AppSvg.labGgrid,
-                selected: true,
-                onTap: () => moveToPage(context, Container()),
-              ),
-              6.verticalSpace,
-              _MenuButton(
-                text: 'Lab Appointments',
-                svg: AppSvg.labAppointment,
-                selected: false,
-                onTap: () => moveToPage(context, Container()),
-              ),
-              6.verticalSpace,
-              _MenuButton(
-                text: 'Lab Management',
-                svg: AppSvg.ticket,
-                selected: false,
-                onTap: () => moveToPage(context, Container()),
-              ),
-              6.verticalSpace,
-              _MenuButton(
-                text: 'Lab Revenue',
-                svg: AppSvg.wallet,
-                selected: false,
-                onTap: () => moveToPage(context, Container()),
-                hasWarning: true,
-              ),
-              6.verticalSpace,
-              _MenuButton(
-                text: 'Lab History',
-                svg: AppSvg.labHistory,
-                selected: false,
-                onTap: () => moveToPage(context, Container()),
-                hasWarning: true,
-              ),
-              const Spacer(),
-              _MenuButton(
-                text: 'Settings',
-                svg: AppSvg.labSetting,
-                selected: false,
-                onTap: () {},
-                hasWarning: true,
-              ),
-              6.verticalSpace,
-              _MenuButton(
-                text: 'Logout',
-                svg: AppSvg.labLogout,
-                selected: false,
-                onTap: () {},
-                isLogout: true,
-              ),
-              6.verticalSpace,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void moveToPage(BuildContext context, Widget page) {
-    Navigator.pop(context);
-    // Navigator.push(context, MaterialPageRoute(builder: (context){
-    //   return
-    // }));
-  }
-}
-
-class _MenuButton extends StatelessWidget {
-  final String text;
-  final String svg;
-  final bool selected;
-  final void Function() onTap;
-  final bool hasWarning;
-  final bool isLogout;
-  const _MenuButton({
-    required this.text,
-    required this.svg,
-    required this.selected,
-    required this.onTap,
-    this.hasWarning = false,
-    this.isLogout = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: double.maxFinite,
-        height: 47.36.h,
-        padding: EdgeInsets.symmetric(horizontal: 14.r),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.r),
-          color: selected ? AppColor.primary : null,
-        ),
-        child: Row(
-          children: [
-            CustomImage(
-              svg,
-              width: 18.r,
-              height: 18.r,
-              color:
-                  isLogout
-                      ? AppColor.red
-                      : (selected ? AppColor.white : AppColor.subText),
-            ),
-            10.horizontalSpace,
-            Expanded(
-              child: AppText.sp15(text).w500.setColor(
-                isLogout
-                    ? AppColor.red
-                    : (selected ? AppColor.white : AppColor.subText),
-              ),
-            ),
-            if (hasWarning)
-              CustomImage(
-                AppSvg.infoCircle,
-                width: 18.r,
-                height: 18.r,
-                color: AppColor.red,
-              ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -334,9 +177,9 @@ class _CustomNavbar extends StatelessWidget {
               navBarConfig.selectedIndex == 4,
             ),
           ],
-          AccountTypeEnum.lab => <Widget>[],
+          AccountTypeEnum.delivery => <Widget>[],
         };
-        if (userType.isLab) {
+        if (userType.isDelivery) {
           return const SizedBox.shrink();
         }
         return DecoratedNavBar(

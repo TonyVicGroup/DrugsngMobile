@@ -16,7 +16,7 @@ import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
-import 'package:drugs_ng/src/tab_overlay.dart';
+import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) => context.isOnScreen,
       listener: (context, state) {
-        if (state is LoggedInState) {
+        if (state.isLoggedIn) {
           // Navigate to the home page or any other page after successful login
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const TabOverlay()),
@@ -104,11 +104,11 @@ class _LoginPageState extends State<LoginPage> {
                 40.verticalSpace,
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (BuildContext context, AuthState state) {
-                    if (state is LoggedOutState) {
+                    if (state.isLoggedIn) {
                       if (state.error != null) {
-                        AppToast.warning(context, state.error!.message);
+                        AppToast.warning(context, state.error!);
                         // handle confirmation of email if needed
-                        if (state.error!.message.toLowerCase().contains(
+                        if (state.error!.toLowerCase().contains(
                           "confirm your email",
                         )) {
                           EmailOtpPage.verifyOtp(

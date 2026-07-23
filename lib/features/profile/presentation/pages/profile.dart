@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData = context.read<AuthCubit>().user;
+    final userData = context.read<AuthCubit>().state.user;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0F0F0).withOpacity(0.5),
@@ -112,7 +112,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 5.horizontalSpace,
                                 AppText.sp12(
-                                  "ID: ${context.read<AuthCubit>().user?.id ?? ''}",
+                                  "ID: ${context.read<AuthCubit>().state.user?.id ?? ''}",
                                 ).w400.primaryColor,
                               ],
                             ),

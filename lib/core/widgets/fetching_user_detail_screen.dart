@@ -7,7 +7,7 @@ import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
-import 'package:drugs_ng/src/tab_overlay.dart';
+import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

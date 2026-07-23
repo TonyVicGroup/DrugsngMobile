@@ -14,8 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepo = AuthRepository();
   final DoctorRepository _doctorRepo = DoctorRepository();
-  final LabRepository _labRepo = LabRepository();
-  final DeliveryRepository _deliveryRepo = DeliveryRepository();
+  // final LabRepository _labRepo = LabRepository();
+  // final DeliveryRepository _deliveryRepo = DeliveryRepository();
 
   AuthCubit() : super(AuthState());
 
@@ -41,8 +41,6 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(account: account, status: LoadStatusEnum.loading));
     if (account.accountType.isDoctor) {
       await getDoctorProfile(account.userId);
-    } else if (account.accountType.isLab) {
-      await getLabProfile(account.userId);
     } else if (account.accountType.isDelivery) {
       await getDeliveryProfile(account.userId);
     } else {
@@ -67,19 +65,19 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> getDeliveryProfile(int userId) async {
-    final result = await _deliveryRepo.getDeliveryProfile(userId);
-    result.fold(
-      (error) {
-        emit(
-          state.copyWith(status: LoadStatusEnum.failed, error: error.message),
-        );
-      },
-      (accountData) {
-        emit(
-          state.copyWith(delivery: accountData, status: LoadStatusEnum.loading),
-        );
-      },
-    );
+    // final result = await _deliveryRepo.getDeliveryProfile(userId);
+    // result.fold(
+    //   (error) {
+    //     emit(
+    //       state.copyWith(status: LoadStatusEnum.failed, error: error.message),
+    //     );
+    //   },
+    //   (accountData) {
+    //     emit(
+    //       state.copyWith(delivery: accountData, status: LoadStatusEnum.loading),
+    //     );
+    //   },
+    // );
   }
 
   Future<void> getUserProfile(int userId) async {

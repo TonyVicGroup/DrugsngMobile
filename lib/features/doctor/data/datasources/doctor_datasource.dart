@@ -5,6 +5,7 @@ import 'package:drugs_ng/features/consultation/data/models/doctor.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_details.dart';
 import 'package:drugs_ng/features/doctor/data/models/create_doctor_request.dart';
 import 'package:drugs_ng/features/doctor/data/models/create_doctor_response.dart';
+import 'package:drugs_ng/features/doctor/data/models/doctor_profile_model.dart';
 import 'package:drugs_ng/features/doctor/data/models/get_doctors_parameters.dart';
 import 'package:drugs_ng/features/doctor/data/models/update_doctor_request.dart';
 import 'package:drugs_ng/features/home/data/models/doctor_dashboard.dart';
@@ -62,10 +63,10 @@ class DoctorDatasource {
 
   /// GET /api/v1/doctor/{id}
   /// Retrieves doctor details by ID.
-  Future<DoctorDetails> getDoctorById(int id) async {
+  Future<DoctorProfileModel> getDoctorById(int id) async {
     final response = await _client.get(path: 'doctor/$id');
     if (response.hasError) throw response.error;
-    return DoctorDetails.fromJson(
+    return DoctorProfileModel.fromJson(
       response.data!['data'] as Map<String, dynamic>,
     );
   }

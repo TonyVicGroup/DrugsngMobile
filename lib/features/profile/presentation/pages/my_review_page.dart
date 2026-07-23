@@ -25,7 +25,7 @@ class _MyReviewPageState extends State<MyReviewPage> {
     super.initState();
     if (context.read<ReviewsCubit>().state.status.isInitial) {
       context.read<ReviewsCubit>().getReviews(
-        context.read<AuthCubit>().user!.id,
+        context.read<AuthCubit>().state.user!.id,
       );
     }
   }
@@ -58,7 +58,7 @@ class _MyReviewPageState extends State<MyReviewPage> {
                 IconButton(
                   onPressed: () {
                     context.read<ReviewsCubit>().getReviews(
-                      context.read<AuthCubit>().user!.id,
+                      context.read<AuthCubit>().state.user!.id,
                     );
                   },
                   icon: const Icon(Icons.refresh),

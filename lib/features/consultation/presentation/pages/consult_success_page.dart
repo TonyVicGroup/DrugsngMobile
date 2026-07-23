@@ -106,11 +106,7 @@ class ConsultSuccessPage extends StatelessWidget {
   }
 
   String userEmail(BuildContext context) {
-    if (context.read<AuthCubit>().state is UserLoggedInState) {
-      final state = context.read<AuthCubit>().state as UserLoggedInState;
-      return state.user.email;
-    }
-    return 'your email';
+    return context.read<AuthCubit>().state.user?.email ?? 'your email';
   }
 
   void goHome(BuildContext context) {

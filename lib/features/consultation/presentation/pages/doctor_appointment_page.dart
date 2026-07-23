@@ -1,7 +1,6 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
-import 'package:drugs_ng/core/enum/request_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/app_toast.dart';
@@ -193,7 +192,7 @@ class _DoctorAppointmentPageState extends State<DoctorAppointmentPage> {
       errorMsg = result.$2;
     } else {
       status.value = LoadStatusEnum.success;
-      doctorDetails = result.$1;
+      // doctorDetails = result.$1;
     }
   }
 
