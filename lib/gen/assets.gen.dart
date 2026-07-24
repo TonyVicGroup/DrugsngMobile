@@ -72,6 +72,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/app_logo.svg
   String get appLogo => 'assets/svg/app_logo.svg';
 
+  /// File path: assets/svg/arrow_left.svg
+  String get arrowLeft => 'assets/svg/arrow_left.svg';
+
   /// File path: assets/svg/arrow_right.svg
   String get arrowRight => 'assets/svg/arrow_right.svg';
 
@@ -337,6 +340,7 @@ class $AssetsSvgGen {
   List<String> get values => [
     moreGrid,
     appLogo,
+    arrowLeft,
     arrowRight,
     attach,
     bell,

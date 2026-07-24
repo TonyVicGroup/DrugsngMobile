@@ -6,6 +6,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
@@ -85,7 +86,7 @@ class OnboardingScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: AppButton.primary(
+                            child: AppGradientButton(
                               text: "Login",
                               onTap: () => login(context),
                             ),

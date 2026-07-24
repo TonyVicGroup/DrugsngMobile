@@ -1,5 +1,6 @@
 import 'package:drugs_ng/core/services/log_service.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
+import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static const splash = '/splash';
   static const login = '/login';
   static const createAccount = '/createAccount';
+  static const forgetPassword = '/forgetPassword';
 
   static String currentRoute = splash;
 
@@ -30,6 +32,8 @@ class AppRoutes {
         return LoginPage.route(routeSettings);
       case createAccount:
         return CreateAccountPage.route(routeSettings);
+      case forgetPassword:
+        return ForgetPasswordPage.route(routeSettings);
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }

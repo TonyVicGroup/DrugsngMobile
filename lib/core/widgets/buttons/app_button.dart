@@ -26,10 +26,10 @@ class AppButton {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: status.isDisabled ? AppColor.lightBlue : AppColor.primary,
-          borderRadius: BorderRadius.circular(100.r),
-          gradient: LinearGradient(
-            colors: [const Color(0xFF0D5CC2), const Color(0xFF00D6EF)],
-          ),
+          // borderRadius: BorderRadius.circular(100.r),
+          // gradient: LinearGradient(
+          //   colors: [const Color(0xFF0D5CC2), const Color(0xFF00D6EF)],
+          // ),
         ),
         child:
             status.isLoading

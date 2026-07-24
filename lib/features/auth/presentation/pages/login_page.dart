@@ -1,17 +1,15 @@
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/features/auth/presentation/widgets/biometric_modal.dart';
 import 'package:drugs_ng/features/auth/presentation/widgets/or_text_divider.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
@@ -159,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     // }
                   },
                   builder: (context, state) {
-                    return AppButton.primary(
+                    return AppGradientButton(
                       text: "Login",
                       onTap: () => _login(context),
                     );
@@ -245,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _forgetPassword() {
-    AppUtils.pushWidget(const ForgetPasswordPage());
+    context.pushNamed(AppRoutes.forgetPassword);
   }
 
   void _useBiometric() {
@@ -259,6 +257,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signup() {
-    AppUtils.pushWidget(const CreateAccountPage());
+    context.pushNamed(AppRoutes.createAccount);
   }
 }
