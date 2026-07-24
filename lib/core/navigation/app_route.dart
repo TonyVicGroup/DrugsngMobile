@@ -9,6 +9,7 @@ import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/complete_doctor_verification_summary_page.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/doctor_registration_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
@@ -24,6 +25,7 @@ class AppRoutes {
   static const selectAccountType = '/selectAccountType';
   static const completeDoctorVerificationSummary =
       '/completeDoctorVerificationSummary';
+  static const doctorRegistration = '/doctorRegistration';
 
   static String currentRoute = splash;
 
@@ -55,6 +57,8 @@ class AppRoutes {
         return SelectAccountPage.route(routeSettings);
       case completeDoctorVerificationSummary:
         return CompleteDoctorVerificationSummaryPage.route(routeSettings);
+      case doctorRegistration:
+        return DoctorRegistrationPage.route(routeSettings);
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }

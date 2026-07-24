@@ -20,6 +20,7 @@ import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dar
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
+import 'package:drugs_ng/features/verification/presentation/cubit/doctor_registration_cubit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -103,6 +104,12 @@ class BlocProviderWrapper extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => DependencyInjectionService.inst.get<ReviewsCubit>(),
+        ),
+        BlocProvider(
+          create:
+              (_) =>
+                  DependencyInjectionService.inst
+                      .get<DoctorRegistrationCubit>(),
         ),
       ],
       child: child,

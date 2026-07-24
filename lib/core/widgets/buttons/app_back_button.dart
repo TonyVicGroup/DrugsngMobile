@@ -17,11 +17,35 @@ class AppBackButton {
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColor.colorBDC4CD),
         color: AppColor.colorFFFFFF,
+        boxShadow: AppColor.shadow,
       ),
       child: SvgPicture.asset(
         Assets.svg.chevronLeft,
         colorFilter: ColorFilter.mode(AppColor.color333333, BlendMode.srcIn),
         height: 15.h,
+      ),
+    ),
+  );
+
+  static Widget lightArrow(void Function() onTap) => AppButtonAnimator(
+    onTap: onTap,
+    child: Container(
+      height: 40.r,
+      width: 40.r,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(color: AppColor.black.withAlpha(15)),
+        color: AppColor.colorFFFFFF,
+        boxShadow: AppColor.shadow,
+      ),
+      child: RotatedBox(
+        quarterTurns: 2,
+        child: SvgPicture.asset(
+          Assets.svg.arrowRight,
+          colorFilter: ColorFilter.mode(AppColor.color1A1D26, BlendMode.srcIn),
+          height: 15.h,
+        ),
       ),
     ),
   );

@@ -1,5 +1,6 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_back_button.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
@@ -55,7 +56,7 @@ class SelectAccountPage extends StatelessWidget {
             onTap: () {},
           ),
           40.verticalSpace,
-          AppGradientButton(text: 'Continue', onTap: () {}),
+          AppGradientButton(text: 'Continue', onTap: () => _continue(context)),
           20.verticalSpace,
         ],
       ),
@@ -64,5 +65,9 @@ class SelectAccountPage extends StatelessWidget {
 
   void _goBack(BuildContext context) {
     context.pop();
+  }
+
+  void _continue(BuildContext context) {
+    context.pushNamed(AppRoutes.completeDoctorVerificationSummary);
   }
 }

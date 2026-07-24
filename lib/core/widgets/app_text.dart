@@ -58,6 +58,15 @@ class AppText {
     ),
   );
 
+  static Text sp22(String text) => Text(
+    text,
+    style: TextStyle(
+      fontSize: 22.sp,
+      fontWeight: FontWeight.w500,
+      height: 1.25,
+    ),
+  );
+
   static Text sp20(String text) => Text(
     text,
     style: TextStyle(

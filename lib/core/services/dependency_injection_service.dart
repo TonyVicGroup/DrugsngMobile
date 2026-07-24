@@ -19,6 +19,7 @@ import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dar
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
+import 'package:drugs_ng/features/verification/presentation/cubit/doctor_registration_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjectionService {
@@ -54,6 +55,9 @@ class DependencyInjectionService {
       ..registerLazySingleton<CardCubit>(CardCubit.new)
       ..registerLazySingleton<StateAndCityCubit>(StateAndCityCubit.new)
       ..registerLazySingleton<GetCountryCubit>(GetCountryCubit.new)
-      ..registerLazySingleton<ReviewsCubit>(ReviewsCubit.new);
+      ..registerLazySingleton<ReviewsCubit>(ReviewsCubit.new)
+      ..registerLazySingleton<DoctorRegistrationCubit>(
+        DoctorRegistrationCubit.new,
+      );
   }
 }
