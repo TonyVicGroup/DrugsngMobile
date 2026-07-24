@@ -34,7 +34,7 @@ class AppBackButton {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: AppColor.colorF5F7FA),
+        color: AppColor.colorF5F7FA,
       ),
       child: CustomImage(
         Assets.svg.arrowLeft,

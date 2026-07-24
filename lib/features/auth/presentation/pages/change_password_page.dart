@@ -1,5 +1,6 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
-import 'package:drugs_ng/core/enum/otp_type_enum.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_back_button.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
@@ -9,32 +10,37 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/forget_password_cubit.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
-class ForgetPasswordPage extends StatefulWidget {
-  const ForgetPasswordPage({super.key});
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
 
   @override
-  State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 
   static Route<dynamic> route(RouteSettings settings) => MaterialPageRoute(
-    builder: (_) => const ForgetPasswordPage(),
+    builder: (_) => const ChangePasswordPage(),
     settings: settings,
   );
 }
 
-class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  final emailCntrl = TextEditingController();
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  final password1 = TextEditingController();
+  final password2 = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final obscurePassword1 = ValueNotifier<bool>(true);
+  final obscurePassword2 = ValueNotifier<bool>(true);
 
   @override
   void dispose() {
-    emailCntrl.dispose();
+    password1.dispose();
+    password2.dispose();
+    obscurePassword1.dispose();
+    obscurePassword2.dispose();
     super.dispose();
   }
 
@@ -81,62 +87,79 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                             ),
                             12.verticalSpace,
                             AppText.sp30(
-                              "Forgot password?",
+                              "Change Password",
                             ).w500.setColor(AppColor.color333333),
                             13.verticalSpace,
                             AppText.sp16(
-                              "Don't worry! It happens. Please enter the email associated with your account.",
+                              "Do well to type what you'll remember",
                             ).w400.setColor(AppColor.color6D6D6D).centerText,
                             30.verticalSpace,
                             Column(
-                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AppText.sp14(
-                                  "Email address",
+                                  "New password",
                                 ).w400.setColor(AppColor.color333333),
                                 6.verticalSpace,
-                                BorderTextField(
-                                  controller: emailCntrl,
-                                  keyboardType: TextInputType.text,
-                                  hint: "your@email.com",
-                                  validator: AppValidators.email,
+                                ValueListenableBuilder(
+                                  valueListenable: obscurePassword1,
+                                  builder: (context, value, child) {
+                                    return BorderTextField(
+                                      controller: password1,
+                                      hint: "Must be 8 characters",
+                                      keyboardType: TextInputType.text,
+                                      suffixIcon: svgPicture(value),
+                                      obscureText: value,
+                                      clickSuffix: () {
+                                        obscurePassword1.value =
+                                            !obscurePassword1.value;
+                                      },
+                                      validator: AppValidators.passwordStrong,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            22.verticalSpace,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppText.sp14(
+                                  "Confirm new password",
+                                ).w400.setColor(AppColor.color333333),
+                                6.verticalSpace,
+                                ValueListenableBuilder(
+                                  valueListenable: obscurePassword2,
+                                  builder: (context, value, child) {
+                                    return BorderTextField(
+                                      controller: password2,
+                                      hint: "Must be 8 characters",
+                                      keyboardType: TextInputType.text,
+                                      suffixIcon: svgPicture(value),
+                                      obscureText: value,
+                                      clickSuffix: () {
+                                        obscurePassword2.value =
+                                            !obscurePassword2.value;
+                                      },
+                                      validator: (v) {
+                                        if (password1.text != v) {
+                                          return "Passwords do not match";
+                                        }
+                                        return null;
+                                      },
+                                    );
+                                  },
                                 ),
                               ],
                             ),
                             40.verticalSpace,
                             AppGradientButton(
-                              text: "Send code",
-                              onTap: () => _sendCode(context),
+                              text: "Save New Password",
+                              onTap: () => _saveNewPassword(context),
                               status:
                                   state.sendResetStatus.isLoading
                                       ? ButtonStatus.loading
                                       : ButtonStatus.active,
-                            ),
-                            24.verticalSpace,
-                            RichText(
-                              text: TextSpan(
-                                text: "Remember password? ",
-                                children: [
-                                  TextSpan(
-                                    text: " Log in",
-                                    style: TextStyle(
-                                      color: AppColor.color0B8AE1,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    recognizer:
-                                        TapGestureRecognizer()..onTap = _login,
-                                  ),
-                                ],
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.color333333,
-                                  fontFamily: AppText.fontFamily,
-                                  height: 1.25,
-                                ),
-                              ),
                             ),
                             14.verticalSpace,
                           ],
@@ -157,22 +180,24 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     Navigator.of(context).pop();
   }
 
-  void _sendCode(BuildContext context) {
+  void _saveNewPassword(BuildContext context) {
     // if (formKey.currentState?.validate() ?? false) {
     //   context.read<ForgetPasswordCubit>().sendPasswordReset(emailCntrl.text);
     // }
-    _verifySuccess();
-  }
-
-  void _login() {
-    Navigator.of(context).pop();
+    context.pushNamed(AppRoutes.changePasswordSucces);
   }
 
   _verifySuccess() {
-    EmailOtpPage.verifyOtp(
-      context: context,
-      email: emailCntrl.text,
-      otpType: OtpTypeEnum.passwordReset,
-    );
+    // EmailOtpPage.verifyOtp(
+    //   context: context,
+    //   email: emailCntrl.text,
+    //   otpType: OtpTypeEnum.passwordReset,
+    // );
   }
+
+  Widget svgPicture(bool visible) => SvgPicture.asset(
+    visible ? Assets.svg.visible : Assets.svg.nonVisible,
+    width: 17.w,
+    colorFilter: const ColorFilter.mode(AppColor.color6D6D6D, BlendMode.srcIn),
+  );
 }

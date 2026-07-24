@@ -49,6 +49,7 @@ class AppColor {
   static const Color colorF5F7FA = Color(0xFFF5F7FA);
   static const Color color31B5ED = Color(0xFF31B5ED);
   static const Color colorFFFFFF = Color(0xFFFFFFFF);
+  static const Color colorF0F0F0 = Color(0xFFF0F0F0);
 
   // shimmer loader colors
   static const Color shimmerBase = Color(0xFFe0e0e0);
