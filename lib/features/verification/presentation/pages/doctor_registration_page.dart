@@ -3,7 +3,12 @@ import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_back_button.dart';
 import 'package:drugs_ng/features/verification/presentation/cubit/doctor_registration_cubit.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/tabs/bank_details_tab.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/tabs/face_verification_tab.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/tabs/id_verification_tab.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/tabs/medical_credentials_tab.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/tabs/personal_info_tab.dart';
+import 'package:drugs_ng/features/verification/presentation/pages/tabs/review_application_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,10 +29,12 @@ class DoctorRegistrationPage extends StatefulWidget {
 }
 
 class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
-  final PageController controller = PageController();
+  late final PageController controller;
   @override
   void initState() {
     super.initState();
+    controller = PageController();
+    context.read<DoctorRegistrationCubit>();
   }
 
   @override
@@ -52,7 +59,7 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
         children: [
           SmoothPageIndicator(
             controller: controller, // PageController
-            count: 5,
+            count: 6,
             effect: ExpandingDotsEffect(
               dotWidth: 8.r,
               dotHeight: 8.r,
@@ -60,7 +67,6 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
               activeDotColor: AppColor.color0B8AE1,
               dotColor: AppColor.colorE0E0E0,
             ), // your preferred effect
-            onDotClicked: (index) {},
           ),
           Expanded(
             child: PageView(
@@ -70,10 +76,11 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
               },
               children: [
                 PersonalInfoTab(),
-                PersonalInfoTab(),
-                PersonalInfoTab(),
-                PersonalInfoTab(),
-                PersonalInfoTab(),
+                MedicalCredentialsTab(),
+                IdVerificationTab(),
+                FaceVerificationTab(),
+                BankDetailsTab(),
+                ReviewApplicationTab(),
               ],
             ),
           ),
