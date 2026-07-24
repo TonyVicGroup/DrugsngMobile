@@ -1,16 +1,11 @@
 import 'dart:ui';
 
 import 'package:drugs_ng/core/navigation/app_route.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
-import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -118,10 +113,6 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   void getStarted(BuildContext context) {
-    // AppUtils.pushWidget(const CreateAccountPage());
-    // allow users to enter the app without creating an account
-    Navigator.of(
-      context,
-    ).pushAndRemoveUntil(AppUtils.transition(TabOverlay()), (_) => false);
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signup, (_) => false);
   }
 }

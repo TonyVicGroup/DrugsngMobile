@@ -41,6 +41,7 @@ class BorderTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       enabled: enabled,
+      readOnly: onTap != null,
       onTap: onTap,
       style: TextStyle(
         fontSize: 16.sp,

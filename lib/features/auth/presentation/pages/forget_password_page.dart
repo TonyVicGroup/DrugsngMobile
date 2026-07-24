@@ -44,14 +44,10 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       create: (context) => ForgetPasswordCubit(),
       child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
         listener: (context, state) {
-          if (state is ForgetPasswordSuccess) {
-            EmailOtpPage.verifyOtp(
-              context: context,
-              email: emailCntrl.text,
-              otpType: OtpTypeEnum.passwordReset,
-            );
-          } else if (state is ForgetPasswordError) {
-            AppToast.warn(context, state.error.message);
+          if (state.sendResetStatus.isSuccess) {
+            _verifySuccess();
+          } else if (state.sendResetStatus.isFailed) {
+            AppToast.warn(context, state.error?.message ?? 'An error occurred');
           }
         },
         builder: (context, state) {
@@ -113,7 +109,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                               text: "Send code",
                               onTap: () => _sendCode(context),
                               status:
-                                  state is ForgetPasswordLoading
+                                  state.sendResetStatus.isLoading
                                       ? ButtonStatus.loading
                                       : ButtonStatus.active,
                             ),
@@ -162,12 +158,21 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   }
 
   void _sendCode(BuildContext context) {
-    if (formKey.currentState?.validate() ?? false) {
-      context.read<ForgetPasswordCubit>().sendPasswordReset(emailCntrl.text);
-    }
+    // if (formKey.currentState?.validate() ?? false) {
+    //   context.read<ForgetPasswordCubit>().sendPasswordReset(emailCntrl.text);
+    // }
+    _verifySuccess();
   }
 
   void _login() {
     Navigator.of(context).pop();
+  }
+
+  _verifySuccess() {
+    EmailOtpPage.verifyOtp(
+      context: context,
+      email: emailCntrl.text,
+      otpType: OtpTypeEnum.passwordReset,
+    );
   }
 }

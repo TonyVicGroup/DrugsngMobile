@@ -261,6 +261,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signup() {
-    context.pushNamed(AppRoutes.createAccount);
+    context.pushNamed(AppRoutes.signup);
   }
 }

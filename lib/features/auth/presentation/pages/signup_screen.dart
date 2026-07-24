@@ -5,32 +5,32 @@ import 'package:drugs_ng/features/auth/presentation/widgets/setup_profile_tab.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<CreateAccountPage> createState() => _CreateAccountPageState();
+  State<SignupScreen> createState() => _SignupScreenState();
 
   static Route<dynamic> route(RouteSettings route) {
-    return MaterialPageRoute(builder: (_) => const CreateAccountPage());
+    return MaterialPageRoute(builder: (_) => const SignupScreen());
   }
 }
 
-class _CreateAccountPageState extends State<CreateAccountPage> {
+class _SignupScreenState extends State<SignupScreen> {
   final emailCntrl = TextEditingController();
   final firstNameCntrl = TextEditingController();
   final lastNameCntrl = TextEditingController();
   final password1Cntrl = TextEditingController();
   final password2Cntrl = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  final createAccountForm = GlobalKey<FormState>();
+  final setupProfileForm = GlobalKey<FormState>();
   late final PageController controller;
 
-  ValueNotifier<DateTime> birthDay = ValueNotifier<DateTime>(DateTime.now());
+  ValueNotifier<DateTime?> birthDay = ValueNotifier<DateTime?>(null);
   ValueNotifier<GenderEnum> gender = ValueNotifier<GenderEnum>(GenderEnum.male);
   ValueNotifier<bool> obscurePassword1 = ValueNotifier<bool>(true);
   ValueNotifier<bool> obscurePassword2 = ValueNotifier<bool>(true);
   ValueNotifier<bool> acceptTerms = ValueNotifier<bool>(false);
-  // bool getWeeklyUpdate = false;
   ValueNotifier<bool> acceptTermsHasError = ValueNotifier<bool>(false);
 
   @override
@@ -62,13 +62,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         resizeToAvoidBottomInset: false,
         body: PageView(
           controller: controller,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             CreateAccountTab(
               controller: controller,
               email: emailCntrl,
               password1: password1Cntrl,
               password2: password2Cntrl,
-              formKey: formKey,
+              formKey: createAccountForm,
               obscurePassword1: obscurePassword1,
               obscurePassword2: obscurePassword2,
               acceptTerms: acceptTerms,
@@ -81,6 +82,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               email: emailCntrl,
               birthDay: birthDay,
               gender: gender,
+              formKey: setupProfileForm,
             ),
           ],
         ),

@@ -70,7 +70,7 @@ class CreateAccountTab extends StatelessWidget {
                     controller: email,
                     keyboardType: TextInputType.text,
                     hint: "Enter your email address",
-                    validator: AppValidators.email,
+                    validator: (v) => AppValidators.email(v?.trim()),
                   ),
                 ],
               ),
@@ -188,12 +188,12 @@ class CreateAccountTab extends StatelessWidget {
   );
 
   void _next(BuildContext context) {
-    if (validate()) {
-      controller.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
-    }
+    // if (validate()) {
+    controller.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+    // }
   }
 
   bool buttonEnabled() {

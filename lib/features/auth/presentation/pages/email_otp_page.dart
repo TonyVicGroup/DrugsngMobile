@@ -1,6 +1,7 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
@@ -34,17 +35,33 @@ class EmailOtpPage extends StatefulWidget {
     required OtpTypeEnum otpType,
     int inputLength = 6,
   }) {
-    AppUtils.pushWidget(
-      BlocProvider(
-        create:
-            (context) =>
-                EmailOtpCubit(otpType: otpType, email: email)..startTimer(),
-        child: EmailOtpPage._(
-          email: email,
-          otpType: otpType,
-          inputLength: inputLength,
-        ),
-      ),
+    context.pushNamed(
+      AppRoutes.emailOtp,
+      arguments: {
+        'email': email,
+        'otpType': otpType,
+        'inputLength': inputLength,
+      },
+    );
+  }
+
+  static Route<dynamic> route(RouteSettings settings) {
+    final args = settings.arguments as Map<String, dynamic>?;
+    final email = args?['email'] as String?;
+    final otpType = args?['otpType'] as OtpTypeEnum?;
+    final inputLength = args?['inputLength'] as int?;
+
+    return MaterialPageRoute(
+      builder:
+          (_) => BlocProvider(
+            create: (context) => EmailOtpCubit(otpType: otpType, email: email),
+            child: EmailOtpPage._(
+              email: email!,
+              otpType: otpType!,
+              inputLength: inputLength!,
+            ),
+          ),
+      settings: settings,
     );
   }
 }
