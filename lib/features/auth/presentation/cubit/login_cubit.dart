@@ -5,9 +5,11 @@ import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:local_auth/local_auth.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository repo = AuthRepository();
+  final LocalAuthentication _localAuth = LocalAuthentication();
   LoginCubit() : super(LoginState()) {
     init();
   }
@@ -41,6 +43,39 @@ class LoginCubit extends Cubit<LoginState> {
       );
       return;
     }
+
+    // Check if the device supports biometrics
+    final bool canCheckBiometrics = await _localAuth.canCheckBiometrics;
+    final bool isDeviceSupported = await _localAuth.isDeviceSupported();
+    if (!canCheckBiometrics || !isDeviceSupported) {
+      emit(
+        state.copyWith(
+          error: "Biometric authentication is not available on this device",
+          status: LoadStatusEnum.failed,
+        ),
+      );
+      return;
+    }
+
+    // Prompt biometric verification before logging in
+    final bool authenticated = await _localAuth.authenticate(
+      localizedReason: 'Verify your identity to log in',
+      options: const AuthenticationOptions(
+        biometricOnly: true,
+        stickyAuth: true,
+      ),
+    );
+
+    if (!authenticated) {
+      emit(
+        state.copyWith(
+          error: "Biometric authentication failed or was cancelled",
+          status: LoadStatusEnum.failed,
+        ),
+      );
+      return;
+    }
+
     login(email, password);
   }
 
@@ -56,6 +91,7 @@ class LoginCubit extends Cubit<LoginState> {
           email: email,
           password: password,
           account: result,
+          setBiometric: state.isBiometricEnabled,
         );
         final authState = GetIt.I.get<AuthCubit>().state;
         emit(LoginState(status: authState.status, error: authState.error));

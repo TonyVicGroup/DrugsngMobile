@@ -35,85 +35,91 @@ class SetupProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBackButton.light(_goBack),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 72.h),
-          padding: EdgeInsets.all(10.r),
-          decoration: BoxDecoration(
-            color: AppColor.colorFFFFFF,
-            borderRadius: BorderRadius.circular(30.r),
-            boxShadow: AppColor.shadow,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                10.verticalSpace,
-                CustomImage(Assets.images.authImage.path, width: 122.w),
-                20.verticalSpace,
-                AppText.sp24("Set up profile").w700.black,
-                20.verticalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBackButton.light(_goBack),
+            20.verticalSpace,
+            Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: AppColor.colorFFFFFF,
+                borderRadius: BorderRadius.circular(30.r),
+                boxShadow: AppColor.shadow,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppText.sp14(
-                      "First name",
-                    ).w400.setColor(AppColor.color333333),
-                    6.verticalSpace,
-                    BorderTextField(
-                      controller: firstName,
-                      keyboardType: TextInputType.text,
-                      hint: "Your name",
-                      validator: AppValidators.name,
+                    10.verticalSpace,
+                    CustomImage(Assets.images.authImage.path, width: 122.w),
+                    20.verticalSpace,
+                    AppText.sp24("Set up profile").w700.black,
+                    20.verticalSpace,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.sp14(
+                          "First name",
+                        ).w400.setColor(AppColor.color333333),
+                        6.verticalSpace,
+                        BorderTextField(
+                          controller: firstName,
+                          keyboardType: TextInputType.text,
+                          hint: "Your name",
+                          validator: AppValidators.name,
+                        ),
+                      ],
                     ),
+                    22.verticalSpace,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.sp14(
+                          "Last name",
+                        ).w400.setColor(AppColor.color333333),
+                        6.verticalSpace,
+                        BorderTextField(
+                          controller: lastName,
+                          hint: "Your surname",
+                          keyboardType: TextInputType.text,
+                          validator: AppValidators.name,
+                        ),
+                      ],
+                    ),
+                    22.verticalSpace,
+                    BlocConsumer<SignupCubit, SignupState>(
+                      listener: (context, state) {
+                        if (state.status.isSuccess) {
+                          _signupSuccess(context);
+                        } else if (state.status.isFailed) {
+                          _signupFailed(context, state.error?.message);
+                        }
+                      },
+                      builder: (context, state) {
+                        return AppGradientButton(
+                          text: "Done",
+                          onTap: () => _next(context),
+                          status:
+                              state.status.isLoading
+                                  ? ButtonStatus.loading
+                                  : (buttonEnabled()
+                                      ? ButtonStatus.active
+                                      : ButtonStatus.disabled),
+                        );
+                      },
+                    ),
+                    54.verticalSpace,
                   ],
                 ),
-                22.verticalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText.sp14(
-                      "Last name",
-                    ).w400.setColor(AppColor.color333333),
-                    6.verticalSpace,
-                    BorderTextField(
-                      controller: lastName,
-                      hint: "Your surname",
-                      keyboardType: TextInputType.text,
-                      validator: AppValidators.name,
-                    ),
-                  ],
-                ),
-                22.verticalSpace,
-                BlocConsumer<SignupCubit, SignupState>(
-                  listener: (context, state) {
-                    if (state.status.isSuccess) {
-                      _signupSuccess(context);
-                    } else if (state.status.isFailed) {
-                      _signupFailed(context, state.error?.message);
-                    }
-                  },
-                  builder: (context, state) {
-                    return AppGradientButton(
-                      text: "Done",
-                      onTap: () => _next(context),
-                      status:
-                          state.status.isLoading
-                              ? ButtonStatus.loading
-                              : (buttonEnabled()
-                                  ? ButtonStatus.active
-                                  : ButtonStatus.disabled),
-                    );
-                  },
-                ),
-                54.verticalSpace,
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

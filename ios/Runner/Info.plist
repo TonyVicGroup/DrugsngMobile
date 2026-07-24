@@ -26,6 +26,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Use Face ID to quickly and securely log in to your account</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your precise location is used to show your position on the map, get directions, estimate travel times and improve search results</string>
 	<key>UIApplicationSceneManifest</key>

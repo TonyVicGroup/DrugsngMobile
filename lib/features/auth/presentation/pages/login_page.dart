@@ -247,7 +247,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _useBiometric() {
-    BiometricModal.show(context);
+    if (context.read<LoginCubit>().state.isBiometricEnabled) {
+      context.read<LoginCubit>().biometricLogin();
+    } else {
+      BiometricModal.show(context);
+    }
   }
 
   void _login(BuildContext context) {

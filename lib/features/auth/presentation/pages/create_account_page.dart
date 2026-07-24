@@ -61,6 +61,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: PageView(
+          controller: controller,
           children: [
             CreateAccountTab(
               controller: controller,
