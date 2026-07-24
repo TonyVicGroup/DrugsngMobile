@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_input_formaters.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
@@ -205,7 +205,7 @@ class _AddCardPageState extends State<AddCardPage> {
     if (formKey.currentState?.validate() ?? false) {
       final user = context.read<AuthCubit>().state.user;
       if (user == null) {
-        AppToast.warning(context, 'Login session expired');
+        AppToast.warn(context, 'Login session expired');
         Navigator.pushAndRemoveUntil(
           context,
           AppUtils.transition(const LoginPage()),
@@ -232,7 +232,7 @@ class _AddCardPageState extends State<AddCardPage> {
         Navigator.pop(context);
       } else {
         // ignore: use_build_context_synchronously
-        AppToast.warning(context, result.message);
+        AppToast.warn(context, result.message);
       }
     }
   }

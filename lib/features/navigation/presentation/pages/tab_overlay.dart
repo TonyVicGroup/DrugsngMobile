@@ -38,7 +38,7 @@ class _TabOverlayState extends State<TabOverlay> {
     // _errorStream = context.read<RestService>().errorStream.listen((event) {
     //   if (event.statusCode == 401) {
     //     context.read<AuthCubit>().logout();
-    //     AppToast.warning(context, ApiError.unauthorized.message);
+    //     AppToast.warn(context, ApiError.unauthorized.message);
     //   }
     // });
     super.initState();

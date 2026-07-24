@@ -1,6 +1,6 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
@@ -125,7 +125,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     );
                   }
                   if (state.status.isFailed) {
-                    AppToast.warning(context, state.error!.message);
+                    AppToast.warn(context, state.error!.message);
                   }
                 },
                 builder: (context, state) {

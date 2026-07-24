@@ -3,7 +3,7 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/profile/data/models/review.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
@@ -158,7 +158,7 @@ class _EditReviewPageState extends State<EditReviewPage> {
                       if (state.addEditStatus.isSuccess) {
                         Navigator.pop(context);
                       } else if (state.addEditStatus.isFailed) {
-                        AppToast.warning(
+                        AppToast.warn(
                           context,
                           state.error?.message ?? "Failed to post review",
                         );

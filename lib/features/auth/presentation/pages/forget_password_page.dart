@@ -1,6 +1,6 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
@@ -43,7 +43,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               otpType: OtpTypeEnum.passwordReset,
             );
           } else if (state is ForgetPasswordError) {
-            AppToast.warning(context, state.error.message);
+            AppToast.warn(context, state.error.message);
           }
         },
         builder: (context, state) {

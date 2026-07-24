@@ -1,5 +1,5 @@
-import 'package:drugs_ng/core/widgets/modal/animated_bottom_modal_widget.dart';
-import 'package:drugs_ng/core/widgets/modal/animated_popup_widget.dart';
+import 'package:drugs_ng/core/widgets/popup/animated_bottom_modal_widget.dart';
+import 'package:drugs_ng/core/widgets/popup/animated_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -67,7 +67,7 @@ extension ContextExtension on BuildContext {
     bool barrierDismissible = true,
     bool useRootNavigator = true,
     bool fullBleed = false,
-    // bool animatePopup = true,
+    bool animatePopup = true,
   }) {
     return showDialog<T>(
       context: this,

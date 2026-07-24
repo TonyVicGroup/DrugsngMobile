@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/core/enum/request_status.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/error_reload_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/consultation/data/models/consultation_details.dart';
@@ -79,7 +79,7 @@ class _ConsultationListPageState extends State<ConsultationListPage>
         },
         listener: (context, state) {
           if (state.current.loadStatus.isFailed) {
-            AppToast.warning(context, state.current.message ?? '');
+            AppToast.warn(context, state.current.message ?? '');
           }
         },
         builder: (context, state) {

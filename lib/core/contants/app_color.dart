@@ -44,6 +44,8 @@ class AppColor {
   static const Color colorDC2626 = Color(0xFFDC2626);
   static const Color color1A1D26 = Color(0xFF1A1D26);
   static const Color colorE0E0E0 = Color(0xFFE0E0E0);
+  static const Color color00C3EF = Color(0xFF00C3EF);
+  static const Color color666666 = Color(0xFF666666);
   //
   static const Color colorFFFFFF = Color(0xFFFFFFFF);
 
@@ -58,6 +60,14 @@ class AppColor {
       blurRadius: 20,
       spreadRadius: 0,
       color: Color.fromRGBO(0, 0, 0, 0.05),
+    ),
+  ];
+  static const List<BoxShadow> blueShadow = [
+    BoxShadow(
+      offset: Offset(0, 0),
+      blurRadius: 30,
+      spreadRadius: 0,
+      color: Color(0x260B8AE1),
     ),
   ];
 }

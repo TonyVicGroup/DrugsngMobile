@@ -3,7 +3,7 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_details.dart';
@@ -65,7 +65,7 @@ class _DoctorAppointmentPageState extends State<DoctorAppointmentPage> {
         child: BlocListener<DoctorCubit, DoctorState>(
           listener: (context, state) {
             if (state is DoctorStateError) {
-              AppToast.warning(context, state.error.message);
+              AppToast.warn(context, state.error.message);
             }
           },
           child: ValueListenableBuilder(

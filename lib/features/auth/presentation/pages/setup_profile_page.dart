@@ -88,7 +88,7 @@
 //                 BlocConsumer<ProfileSetupCubit, ProfileSetupState>(
 //                   listener: (context, state) {
 //                     if (state is ProfileSetupError) {
-//                       AppToast.warning(context, state.error.message);
+//                       AppToast.warn(context, state.error.message);
 //                     } else if (state is ProfileSetupUpdated) {
 //                       Navigator.pushAndRemoveUntil(
 //                         context,

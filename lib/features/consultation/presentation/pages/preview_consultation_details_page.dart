@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/services/log_service.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/consultation/data/models/consultation_data.dart';
 import 'package:drugs_ng/features/consultation/presentation/cubit/consultation_cubit.dart';
@@ -143,7 +143,7 @@ class _PreviewConsultationDetailsPageState
     btnStatus.value = ButtonStatus.active;
     if (result != null) {
       // ignore: use_build_context_synchronously
-      AppToast.warning(context, result.message);
+      AppToast.warn(context, result.message);
     } else {
       Navigator.push(
         // ignore: use_build_context_synchronously

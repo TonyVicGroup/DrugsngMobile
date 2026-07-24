@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
@@ -63,7 +63,7 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
                   );
                   setState(() => file = null);
                 } else if (state is PrescriptionError) {
-                  AppToast.warning(context, state.error.message);
+                  AppToast.warn(context, state.error.message);
                 }
               },
               child: 30.verticalSpace,
@@ -170,10 +170,7 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
                       final userId = context.read<AuthCubit>().state.user!.id;
                       context.read<PrescriptionCubit>().addData(userId, file!);
                     } catch (e) {
-                      AppToast.warning(
-                        context,
-                        "Unable to upload prescription",
-                      );
+                      AppToast.warn(context, "Unable to upload prescription");
                     }
                   },
                 );
@@ -235,7 +232,7 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
               return;
             }
             if (pickedFile.size >= 10485760) {
-              AppToast.warning(
+              AppToast.warn(
                 // ignore: use_build_context_synchronously
                 context,
                 "Your File's size should be less than 10MB.",

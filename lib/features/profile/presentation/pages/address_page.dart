@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
@@ -34,7 +34,7 @@ class _AddressPageState extends State<AddressPage> {
     return BlocConsumer<AddressCubit, AddressState>(
       listener: (context, state) {
         if (state.status.isFailed) {
-          AppToast.warning(context, state.error!.message);
+          AppToast.warn(context, state.error!.message);
         }
       },
       builder: (context, state) {

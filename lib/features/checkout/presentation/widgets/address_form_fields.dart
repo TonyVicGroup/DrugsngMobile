@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/checkout/data/models/state_and_city.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/state_and_city_cubit.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class AddressFormFields {
       },
       listener: (context, state) {
         if (state.countryData.status.isFailed) {
-          AppToast.warning(context, state.countryData.error?.message ?? '');
+          AppToast.warn(context, state.countryData.error?.message ?? '');
         }
         if (state.countryData.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setCountry(
@@ -62,7 +62,7 @@ class AddressFormFields {
       listenWhen: (prev, curr) => prev.allStates != curr.allStates,
       listener: (context, state) {
         if (state.allStates.status.isFailed) {
-          AppToast.warning(context, state.allStates.error?.message ?? '');
+          AppToast.warn(context, state.allStates.error?.message ?? '');
         }
         if (state.allStates.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setState(
@@ -87,7 +87,7 @@ class AddressFormFields {
               state.allStates.isEmpty
                   ? () {
                     // if (state.state == null) {
-                    //   AppToast.warning(context, 'Please select a State');
+                    //   AppToast.warn(context, 'Please select a State');
                     //   return;
                     // }
                     context.read<StateAndCityCubit>().getStates();
@@ -107,7 +107,7 @@ class AddressFormFields {
       listenWhen: (prev, curr) => prev.allCities != curr.allCities,
       listener: (context, state) {
         if (state.allCities.status.isFailed) {
-          AppToast.warning(context, state.allCities.error?.message ?? '');
+          AppToast.warn(context, state.allCities.error?.message ?? '');
         }
         if (state.allCities.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setCity(
@@ -130,7 +130,7 @@ class AddressFormFields {
               state.allCities.isEmpty
                   ? () {
                     // if (state.city == null) {
-                    //   AppToast.warning(context, 'Please select a City');
+                    //   AppToast.warn(context, 'Please select a City');
                     //   return;
                     // }
                     context.read<StateAndCityCubit>().getCity();

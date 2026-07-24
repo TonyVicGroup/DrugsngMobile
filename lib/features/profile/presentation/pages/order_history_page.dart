@@ -1,7 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -26,10 +26,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
     return BlocConsumer<OrderHistoryCubit, OrderHistoryState>(
       listener: (context, state) {
         if (state.inProgressStatus.isFailed) {
-          AppToast.warning(context, state.inProgressError?.message ?? "");
+          AppToast.warn(context, state.inProgressError?.message ?? "");
         }
         if (state.settledStatus.isFailed) {
-          AppToast.warning(context, state.settledError?.message ?? "");
+          AppToast.warn(context, state.settledError?.message ?? "");
         }
       },
       builder: (context, state) {

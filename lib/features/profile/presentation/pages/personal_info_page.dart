@@ -7,7 +7,7 @@ import 'package:drugs_ng/core/enum/gender_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
@@ -219,7 +219,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         },
         listener: (context, state) {
           if (state.status.isFailed) {
-            AppToast.warning(context, state.error?.message ?? '');
+            AppToast.warn(context, state.error?.message ?? '');
           } else if (state.status.isSuccess) {
             AppToast.success(context, "Profile updated successfully");
             Navigator.pop(context);

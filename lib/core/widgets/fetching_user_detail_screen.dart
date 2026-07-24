@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
@@ -36,7 +36,7 @@ class _FetchingUserDetailScreenState extends State<FetchingUserDetailScreen> {
       listenWhen: (_, __) => context.isOnScreen,
       listener: (context, state) {
         if (!state.isLoggedIn) {
-          AppToast.warning(context, state.error ?? 'Session expired');
+          AppToast.warn(context, state.error ?? 'Session expired');
           AppUtils.navKey.currentState?.pushAndRemoveUntil(
             AppUtils.transition(const LoginPage()),
             (route) => false,

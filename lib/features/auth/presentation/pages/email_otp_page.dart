@@ -1,7 +1,7 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
@@ -98,7 +98,7 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
             );
           }
         } else if (state.status.isFailed || state.resendStatus.isFailed) {
-          AppToast.warning(context, state.error!.message);
+          AppToast.warn(context, state.error!.message);
         }
       },
       builder: (context, state) {

@@ -4,7 +4,7 @@ import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/checkout/data/models/cart.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
 import 'package:drugs_ng/features/lab_test/data/repository/lab_test_repository.dart';
@@ -172,7 +172,7 @@ class _PackageOverviewPageState extends State<PackageOverviewPage> {
                       BlocConsumer<CartCubit, CartState>(
                         listener: (context, state) {
                           if (state is CartStateError) {
-                            AppToast.warning(context, state.error.message);
+                            AppToast.warn(context, state.error.message);
                           }
                         },
                         builder: (context, state) {

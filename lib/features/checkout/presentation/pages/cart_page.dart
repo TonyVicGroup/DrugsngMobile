@@ -1,7 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
@@ -68,7 +68,7 @@ class _CartPageState extends State<CartPage> {
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
           if (state is CartStateError) {
-            AppToast.warning(context, state.error.message);
+            AppToast.warn(context, state.error.message);
           }
         },
         builder: (context, state) {

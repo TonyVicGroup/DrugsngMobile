@@ -5,7 +5,7 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/models/country_code.dart';
@@ -197,7 +197,7 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
               child: BlocConsumer<AddressCubit, AddressState>(
                 listener: (context, state) {
                   if (state.addEditStatus.isFailed) {
-                    AppToast.warning(
+                    AppToast.warn(
                       context,
                       state.error?.message ?? 'An error occurred',
                     );

@@ -5,7 +5,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
@@ -91,7 +91,7 @@ class _ConsultationChatPageState extends State<ConsultationChatPage> {
       resendData(id);
       textController.clear();
     } else {
-      AppToast.warning(context, 'Please enter a message');
+      AppToast.warn(context, 'Please enter a message');
     }
   }
 

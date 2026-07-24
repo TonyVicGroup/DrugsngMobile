@@ -1,22 +1,18 @@
-import 'package:drugs_ng/core/enum/otp_type_enum.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/create_account_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:drugs_ng/features/auth/presentation/widgets/biometric_modal.dart';
 import 'package:drugs_ng/features/auth/presentation/widgets/or_text_divider.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/tab_overlay.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
@@ -91,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
             key: formKey,
             child: Column(
               children: [
-                32.verticalSpace,
+                24.verticalSpace,
                 CustomImage(Assets.images.authImage.path, height: 87.h),
                 12.verticalSpace,
                 AppText.sp30("Log in").w500.black,
@@ -148,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   listener: (BuildContext context, LoginState state) {
                     // if (state.isLoggedIn) {
                     //   if (state.error != null) {
-                    //     AppToast.warning(context, state.error!);
+                    //     AppToast.warn(context, state.error!);
                     //     // handle confirmation of email if needed
                     //     if (state.error!.toLowerCase().contains(
                     //       "confirm your email",
@@ -252,7 +248,9 @@ class _LoginPageState extends State<LoginPage> {
     AppUtils.pushWidget(const ForgetPasswordPage());
   }
 
-  void _useBiometric() {}
+  void _useBiometric() {
+    BiometricModal.show(context);
+  }
 
   void _login(BuildContext context) {
     if (formKey.currentState?.validate() ?? false) {

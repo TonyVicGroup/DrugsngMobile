@@ -5,7 +5,7 @@ import 'package:drugs_ng/core/enum/otp_type_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
@@ -171,7 +171,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           otpType: OtpTypeEnum.emailConfirmation,
                         );
                       } else if (state is SignupStateError) {
-                        AppToast.warning(context, state.error.message);
+                        AppToast.warn(context, state.error.message);
                       }
                     },
                     builder: (context, state) {

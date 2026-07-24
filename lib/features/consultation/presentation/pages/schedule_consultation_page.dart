@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/app_toast.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/consultation/data/models/consultation_data.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_details.dart';
@@ -199,7 +199,7 @@ class _ScheduleConsultationPageState extends State<ScheduleConsultationPage> {
           ),
         );
       } else {
-        AppToast.warning(context, 'Set consultation time');
+        AppToast.warn(context, 'Set consultation time');
       }
     } else {
       if (fieldsFormState.currentState?.validate() ?? false) {
