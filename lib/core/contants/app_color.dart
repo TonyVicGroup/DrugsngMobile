@@ -41,7 +41,6 @@ class AppColor {
   static const Color color823AFC = Color(0xFF823AFC);
   static const Color color6D6D6D = Color(0xFF6D6D6D);
   static const Color colorBDC4CD = Color(0xFFBDC4CD);
-  static const Color colorDC2626 = Color(0xFFDC2626);
   static const Color color1A1D26 = Color(0xFF1A1D26);
   static const Color colorE0E0E0 = Color(0xFFE0E0E0);
   static const Color color00C3EF = Color(0xFF00C3EF);
@@ -60,10 +59,20 @@ class AppColor {
   static const Color colorF0FDF4 = Color(0xFFF0FDF4);
   static const Color colorFEF2F2 = Color(0xFFFEF2F2);
   static const Color colorC5CDD8 = Color(0xFFC5CDD8);
+  static const Color colorECFDF5 = Color(0xFFECFDF5);
+  static const Color colorDC2626 = Color(0xFFDC2626);
+  static const Color color7F1D1D = Color(0xFF7F1D1D);
+  static const Color color5F2121 = Color(0xFF5F2121);
 
   // shimmer loader colors
   static const Color shimmerBase = Color(0xFFe0e0e0);
   static const Color shimmerHighlight = Color(0xFFFFFFFF);
+
+  // linear gradient
+  static const LinearGradient lightBlueGradient = LinearGradient(
+    // begin: Alignment,
+    colors: [Color(0xFFE8F3FC), Color(0xFFD6ECFA)],
+  );
 
   // shadow
   static const List<BoxShadow> shadow = [

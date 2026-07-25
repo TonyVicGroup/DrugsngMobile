@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IdVerificationTab extends StatelessWidget {
-  const IdVerificationTab({super.key});
+  const IdVerificationTab({super.key, required this.controller});
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {

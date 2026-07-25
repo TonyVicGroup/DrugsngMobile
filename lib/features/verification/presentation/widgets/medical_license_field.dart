@@ -4,6 +4,8 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/verification/presentation/cubit/doctor_registration_cubit.dart';
+import 'package:drugs_ng/features/verification/presentation/widgets/failed_licence_verification_widget.dart';
+import 'package:drugs_ng/features/verification/presentation/widgets/successful_licence_verification_widget.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,55 +19,62 @@ class MedicalLicenseField extends StatelessWidget {
     return BlocBuilder<DoctorRegistrationCubit, DoctorRegistrationState>(
       builder: (context, state) {
         // final status = state.verifyLicenseStatus;
-        final status = LoadStatusEnum.failed;
-        return Row(
+        final status = LoadStatusEnum.success;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: BorderTextField(
-                readOnly: status.isSuccess,
-                fillColor: _fillColor(status),
-                filled: true,
-                borderRadius: 14.r,
-                borderColor: _borderColor(status),
-                hint: 'E.G. MDCN-2024-00182',
-              ),
-            ),
-            12.horizontalSpace,
-            Container(
-              width: 100.w,
-              height: 52.r,
-              decoration: BoxDecoration(
-                color: _buttonColor(status),
-                borderRadius: BorderRadius.circular(14.r),
-                boxShadow: AppColor.shadow,
-              ),
-              child:
-                  status.isLoading
-                      ? Center(
-                        child: SizedBox(
-                          height: 20.r,
-                          width: 20.r,
-                          child: CircularProgressIndicator(
-                            color: AppColor.colorFFFFFF,
+            Row(
+              children: [
+                Expanded(
+                  child: BorderTextField(
+                    readOnly: status.isSuccess,
+                    fillColor: _fillColor(status),
+                    filled: true,
+                    borderRadius: 14.r,
+                    borderColor: _borderColor(status),
+                    hint: 'E.G. MDCN-2024-00182',
+                    suffixIcon: suffixIcon(status),
+                  ),
+                ),
+                12.horizontalSpace,
+                Container(
+                  width: 100.w,
+                  height: 52.r,
+                  decoration: BoxDecoration(
+                    color: _buttonColor(status),
+                    borderRadius: BorderRadius.circular(14.r),
+                    boxShadow: AppColor.shadow,
+                  ),
+                  child:
+                      status.isLoading
+                          ? Center(
+                            child: SizedBox(
+                              height: 20.r,
+                              width: 20.r,
+                              child: CircularProgressIndicator(
+                                color: AppColor.colorFFFFFF,
+                              ),
+                            ),
+                          )
+                          : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomImage(
+                                _svg(status),
+                                width: 13.r,
+                                height: 13.r,
+                                color: AppColor.colorFFFFFF,
+                              ),
+                              2.horizontalSpace,
+                              AppText.sp14(
+                                _text(status),
+                              ).w700.setColor(AppColor.colorFFFFFF),
+                            ],
                           ),
-                        ),
-                      )
-                      : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomImage(
-                            _svg(status),
-                            width: 13.r,
-                            height: 13.r,
-                            color: AppColor.colorFFFFFF,
-                          ),
-                          2.horizontalSpace,
-                          AppText.sp14(
-                            _text(status),
-                          ).w700.setColor(AppColor.colorFFFFFF),
-                        ],
-                      ),
+                ),
+              ],
             ),
+            _infoWidget(status),
           ],
         );
       },
@@ -135,5 +144,63 @@ class MedicalLicenseField extends StatelessWidget {
       case LoadStatusEnum.failed:
         return AppColor.colorFEF2F2;
     }
+  }
+
+  Widget? suffixIcon(LoadStatusEnum status) {
+    if (status.isFailed) {
+      return Container(
+        width: 24.r,
+        height: 24.r,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.r),
+          color: AppColor.colorDC2626,
+        ),
+        child: CustomImage(
+          Assets.svg.close,
+          width: 11.r,
+          height: 11.r,
+          color: AppColor.colorFFFFFF,
+        ),
+      );
+    } else if (status.isSuccess) {
+      return Container(
+        width: 24.r,
+        height: 24.r,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.r),
+          color: AppColor.color16A34A,
+        ),
+        child: CustomImage(
+          Assets.svg.checkmark,
+          width: 12.r,
+          height: 12.r,
+          color: AppColor.colorFFFFFF,
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Widget _infoWidget(LoadStatusEnum status) {
+    return Builder(
+      builder: (context) {
+        if (status.isFailed) {
+          return Padding(
+            padding: EdgeInsets.only(top: 8.h),
+            child: FailedLicenceVerificationWidget(),
+          );
+        } else if (status.isSuccess) {
+          return Padding(
+            padding: EdgeInsets.only(top: 8.h),
+            child: SuccessfulLicenceVerificationWidget(),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }

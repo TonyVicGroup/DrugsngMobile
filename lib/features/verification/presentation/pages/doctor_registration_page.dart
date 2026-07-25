@@ -44,9 +44,15 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
       appBar: AppBar(
         leading: Center(child: AppBackButton.lightArrow(_goBack)),
         forceMaterialTransparency: true,
-        title: AppText.sp18('Doctor Registration'),
+        title: BlocBuilder<DoctorRegistrationCubit, DoctorRegistrationState>(
+          buildWhen: (previous, current) => previous.stage != current.stage,
+          builder: (context, state) {
+            return AppText.sp18(appTitle);
+          },
+        ),
         actions: [
           BlocBuilder<DoctorRegistrationCubit, DoctorRegistrationState>(
+            buildWhen: (previous, current) => previous.stage != current.stage,
             builder: (context, state) {
               return AppText.sp13(
                 'Step ${state.stage + 1} of 5',
@@ -76,12 +82,12 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
                 context.read<DoctorRegistrationCubit>().changeStage(index);
               },
               children: [
-                PersonalInfoTab(),
-                MedicalCredentialsTab(),
-                IdVerificationTab(),
-                FaceVerificationTab(),
-                BankDetailsTab(),
-                ReviewApplicationTab(),
+                PersonalInfoTab(controller: controller),
+                MedicalCredentialsTab(controller: controller),
+                IdVerificationTab(controller: controller),
+                FaceVerificationTab(controller: controller),
+                BankDetailsTab(controller: controller),
+                ReviewApplicationTab(controller: controller),
               ],
             ),
           ),
@@ -89,6 +95,19 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
       ),
     );
   }
+
+  String get appTitle => switch (context
+      .read<DoctorRegistrationCubit>()
+      .state
+      .stage) {
+    0 => 'Doctor Registration',
+    1 => 'Medical Credentials',
+    2 => 'ID Verification',
+    3 => 'Face Verification',
+    4 => 'Bank Details',
+    5 => 'Review Application',
+    _ => 'Doctor Registration',
+  };
 
   void _goBack() {
     context.pop();

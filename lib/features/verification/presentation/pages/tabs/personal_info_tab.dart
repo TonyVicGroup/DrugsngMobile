@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PersonalInfoTab extends StatelessWidget {
-  const PersonalInfoTab({super.key});
+  const PersonalInfoTab({super.key, required this.controller});
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +73,7 @@ class PersonalInfoTab extends StatelessWidget {
             status: ButtonStatus.disabled,
             onTap: () {},
           ),
+
           SizedBox(height: context.appPadding.bottom),
         ],
       ),
@@ -82,7 +84,7 @@ class PersonalInfoTab extends StatelessWidget {
     return Row(
       children: [
         AppText.sp13(text).w600.setColor(AppColor.color1A1D26),
-        if (required) AppText.sp14(' *').w600.setColor(AppColor.colorDC2626),
+        if (required) AppText.sp16('*').w600.setColor(AppColor.colorDC2626),
       ],
     );
   }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BankDetailsTab extends StatelessWidget {
-  const BankDetailsTab({super.key});
+  const BankDetailsTab({super.key, required this.controller});
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {
