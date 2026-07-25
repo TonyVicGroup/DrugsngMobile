@@ -40,6 +40,7 @@ class _DoctorRegistrationPageState extends State<DoctorRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.colorFFFFFF,
       appBar: AppBar(
         leading: Center(child: AppBackButton.lightArrow(_goBack)),
         forceMaterialTransparency: true,

@@ -32,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   ValueNotifier<bool> obscurePassword2 = ValueNotifier<bool>(true);
   ValueNotifier<bool> acceptTerms = ValueNotifier<bool>(false);
   ValueNotifier<bool> acceptTermsHasError = ValueNotifier<bool>(false);
+  ValueNotifier<bool> weeklyUpdates = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -74,6 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
               obscurePassword2: obscurePassword2,
               acceptTerms: acceptTerms,
               acceptTermsHasError: acceptTermsHasError,
+              weeklyUpdates: weeklyUpdates,
             ),
             SetupProfileTab(
               controller: controller,

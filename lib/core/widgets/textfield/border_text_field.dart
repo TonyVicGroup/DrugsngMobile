@@ -17,6 +17,10 @@ class BorderTextField extends StatelessWidget {
     this.clickSuffix,
     this.enabled,
     this.onTap,
+    this.fillColor,
+    this.filled = false,
+    this.borderColor = AppColor.colorBDC4CD,
+    this.borderRadius,
   });
 
   final String? hint;
@@ -31,6 +35,10 @@ class BorderTextField extends StatelessWidget {
   final void Function()? clickSuffix;
   final bool? enabled;
   final void Function()? onTap;
+  final Color? fillColor;
+  final bool filled;
+  final Color borderColor;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +59,8 @@ class BorderTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,
+        fillColor: fillColor,
+        filled: filled,
         hintStyle: TextStyle(
           fontSize: 15.sp,
           color: AppColor.color6D6D6D,
@@ -75,19 +85,19 @@ class BorderTextField extends StatelessWidget {
                 ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: AppColor.colorBDC4CD),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
+          borderSide: BorderSide(color: borderColor),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: AppColor.colorBDC4CD),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
+          borderSide: BorderSide(color: borderColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: AppColor.colorBDC4CD),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
+          borderSide: BorderSide(color: borderColor),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
           borderSide: const BorderSide(color: AppColor.colorDC2626),
         ),
         errorMaxLines: 4,

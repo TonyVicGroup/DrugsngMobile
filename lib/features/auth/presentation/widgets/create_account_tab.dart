@@ -4,6 +4,7 @@ import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_switch.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/widgets/privacy_policy_widget.dart';
@@ -26,6 +27,7 @@ class CreateAccountTab extends StatelessWidget {
     required this.obscurePassword2,
     required this.acceptTerms,
     required this.acceptTermsHasError,
+    required this.weeklyUpdates,
   });
 
   final PageController controller;
@@ -37,146 +39,186 @@ class CreateAccountTab extends StatelessWidget {
   final ValueNotifier<bool> obscurePassword2;
   final ValueNotifier<bool> acceptTerms;
   final ValueNotifier<bool> acceptTermsHasError;
+  final ValueNotifier<bool> weeklyUpdates;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 72.h),
-      padding: EdgeInsets.all(10.r),
-      decoration: BoxDecoration(
-        color: AppColor.colorFFFFFF,
-        borderRadius: BorderRadius.circular(30.r),
-        boxShadow: AppColor.shadow,
-      ),
-      child: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              10.verticalSpace,
-              CustomImage(Assets.images.authImage.path, width: 122.w),
-              20.verticalSpace,
-              AppText.sp24("Create Account").w700.black,
-              20.verticalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 72.h),
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+              color: AppColor.colorFFFFFF,
+              borderRadius: BorderRadius.circular(30.r),
+              boxShadow: AppColor.shadow,
+            ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppText.sp14(
-                    "Email address",
-                  ).w400.setColor(AppColor.color333333),
-                  6.verticalSpace,
-                  BorderTextField(
-                    controller: email,
-                    keyboardType: TextInputType.text,
-                    hint: "Enter your email address",
-                    validator: (v) => AppValidators.email(v?.trim()),
-                  ),
-                ],
-              ),
-              22.verticalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText.sp14(
-                    "New password",
-                  ).w400.setColor(AppColor.color333333),
-                  6.verticalSpace,
-                  ValueListenableBuilder(
-                    valueListenable: obscurePassword1,
-                    builder: (context, value, child) {
-                      return BorderTextField(
-                        controller: password1,
-                        hint: "Must be 8 characters",
+                  10.verticalSpace,
+                  CustomImage(Assets.images.authImage.path, width: 122.w),
+                  20.verticalSpace,
+                  AppText.sp24("Create Account").w700.black,
+                  20.verticalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText.sp14(
+                        "Email address",
+                      ).w400.setColor(AppColor.color333333),
+                      6.verticalSpace,
+                      BorderTextField(
+                        controller: email,
                         keyboardType: TextInputType.text,
-                        suffixIcon: svgPicture(value),
-                        obscureText: value,
-                        clickSuffix: () {
-                          obscurePassword1.value = !obscurePassword1.value;
-                        },
-                        validator: AppValidators.passwordStrong,
-                      );
-                    },
-                  ),
-                ],
-              ),
-              22.verticalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText.sp14(
-                    "Confirm new password",
-                  ).w400.setColor(AppColor.color333333),
-                  6.verticalSpace,
-                  ValueListenableBuilder(
-                    valueListenable: obscurePassword2,
-                    builder: (context, value, child) {
-                      return BorderTextField(
-                        controller: password2,
-                        hint: "Must be 8 characters",
-                        keyboardType: TextInputType.text,
-                        suffixIcon: svgPicture(value),
-                        obscureText: value,
-                        clickSuffix: () {
-                          obscurePassword2.value = !obscurePassword2.value;
-                        },
-                        validator: (v) {
-                          if (password1.text != v) {
-                            return "Passwords do not match";
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-              22.verticalSpace,
-              MultiValueListenableBuilder(
-                valueListenables: [acceptTerms, acceptTermsHasError],
-                builder: (context, value, child) {
-                  return PrivacyPolicyWidget(
-                    value: acceptTerms.value,
-                    hasError: acceptTermsHasError.value,
-                    onChanged: (v) {
-                      acceptTerms.value = v;
-                      if (v) acceptTermsHasError.value = false;
-                    },
-                    clickPolicy: _openPrivacyPolicy,
-                  );
-                },
-              ),
-              22.verticalSpace,
-              AppGradientButton(text: "Next", onTap: () => _next(context)),
-              40.verticalSpace,
-              RichText(
-                text: TextSpan(
-                  text: "Already have an account? ",
-                  children: [
-                    TextSpan(
-                      text: " Log in",
-                      style: TextStyle(
-                        color: AppColor.color0B8AE1,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w800,
+                        hint: "Enter your email address",
+                        validator: (v) => AppValidators.email(v?.trim()),
                       ),
-                      recognizer:
-                          TapGestureRecognizer()..onTap = () => _login(context),
-                    ),
-                  ],
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.color333333,
-                    fontFamily: AppText.fontFamily,
-                    height: 1.25,
+                    ],
                   ),
-                ),
+                  22.verticalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText.sp14(
+                        "New password",
+                      ).w400.setColor(AppColor.color333333),
+                      6.verticalSpace,
+                      ValueListenableBuilder(
+                        valueListenable: obscurePassword1,
+                        builder: (context, value, child) {
+                          return BorderTextField(
+                            controller: password1,
+                            hint: "Must be 8 characters",
+                            keyboardType: TextInputType.text,
+                            suffixIcon: svgPicture(value),
+                            obscureText: value,
+                            clickSuffix: () {
+                              obscurePassword1.value = !obscurePassword1.value;
+                            },
+                            validator: AppValidators.passwordStrong,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  22.verticalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText.sp14(
+                        "Confirm new password",
+                      ).w400.setColor(AppColor.color333333),
+                      6.verticalSpace,
+                      ValueListenableBuilder(
+                        valueListenable: obscurePassword2,
+                        builder: (context, value, child) {
+                          return BorderTextField(
+                            controller: password2,
+                            hint: "Must be 8 characters",
+                            keyboardType: TextInputType.text,
+                            suffixIcon: svgPicture(value),
+                            obscureText: value,
+                            clickSuffix: () {
+                              obscurePassword2.value = !obscurePassword2.value;
+                            },
+                            validator: (v) {
+                              if (password1.text != v) {
+                                return "Passwords do not match";
+                              }
+                              return null;
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  22.verticalSpace,
+                  MultiValueListenableBuilder(
+                    valueListenables: [acceptTerms, acceptTermsHasError],
+                    builder: (context, value, child) {
+                      return PrivacyPolicyWidget(
+                        value: acceptTerms.value,
+                        hasError: acceptTermsHasError.value,
+                        onChanged: (v) {
+                          acceptTerms.value = v;
+                          if (v) acceptTermsHasError.value = false;
+                        },
+                        clickPolicy: _openPrivacyPolicy,
+                      );
+                    },
+                  ),
+                  22.verticalSpace,
+                  Row(
+                    children: [
+                      ValueListenableBuilder(
+                        valueListenable: weeklyUpdates,
+                        builder: (context, value, child) {
+                          return AppSwitch(
+                            value: value,
+                            onChanged: (v) {
+                              weeklyUpdates.value = v;
+                            },
+                          );
+                        },
+                      ),
+                      10.horizontalSpace,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText.sp16(
+                              "Weekly updates",
+                            ).w600.setColor(AppColor.color333333),
+                            AppText.sp14(
+                              "Get a weekly activity report via email.",
+                            ).w400.setColor(
+                              AppColor.color000000.withAlpha(
+                                (254 * 0.7).toInt(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  22.verticalSpace,
+                  AppGradientButton(text: "Next", onTap: () => _next(context)),
+                  20.verticalSpace,
+                  RichText(
+                    text: TextSpan(
+                      text: "Already have an account? ",
+                      children: [
+                        TextSpan(
+                          text: " Log in",
+                          style: TextStyle(
+                            color: AppColor.color0B8AE1,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () => _login(context),
+                        ),
+                      ],
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.color333333,
+                        fontFamily: AppText.fontFamily,
+                        height: 1.25,
+                      ),
+                    ),
+                  ),
+                  20.verticalSpace,
+                ],
               ),
-              54.verticalSpace,
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
