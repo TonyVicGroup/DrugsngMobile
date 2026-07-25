@@ -255,12 +255,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(BuildContext context) {
-    if (formKey.currentState?.validate() ?? false) {
-      context.read<LoginCubit>().login(emailCntrl.text, passwordCntrl.text);
-    }
+    // if (formKey.currentState?.validate() ?? false) {
+    //   context.read<LoginCubit>().login(emailCntrl.text, passwordCntrl.text);
+    // }
+    _onSuccess();
   }
 
   void _signup() {
     context.pushNamed(AppRoutes.signup);
+  }
+
+  void _onSuccess() {
+    context.pushNamed(AppRoutes.selectAccountType);
   }
 }

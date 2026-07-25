@@ -1,20 +1,180 @@
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppOutlineButton extends StatelessWidget {
-  const AppOutlineButton({
-    required this.text,
+  factory AppOutlineButton({
+    required String text,
+    required void Function() onTap,
+    FontWeight fontWeight = FontWeight.w500,
+    ButtonStatus status = ButtonStatus.active,
+    Color foregroundColor = AppColor.color333333,
+    double? fontSize,
+    Color fillColor = AppColor.colorF5F7FA,
+    Color borderColor = AppColor.colorE0E0E0,
+    double? borderRadius,
+  }) {
+    return AppOutlineButton._(
+      onTap: onTap,
+      status: status,
+      fillColor: fillColor,
+      borderColor: borderColor,
+      borderRadius: borderRadius,
+      child:
+          status.isLoading
+              ? _loader(foregroundColor)
+              : Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: foregroundColor,
+                ),
+              ),
+    );
+  }
+
+  const AppOutlineButton._({
     required this.onTap,
-    this.status = ButtonStatus.active,
+    required this.status,
+    required this.borderColor,
+    required this.fillColor,
+    required this.child,
+    required this.borderRadius,
     super.key,
   });
 
-  final String text;
+  factory AppOutlineButton.widget({
+    required void Function() onTap,
+    required Widget child,
+    ButtonStatus status = ButtonStatus.active,
+    Color fillColor = AppColor.colorF5F7FA,
+    Color borderColor = AppColor.colorE0E0E0,
+    double? borderRadius,
+  }) {
+    return AppOutlineButton._(
+      onTap: onTap,
+      status: status,
+      fillColor: fillColor,
+      borderColor: borderColor,
+      borderRadius: borderRadius,
+      child: child,
+    );
+  }
+
+  factory AppOutlineButton.suffixIcon({
+    required String text,
+    required String svg,
+    required void Function() onTap,
+    FontWeight fontWeight = FontWeight.w500,
+    ButtonStatus status = ButtonStatus.active,
+    double? fontSize,
+    double? svgWidth,
+    double? svgHeight,
+    Color fillColor = AppColor.colorF5F7FA,
+    Color borderColor = AppColor.colorE0E0E0,
+    double? borderRadius,
+  }) {
+    return AppOutlineButton._(
+      onTap: onTap,
+      status: status,
+      fillColor: fillColor,
+      borderColor: borderColor,
+      borderRadius: borderRadius,
+      child:
+          status.isLoading
+              ? SizedBox(
+                height: 30.r,
+                width: 30.r,
+                child: CircularProgressIndicator(
+                  color: AppColor.colorFFFFFF,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: fontSize ?? 16.sp,
+                      fontWeight: fontWeight,
+                      color: AppColor.colorFFFFFF,
+                    ),
+                  ),
+                  10.horizontalSpace,
+                  CustomImage(
+                    svg,
+                    width: svgWidth ?? 18.r,
+                    height: svgHeight ?? 18.r,
+                    color: AppColor.colorFFFFFF,
+                  ),
+                ],
+              ),
+    );
+  }
+
+  factory AppOutlineButton.prefixIcon({
+    required String text,
+    required String svg,
+    required void Function() onTap,
+    FontWeight fontWeight = FontWeight.w500,
+    ButtonStatus status = ButtonStatus.active,
+    double? fontSize,
+    double? svgWidth,
+    double? svgHeight,
+    Color fillColor = AppColor.colorF5F7FA,
+    Color borderColor = AppColor.colorE0E0E0,
+    double? borderRadius,
+  }) {
+    return AppOutlineButton._(
+      onTap: onTap,
+      status: status,
+      fillColor: fillColor,
+      borderColor: borderColor,
+      borderRadius: borderRadius,
+      child:
+          status.isLoading
+              ? SizedBox(
+                height: 30.r,
+                width: 30.r,
+                child: CircularProgressIndicator(
+                  color: AppColor.colorFFFFFF,
+                  strokeCap: StrokeCap.round,
+                ),
+              )
+              : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomImage(
+                    svg,
+                    width: svgWidth ?? 18.r,
+                    height: svgHeight ?? 18.r,
+                    color: AppColor.colorFFFFFF,
+                  ),
+                  10.horizontalSpace,
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: fontSize ?? 16.sp,
+                      fontWeight: fontWeight,
+                      color: AppColor.colorFFFFFF,
+                    ),
+                  ),
+                ],
+              ),
+    );
+  }
+
   final void Function() onTap;
   final ButtonStatus status;
+  final Color fillColor;
+  final Color borderColor;
+  final Widget child;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +185,11 @@ class AppOutlineButton extends StatelessWidget {
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppColor.colorF5F7FA,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppColor.colorE0E0E0, width: 1.r),
+          color: fillColor,
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+          border: Border.all(color: borderColor, width: 1.r),
         ),
-        child:
-            status.isLoading
-                ? _loader(AppColor.color333333)
-                : Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.color333333,
-                  ),
-                ),
+        child: child,
       ),
     );
   }

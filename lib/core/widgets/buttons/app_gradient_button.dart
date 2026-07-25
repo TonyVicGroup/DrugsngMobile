@@ -157,11 +157,14 @@ class AppGradientButton extends StatelessWidget {
         width: double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: status.isDisabled ? AppColor.lightBlue : AppColor.primary,
+          color: status.isDisabled ? AppColor.colorC5CDD8 : null,
           borderRadius: BorderRadius.circular(100.r),
-          gradient: LinearGradient(
-            colors: [const Color(0xFF0D5CC2), const Color(0xFF00D6EF)],
-          ),
+          gradient:
+              status.isDisabled
+                  ? null
+                  : LinearGradient(
+                    colors: [const Color(0xFF0D5CC2), const Color(0xFF00D6EF)],
+                  ),
         ),
         child: child,
       ),

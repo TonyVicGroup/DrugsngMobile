@@ -1,5 +1,4 @@
 import 'package:drugs_ng/features/auth/domain/models/account_data.dart';
-import 'package:drugs_ng/features/auth/domain/models/account_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class UserPreference {

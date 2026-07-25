@@ -21,6 +21,7 @@ class BorderTextField extends StatelessWidget {
     this.filled = false,
     this.borderColor = AppColor.colorBDC4CD,
     this.borderRadius,
+    this.readOnly,
   });
 
   final String? hint;
@@ -39,6 +40,7 @@ class BorderTextField extends StatelessWidget {
   final bool filled;
   final Color borderColor;
   final double? borderRadius;
+  final bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class BorderTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       enabled: enabled,
-      readOnly: onTap != null,
+      readOnly: readOnly ?? onTap != null,
       onTap: onTap,
       style: TextStyle(
         fontSize: 16.sp,

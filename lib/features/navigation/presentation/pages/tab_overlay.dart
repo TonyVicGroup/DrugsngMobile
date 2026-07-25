@@ -56,7 +56,7 @@ class _TabOverlayState extends State<TabOverlay> {
     final authState = context.watch<AuthCubit>().state;
     late final AccountTypeEnum accountType;
     if (authState.isLoggedIn) {
-      accountType = AccountTypeEnum.user;
+      accountType = AccountTypeEnum.patient;
     } else {
       accountType = authState.account!.accountType;
     }
@@ -91,7 +91,7 @@ class _TabOverlayState extends State<TabOverlay> {
   List<PersistentTabConfig> pages(AccountTypeEnum accountType) {
     // change this later to check if user is doctor or patient
     return switch (accountType) {
-      AccountTypeEnum.user => [
+      AccountTypeEnum.patient => [
         _tabPage(const HomePage()),
         _tabPage(const ExplorePage()),
         // _tabPage(const LabTestPage()),
@@ -133,7 +133,7 @@ class _CustomNavbar extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         final bottomNav = switch (userType) {
-          AccountTypeEnum.user => [
+          AccountTypeEnum.patient => [
             _tab(AppSvg.home, "Home", 0, navBarConfig.selectedIndex == 0),
             _tab(AppSvg.explore, "Explore", 1, navBarConfig.selectedIndex == 1),
             // _tab(

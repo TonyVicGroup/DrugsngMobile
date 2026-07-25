@@ -1,27 +1,23 @@
 enum AccountTypeEnum {
-  user,
+  patient,
   doctor,
-  // lab,
   delivery;
 
-  bool get isUser => this == user;
+  bool get isPatient => this == patient;
   bool get isDoctor => this == doctor;
-  // bool get isLab => this == lab;
   bool get isDelivery => this == delivery;
 
   String get id => switch (this) {
-    AccountTypeEnum.user => 'user',
+    AccountTypeEnum.patient => 'patient',
     AccountTypeEnum.doctor => 'doctor',
-    // AccountTypeEnum.lab => 'lab',
     AccountTypeEnum.delivery => 'delivery',
   };
 
   static AccountTypeEnum fromString(String? value) => switch (value
       ?.toLowerCase()) {
-    'user' => AccountTypeEnum.user,
+    'patient' => AccountTypeEnum.patient,
     'doctor' => AccountTypeEnum.doctor,
-    // 'lab' => AccountTypeEnum.lab,
     'delivery' => AccountTypeEnum.delivery,
-    _ => AccountTypeEnum.user,
+    _ => AccountTypeEnum.patient,
   };
 }

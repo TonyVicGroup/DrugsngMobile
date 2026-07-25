@@ -1,9 +1,10 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
-import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
+import 'package:drugs_ng/features/verification/presentation/widgets/medical_license_field.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,53 +33,34 @@ class PersonalInfoTab extends StatelessWidget {
                 20.verticalSpace,
                 _requiredText('Specialization', true),
                 8.verticalSpace,
-                BorderTextField(fillColor: AppColor.colorF7F8FB, filled: true),
+                BorderTextField(
+                  fillColor: AppColor.colorF7F8FB,
+                  filled: true,
+                  borderRadius: 14.r,
+                  hint: 'Select specialization',
+                ),
                 20.verticalSpace,
                 _requiredText('Years of Experience'),
                 8.verticalSpace,
-                BorderTextField(fillColor: AppColor.colorF7F8FB, filled: true),
+                BorderTextField(
+                  fillColor: AppColor.colorF7F8FB,
+                  filled: true,
+                  borderRadius: 14.r,
+                  hint: 'e.g. 8',
+                ),
                 20.verticalSpace,
                 _requiredText('Medical License Number', true),
                 8.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: BorderTextField(
-                        fillColor: AppColor.colorF7F8FB,
-                        filled: true,
-                      ),
-                    ),
-                    12.horizontalSpace,
-                    Container(
-                      width: 100.w,
-                      height: 52.r,
-                      decoration: BoxDecoration(
-                        color: AppColor.color0B8AE1,
-                        borderRadius: BorderRadius.circular(14.r),
-                        boxShadow: AppColor.shadow,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomImage(
-                            Assets.svg.halfShield,
-                            width: 13.r,
-                            height: 13.r,
-                            color: AppColor.colorFFFFFF,
-                          ),
-                          2.horizontalSpace,
-                          AppText.sp14(
-                            'Verify',
-                          ).w700.setColor(AppColor.colorFFFFFF),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                MedicalLicenseField(),
                 20.verticalSpace,
                 _requiredText('Hospital/Clinic Affiliation'),
                 8.verticalSpace,
-                BorderTextField(fillColor: AppColor.colorF7F8FB, filled: true),
+                BorderTextField(
+                  fillColor: AppColor.colorF7F8FB,
+                  filled: true,
+                  borderRadius: 14.r,
+                  hint: 'e.g. LUTH Laogos, University Teaching Hospital',
+                ),
                 20.verticalSpace,
               ],
             ),
@@ -87,6 +69,7 @@ class PersonalInfoTab extends StatelessWidget {
             text: 'Next',
             svg: Assets.svg.arrowRight,
             svgWidth: 12.w,
+            status: ButtonStatus.disabled,
             onTap: () {},
           ),
           SizedBox(height: context.appPadding.bottom),
