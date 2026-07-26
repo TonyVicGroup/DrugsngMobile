@@ -34,7 +34,7 @@ class _AddressPageState extends State<AddressPage> {
     return BlocConsumer<AddressCubit, AddressState>(
       listener: (context, state) {
         if (state.status.isFailed) {
-          AppToast.warn(context, state.error!.message);
+          AppToast.warn(context, title: 'Error', msg: state.error!.message);
         }
       },
       builder: (context, state) {

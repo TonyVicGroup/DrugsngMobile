@@ -21,7 +21,11 @@ class AddressFormFields {
       },
       listener: (context, state) {
         if (state.countryData.status.isFailed) {
-          AppToast.warn(context, state.countryData.error?.message ?? '');
+          AppToast.warn(
+            context,
+            title: 'Error',
+            msg: state.countryData.error?.message ?? '',
+          );
         }
         if (state.countryData.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setCountry(
@@ -62,7 +66,11 @@ class AddressFormFields {
       listenWhen: (prev, curr) => prev.allStates != curr.allStates,
       listener: (context, state) {
         if (state.allStates.status.isFailed) {
-          AppToast.warn(context, state.allStates.error?.message ?? '');
+          AppToast.warn(
+            context,
+            title: 'Warning',
+            msg: state.allStates.error?.message ?? '',
+          );
         }
         if (state.allStates.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setState(
@@ -107,7 +115,11 @@ class AddressFormFields {
       listenWhen: (prev, curr) => prev.allCities != curr.allCities,
       listener: (context, state) {
         if (state.allCities.status.isFailed) {
-          AppToast.warn(context, state.allCities.error?.message ?? '');
+          AppToast.warn(
+            context,
+            title: 'Warning',
+            msg: state.allCities.error?.message ?? '',
+          );
         }
         if (state.allCities.status.isSuccess && id != null) {
           context.read<StateAndCityCubit>().setCity(

@@ -172,7 +172,11 @@ class _PackageOverviewPageState extends State<PackageOverviewPage> {
                       BlocConsumer<CartCubit, CartState>(
                         listener: (context, state) {
                           if (state is CartStateError) {
-                            AppToast.warn(context, state.error.message);
+                            AppToast.warn(
+                              context,
+                              title: 'Error',
+                              msg: state.error.message,
+                            );
                           }
                         },
                         builder: (context, state) {

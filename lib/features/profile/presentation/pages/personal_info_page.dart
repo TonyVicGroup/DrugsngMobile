@@ -219,9 +219,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         },
         listener: (context, state) {
           if (state.status.isFailed) {
-            AppToast.warn(context, state.error?.message ?? '');
+            AppToast.warn(
+              context,
+              title: 'Error',
+              msg: state.error?.message ?? '',
+            );
           } else if (state.status.isSuccess) {
-            AppToast.success(context, "Profile updated successfully");
+            AppToast.success(
+              context,
+              title: 'Success',
+              msg: "Profile updated successfully",
+            );
             Navigator.pop(context);
           }
         },

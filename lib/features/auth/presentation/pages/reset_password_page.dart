@@ -125,7 +125,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     );
                   }
                   if (state.status.isFailed) {
-                    AppToast.warn(context, state.error!.message);
+                    AppToast.warn(
+                      context,
+                      title: 'Error',
+                      msg: state.error!.message,
+                    );
                   }
                 },
                 builder: (context, state) {

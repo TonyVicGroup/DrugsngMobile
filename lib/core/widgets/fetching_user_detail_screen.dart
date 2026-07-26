@@ -36,7 +36,11 @@ class _FetchingUserDetailScreenState extends State<FetchingUserDetailScreen> {
       listenWhen: (_, __) => context.isOnScreen,
       listener: (context, state) {
         if (!state.isLoggedIn) {
-          AppToast.warn(context, state.error ?? 'Session expired');
+          AppToast.warn(
+            context,
+            title: 'Error',
+            msg: state.error ?? 'Session expired',
+          );
           AppUtils.navKey.currentState?.pushAndRemoveUntil(
             AppUtils.transition(const LoginPage()),
             (route) => false,

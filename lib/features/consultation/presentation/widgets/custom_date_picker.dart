@@ -217,7 +217,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             _selected(calDay.day);
           }
         } else {
-          AppToast.info(context, 'Doctor is not available today');
+          AppToast.info(
+            context,
+            title: 'Info',
+            msg: 'Doctor is not available today',
+          );
         }
       },
       child: Container(

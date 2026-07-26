@@ -47,7 +47,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           if (state.sendResetStatus.isSuccess) {
             _verifySuccess();
           } else if (state.sendResetStatus.isFailed) {
-            AppToast.warn(context, state.error?.message ?? 'An error occurred');
+            AppToast.warn(
+              context,
+              title: 'Error',
+              msg: state.error?.message ?? 'An error occurred',
+            );
           }
         },
         builder: (context, state) {

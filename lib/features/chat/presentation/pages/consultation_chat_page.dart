@@ -91,7 +91,7 @@ class _ConsultationChatPageState extends State<ConsultationChatPage> {
       resendData(id);
       textController.clear();
     } else {
-      AppToast.warn(context, 'Please enter a message');
+      AppToast.warn(context, title: 'Warning', msg: 'Please enter a message');
     }
   }
 

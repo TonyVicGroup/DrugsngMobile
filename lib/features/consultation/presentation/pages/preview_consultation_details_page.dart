@@ -143,7 +143,7 @@ class _PreviewConsultationDetailsPageState
     btnStatus.value = ButtonStatus.active;
     if (result != null) {
       // ignore: use_build_context_synchronously
-      AppToast.warn(context, result.message);
+      AppToast.warn(context, title: 'Error', msg: result.message);
     } else {
       Navigator.push(
         // ignore: use_build_context_synchronously

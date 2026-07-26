@@ -199,7 +199,7 @@ class _ScheduleConsultationPageState extends State<ScheduleConsultationPage> {
           ),
         );
       } else {
-        AppToast.warn(context, 'Set consultation time');
+        AppToast.warn(context, title: 'Warning', msg: 'Set consultation time');
       }
     } else {
       if (fieldsFormState.currentState?.validate() ?? false) {

@@ -214,7 +214,7 @@ class SetupProfileTab extends StatelessWidget {
   }
 
   Future<void> _signupFailed(BuildContext context, String? message) async {
-    AppToast.warn(context, message ?? 'An Error occured');
+    AppToast.warn(context, title: 'Error', msg: message ?? 'An Error occured');
   }
 
   void _goBack() {

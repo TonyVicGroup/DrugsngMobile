@@ -109,16 +109,18 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
             );
             AppToast.success(
               context,
-              'Your account has been created.\nYou can now login.',
+              title: 'Success',
+              msg: 'Your account has been created.\nYou can now login.',
             );
           } else {
             AppToast.success(
               context,
-              'Invalid Type Please go back and try again.',
+              title: 'Success',
+              msg: 'Invalid Type Please go back and try again.',
             );
           }
         } else if (state.status.isFailed || state.resendStatus.isFailed) {
-          AppToast.warn(context, state.error!.message);
+          AppToast.warn(context, title: 'Error', msg: state.error!.message);
         }
       },
       builder: (context, state) {

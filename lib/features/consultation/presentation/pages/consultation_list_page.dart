@@ -1,6 +1,5 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
-import 'package:drugs_ng/core/enum/request_status.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/error_reload_widget.dart';
@@ -79,7 +78,11 @@ class _ConsultationListPageState extends State<ConsultationListPage>
         },
         listener: (context, state) {
           if (state.current.loadStatus.isFailed) {
-            AppToast.warn(context, state.current.message ?? '');
+            AppToast.warn(
+              context,
+              title: 'Error',
+              msg: state.current.message ?? '',
+            );
           }
         },
         builder: (context, state) {

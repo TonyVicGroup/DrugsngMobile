@@ -26,10 +26,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
     return BlocConsumer<OrderHistoryCubit, OrderHistoryState>(
       listener: (context, state) {
         if (state.inProgressStatus.isFailed) {
-          AppToast.warn(context, state.inProgressError?.message ?? "");
+          AppToast.warn(
+            context,
+            title: 'Error',
+            msg: state.inProgressError?.message ?? "",
+          );
         }
         if (state.settledStatus.isFailed) {
-          AppToast.warn(context, state.settledError?.message ?? "");
+          AppToast.warn(
+            context,
+            title: 'Error',
+            msg: state.settledError?.message ?? "",
+          );
         }
       },
       builder: (context, state) {

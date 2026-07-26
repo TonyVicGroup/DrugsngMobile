@@ -5,15 +5,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
 class AppToast {
-  static void warn(BuildContext context, String msg) {
+  static void warn(
+    BuildContext context, {
+    required String title,
+    required String msg,
+  }) {
     show(context, msg: msg, type: ToastTypeEnum.warning);
   }
 
-  static void info(BuildContext context, String msg) {
+  static void info(
+    BuildContext context, {
+    required String title,
+    required String msg,
+  }) {
     show(context, msg: msg, type: ToastTypeEnum.info);
   }
 
-  static void success(BuildContext context, String msg) {
+  static void success(
+    BuildContext context, {
+    required String title,
+    required String msg,
+  }) {
     show(context, msg: msg, type: ToastTypeEnum.success);
   }
 

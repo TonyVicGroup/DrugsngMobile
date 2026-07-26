@@ -59,11 +59,16 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
                 if (state is PrescriptionUploadSuccess) {
                   AppToast.success(
                     context,
-                    'Your prescription has been uploaded',
+                    title: "Success",
+                    msg: 'Your prescription has been uploaded',
                   );
                   setState(() => file = null);
                 } else if (state is PrescriptionError) {
-                  AppToast.warn(context, state.error.message);
+                  AppToast.warn(
+                    context,
+                    title: "Error",
+                    msg: state.error.message,
+                  );
                 }
               },
               child: 30.verticalSpace,
@@ -170,7 +175,11 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
                       final userId = context.read<AuthCubit>().state.user!.id;
                       context.read<PrescriptionCubit>().addData(userId, file!);
                     } catch (e) {
-                      AppToast.warn(context, "Unable to upload prescription");
+                      AppToast.warn(
+                        context,
+                        title: 'Error',
+                        msg: 'Unable to upload prescription',
+                      );
                     }
                   },
                 );
@@ -233,9 +242,9 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
             }
             if (pickedFile.size >= 10485760) {
               AppToast.warn(
-                // ignore: use_build_context_synchronously
                 context,
-                "Your File's size should be less than 10MB.",
+                title: 'Warning',
+                msg: "Your File's size should be less than 10MB.",
               );
             } else {
               setState(() => file = pickedFile);

@@ -65,7 +65,7 @@ class _DoctorAppointmentPageState extends State<DoctorAppointmentPage> {
         child: BlocListener<DoctorCubit, DoctorState>(
           listener: (context, state) {
             if (state is DoctorStateError) {
-              AppToast.warn(context, state.error.message);
+              AppToast.warn(context, title: 'Error', msg: state.error.message);
             }
           },
           child: ValueListenableBuilder(

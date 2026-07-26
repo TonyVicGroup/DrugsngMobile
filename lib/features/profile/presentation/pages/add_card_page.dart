@@ -205,7 +205,7 @@ class _AddCardPageState extends State<AddCardPage> {
     if (formKey.currentState?.validate() ?? false) {
       final user = context.read<AuthCubit>().state.user;
       if (user == null) {
-        AppToast.warn(context, 'Login session expired');
+        AppToast.warn(context, title: 'Warning', msg: 'Login session expired');
         Navigator.pushAndRemoveUntil(
           context,
           AppUtils.transition(const LoginPage()),
@@ -232,7 +232,7 @@ class _AddCardPageState extends State<AddCardPage> {
         Navigator.pop(context);
       } else {
         // ignore: use_build_context_synchronously
-        AppToast.warn(context, result.message);
+        AppToast.warn(context, title: 'Error', msg: result.message);
       }
     }
   }

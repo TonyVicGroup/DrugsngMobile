@@ -160,7 +160,8 @@ class _EditReviewPageState extends State<EditReviewPage> {
                       } else if (state.addEditStatus.isFailed) {
                         AppToast.warn(
                           context,
-                          state.error?.message ?? "Failed to post review",
+                          title: "Failed",
+                          msg: state.error?.message ?? "Failed to post review",
                         );
                       }
                     },

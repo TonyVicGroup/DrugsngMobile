@@ -104,7 +104,8 @@ class BiometricModal extends StatelessWidget {
     context.read<LoginCubit>().setupBiometric();
     AppToast.success(
       context,
-      'Biometric Login enabled. Please login to confirm setup',
+      title: "Success",
+      msg: 'Biometric Login enabled. Please login to confirm setup',
     );
   }
 

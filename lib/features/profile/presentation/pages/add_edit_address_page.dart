@@ -199,14 +199,17 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
                   if (state.addEditStatus.isFailed) {
                     AppToast.warn(
                       context,
-                      state.error?.message ?? 'An error occurred',
+                      title: 'Error',
+                      msg: state.error?.message ?? 'An error occurred',
                     );
                   } else if (state.addEditStatus.isSuccess) {
                     AppToast.success(
                       context,
-                      isEdit
-                          ? 'Address updated successfully'
-                          : 'Address added successfully',
+                      title: 'Success',
+                      msg:
+                          isEdit
+                              ? 'Address updated successfully'
+                              : 'Address added successfully',
                     );
                     Navigator.pop(context);
                   }
