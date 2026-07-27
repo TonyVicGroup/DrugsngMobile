@@ -13,26 +13,35 @@ class DoctorRegistrationCubit extends Cubit<DoctorRegistrationState> {
 class DoctorRegistrationState extends Equatable {
   final int stage;
   final LoadStatusEnum verifyLicenseStatus;
+  final LoadStatusEnum idVerifyStatus;
   final String? error;
 
   const DoctorRegistrationState({
     this.stage = 0,
     this.verifyLicenseStatus = LoadStatusEnum.initial,
+    this.idVerifyStatus = LoadStatusEnum.initial,
     this.error,
   });
 
   DoctorRegistrationState copyWith({
     int? stage,
     LoadStatusEnum? verifyLicenseStatus,
+    LoadStatusEnum? idVerifyStatus,
     String? error,
   }) {
     return DoctorRegistrationState(
       stage: stage ?? this.stage,
       verifyLicenseStatus: verifyLicenseStatus ?? this.verifyLicenseStatus,
+      idVerifyStatus: idVerifyStatus ?? this.idVerifyStatus,
       error: error ?? this.error,
     );
   }
 
   @override
-  List<Object?> get props => [stage, verifyLicenseStatus, error];
+  List<Object?> get props => [
+    stage,
+    verifyLicenseStatus,
+    idVerifyStatus,
+    error,
+  ];
 }
