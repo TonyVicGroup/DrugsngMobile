@@ -1,4 +1,3 @@
-import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/signup_cubit.dart';
@@ -13,6 +12,7 @@ import 'package:drugs_ng/features/explore/presentation/cubit/explore_major_categ
 import 'package:drugs_ng/features/home/presentation/cubit/get_country_cubit.dart';
 import 'package:drugs_ng/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/features/navigation/presentation/cubit/tab_navigation_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
 import 'package:drugs_ng/features/product/presentation/cubit/product_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dart';
@@ -27,8 +27,6 @@ class DependencyInjectionService {
 
   static void init() {
     inst
-      // register supabase client
-      ..registerLazySingleton<NavigationTabCubit>(NavigationTabCubit.new)
       // datasources
       ..registerLazySingleton<HomeCubit>(HomeCubit.new)
       ..registerLazySingleton<AuthCubit>(AuthCubit.new)
@@ -58,6 +56,9 @@ class DependencyInjectionService {
       ..registerLazySingleton<ReviewsCubit>(ReviewsCubit.new)
       ..registerLazySingleton<DoctorRegistrationCubit>(
         DoctorRegistrationCubit.new,
+      )
+      ..registerLazySingleton<TabNavigationCubit>(
+        () => TabNavigationCubit(inst.get<AuthCubit>()),
       );
   }
 }

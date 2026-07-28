@@ -145,7 +145,7 @@ class WishlistPage extends StatelessWidget {
             text: "Start Shopping",
             onTap: () {
               Navigator.pop(context);
-              AppUtils.tabController?.jumpToTab(0);
+              // AppUtils.tabController?.jumpToTab(0);
             },
           ),
         ),

@@ -93,8 +93,7 @@ class LoginCubit extends Cubit<LoginState> {
           account: result,
           setBiometric: state.isBiometricEnabled,
         );
-        final authState = GetIt.I.get<AuthCubit>().state;
-        emit(LoginState(status: authState.status, error: authState.error));
+        emit(LoginState(status: LoadStatusEnum.success));
       },
     );
   }

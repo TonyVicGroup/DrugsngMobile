@@ -1,6 +1,5 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
@@ -242,10 +241,10 @@ class ExplorePage extends StatelessWidget {
   }
 
   Future _nextPage(BuildContext context, Widget page) async {
-    context.read<NavigationTabCubit>().hide();
-    await Navigator.push(context, AppUtils.transition(page));
-    // ignore: use_build_context_synchronously
-    context.read<NavigationTabCubit>().show();
+    // context.read<NavigationTabCubit>().hide();
+    // await Navigator.push(context, AppUtils.transition(page));
+    // // ignore: use_build_context_synchronously
+    // context.read<NavigationTabCubit>().show();
   }
 
   void search(BuildContext context) {

@@ -31,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> tokenLogin() async {
     final accountData = UserPreference.getUser();
     if (accountData.accountModel == null) return;
-    await getProfile(accountData.accountModel!);
+    await getProfile(accountData.accountModel!.accountType);
   }
 
   /// logout from account
@@ -44,28 +44,27 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
     required AccountModel account,
-    bool? setBiometric,
+    required bool setBiometric,
   }) async {
-    // set email password and set biometric
+    //
     final user =
         UserPreference.getUser()..copyWith(
           email: email,
           password: password,
-          setBiometric: setBiometric ?? false,
+          setBiometric: setBiometric,
         );
     UserPreference.updateUser(user);
-    //
-    await getProfile(account);
+    emit(state.copyWith(account: account));
   }
 
-  Future<void> getProfile(AccountModel account) async {
-    emit(state.copyWith(account: account, status: LoadStatusEnum.loading));
-    if (account.accountType.isDoctor) {
-      await getDoctorProfile(account.userId);
-    } else if (account.accountType.isDelivery) {
-      await getDeliveryProfile(account.userId);
+  Future<void> getProfile(AccountTypeEnum accountType) async {
+    emit(state.copyWith(status: LoadStatusEnum.loading));
+    if (accountType.isDoctor) {
+      await getDoctorProfile(state.account!.userId);
+    } else if (accountType.isDelivery) {
+      await getDeliveryProfile(state.account!.userId);
     } else {
-      await getUserProfile(account.userId);
+      await getUserProfile(state.account!.userId);
     }
   }
 
@@ -79,7 +78,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (accountData) async {
         emit(
-          state.copyWith(doctor: accountData, status: LoadStatusEnum.loading),
+          state.copyWith(doctor: accountData, status: LoadStatusEnum.success),
         );
       },
     );
@@ -95,7 +94,7 @@ class AuthCubit extends Cubit<AuthState> {
     //   },
     //   (accountData) {
     //     emit(
-    //       state.copyWith(delivery: accountData, status: LoadStatusEnum.loading),
+    //       state.copyWith(delivery: accountData, status: LoadStatusEnum.success),
     //     );
     //   },
     // );
@@ -110,7 +109,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       },
       (accountData) {
-        emit(state.copyWith(user: accountData, status: LoadStatusEnum.loading));
+        emit(state.copyWith(user: accountData, status: LoadStatusEnum.success));
       },
     );
   }
@@ -124,7 +123,7 @@ class AuthState extends Equatable {
   final DoctorProfileModel? doctor;
   final DeliveryProfileModel? delivery;
   final AccountModel? account;
-  final AccountTypeEnum? accountType;
+  final AccountTypeEnum accountType;
   final String? error;
   final LoadStatusEnum status;
 
@@ -133,7 +132,7 @@ class AuthState extends Equatable {
     this.doctor,
     this.account,
     this.delivery,
-    this.accountType,
+    this.accountType = AccountTypeEnum.patient,
     this.error,
     this.status = LoadStatusEnum.initial,
   });

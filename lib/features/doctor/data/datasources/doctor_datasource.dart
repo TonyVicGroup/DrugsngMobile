@@ -1,6 +1,5 @@
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/domain/models/user_profile_model.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor.dart';
 import 'package:drugs_ng/features/consultation/data/models/doctor_details.dart';
 import 'package:drugs_ng/features/doctor/data/models/create_doctor_request.dart';

@@ -6,6 +6,7 @@ import 'package:drugs_ng/features/auth/presentation/pages/select_account_page.da
 import 'package:drugs_ng/features/auth/presentation/pages/signup_screen.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
+import 'package:drugs_ng/features/navigation/presentation/pages/dashboard_page.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/complete_doctor_verification_summary_page.dart';
@@ -28,6 +29,9 @@ class AppRoutes {
       '/completeDoctorVerificationSummary';
   static const doctorRegistration = '/doctorRegistration';
   static const doctorApplicationStatus = '/doctorApplicationStatus';
+
+  //
+  static const dashboard = '/dashboard';
 
   static String currentRoute = splash;
 
@@ -63,6 +67,9 @@ class AppRoutes {
         return DoctorRegistrationPage.route(routeSettings);
       case doctorApplicationStatus:
         return DoctorApplicationStatusPage.route(routeSettings);
+      //
+      case dashboard:
+        return DashboardPage.route(routeSettings);
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }

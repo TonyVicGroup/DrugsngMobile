@@ -8,6 +8,7 @@ class TabNavigationCubit extends Cubit<TabNavigationState> {
     _authCubit.stream.listen((st) {
       emit(state.copyWith(accountType: st.accountType));
     });
+    emit(state.copyWith(accountType: _authCubit.state.accountType));
   }
 
   final AuthCubit _authCubit;
@@ -18,10 +19,13 @@ class TabNavigationCubit extends Cubit<TabNavigationState> {
 }
 
 class TabNavigationState extends Equatable {
-  const TabNavigationState({this.tabIndex = 0, this.accountType});
+  const TabNavigationState({
+    this.tabIndex = 0,
+    this.accountType = AccountTypeEnum.patient,
+  });
 
   final int tabIndex;
-  final AccountTypeEnum? accountType;
+  final AccountTypeEnum accountType;
 
   TabNavigationState copyWith({int? tabIndex, AccountTypeEnum? accountType}) {
     return TabNavigationState(

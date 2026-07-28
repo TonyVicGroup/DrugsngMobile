@@ -1,6 +1,5 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_formater.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -18,13 +17,13 @@ class DiagnosticTestWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        context.read<NavigationTabCubit>().hide();
-        await Navigator.push(
-          context,
-          AppUtils.transition(TestOverviewPage(productId: test.id)),
-        );
-        // ignore: use_build_context_synchronously
-        context.read<NavigationTabCubit>().show();
+        // context.read<NavigationTabCubit>().hide();
+        // await Navigator.push(
+        //   context,
+        //   AppUtils.transition(TestOverviewPage(productId: test.id)),
+        // );
+        // // ignore: use_build_context_synchronously
+        // context.read<NavigationTabCubit>().show();
       },
       child: Container(
         width: 192.w,

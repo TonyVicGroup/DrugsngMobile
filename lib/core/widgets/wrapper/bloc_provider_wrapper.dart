@@ -1,4 +1,3 @@
-import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/core/services/dependency_injection_service.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/login_cubit.dart';
@@ -14,6 +13,7 @@ import 'package:drugs_ng/features/explore/presentation/cubit/explore_major_categ
 import 'package:drugs_ng/features/home/presentation/cubit/get_country_cubit.dart';
 import 'package:drugs_ng/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
+import 'package:drugs_ng/features/navigation/presentation/cubit/tab_navigation_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
 import 'package:drugs_ng/features/product/presentation/cubit/product_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dart';
@@ -32,10 +32,6 @@ class BlocProviderWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create:
-              (_) => DependencyInjectionService.inst.get<NavigationTabCubit>(),
-        ),
         BlocProvider(
           create: (_) => DependencyInjectionService.inst.get<HomeCubit>(),
         ),
@@ -110,6 +106,10 @@ class BlocProviderWrapper extends StatelessWidget {
               (_) =>
                   DependencyInjectionService.inst
                       .get<DoctorRegistrationCubit>(),
+        ),
+        BlocProvider(
+          create:
+              (_) => DependencyInjectionService.inst.get<TabNavigationCubit>(),
         ),
       ],
       child: child,

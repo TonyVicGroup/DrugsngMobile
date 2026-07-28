@@ -2,7 +2,6 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
-import 'package:drugs_ng/features/lab_appointment/presentation/pages/lab_appointment_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,14 +12,14 @@ class LabAppointmentListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const LabAppointmentDetailScreen();
-            },
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return const LabAppointmentDetailScreen();
+        //     },
+        //   ),
+        // );
       },
       child: Container(
         width: double.maxFinite,

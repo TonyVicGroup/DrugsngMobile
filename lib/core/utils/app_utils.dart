@@ -12,13 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class AppUtils {
   static const kPageTransitionDuration = Duration(milliseconds: 300);
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
-  static PersistentTabController? tabController;
+  static TabController? tabController;
   static const String baseUrl = 'https://drugsngmain.azurewebsites.net/api/v1/';
 
   // static PersistentTabController? tabController;

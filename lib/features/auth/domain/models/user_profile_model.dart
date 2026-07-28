@@ -14,6 +14,7 @@ class UserProfileModel extends Equatable {
     required this.accountStatus,
     required this.verified,
     required this.roles,
+    required this.imageUrl,
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +32,7 @@ class UserProfileModel extends Equatable {
       isDeleted: json['isDeleted'] as bool,
       accountStatus: json['accountStatus'] as String,
       verified: json['verified'] as bool,
+      imageUrl: json['imageUrl'] as String? ?? '',
       roles: (json['roles'] as List<dynamic>).map((e) => e as String).toList(),
     );
   }
@@ -45,6 +47,7 @@ class UserProfileModel extends Equatable {
   final bool isDeleted;
   final String accountStatus;
   final bool verified;
+  final String imageUrl;
   final List<String> roles;
 
   Map<String, dynamic> toJson() {
@@ -60,6 +63,7 @@ class UserProfileModel extends Equatable {
       'accountStatus': accountStatus,
       'verified': verified,
       'roles': roles,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -84,6 +88,7 @@ class UserProfileModel extends Equatable {
     accountStatus,
     verified,
     roles,
+    imageUrl,
   ];
 
   // UserProfileModel copyWith({

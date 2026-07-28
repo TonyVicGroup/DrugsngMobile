@@ -16,7 +16,9 @@ enum GenderEnum {
 
   static GenderEnum fromString(String value) => switch (value.toLowerCase()) {
     'm' => male,
+    'male' => male,
     'f' => female,
+    'female' => female,
     _ => male,
   };
 

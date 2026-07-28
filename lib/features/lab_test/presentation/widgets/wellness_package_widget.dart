@@ -1,6 +1,5 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/cubits/navigation_tab_cubit.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -19,13 +18,13 @@ class WellnessPackageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        context.read<NavigationTabCubit>().hide();
-        await Navigator.push(
-          context,
-          AppUtils.transition(PackageOverviewPage(productId: package.id)),
-        );
-        // ignore: use_build_context_synchronously
-        context.read<NavigationTabCubit>().show();
+        // context.read<NavigationTabCubit>().hide();
+        // await Navigator.push(
+        //   context,
+        //   AppUtils.transition(PackageOverviewPage(productId: package.id)),
+        // );
+        // // ignore: use_build_context_synchronously
+        // context.read<NavigationTabCubit>().show();
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.r),

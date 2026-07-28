@@ -1,7 +1,9 @@
+import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,10 +28,11 @@ class ErrorPage extends StatelessWidget {
         SizedBox(height: 0.3.sh),
         Align(
           alignment: Alignment.center,
-          child: SizedBox(
+          child: CustomImage(
+            Assets.svg.warnTriangle,
             height: 100.r,
             width: 100.r,
-            child: const CustomImage(AppImage.errorIcon),
+            color: AppColor.color0B8AE1,
           ),
         ),
         20.verticalSpace,

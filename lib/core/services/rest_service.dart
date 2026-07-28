@@ -6,6 +6,8 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:drugs_ng/core/error/app_responses.dart';
 import 'package:drugs_ng/core/services/log_service.dart';
 import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:get_it/get_it.dart';
 
 class RestService {
   final _errorStream = StreamController<Response<dynamic>>.broadcast();
@@ -53,9 +55,10 @@ class RestService {
     options.headers['accept'] ??= 'application/json';
     options.headers['Content-Type'] ??= 'application/json';
     // final token = UserPreference.getUser().accountModel.getToken();
-    // if (token?.isNotEmpty ?? false) {
-    //   options.headers['AUTHORIZATION'] = 'Bearer $token';
-    // }
+    if (GetIt.I.get<AuthCubit>().state.account != null) {
+      final token = GetIt.I.get<AuthCubit>().state.account!.jwtToken;
+      options.headers['AUTHORIZATION'] = 'Bearer $token';
+    }
     return handler.next(options);
   }
 
