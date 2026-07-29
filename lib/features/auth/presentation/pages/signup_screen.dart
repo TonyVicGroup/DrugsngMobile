@@ -85,6 +85,8 @@ class _SignupScreenState extends State<SignupScreen> {
               birthDay: birthDay,
               gender: gender,
               formKey: setupProfileForm,
+              password: password1Cntrl,
+              getWeeklyUpdates: weeklyUpdates,
             ),
           ],
         ),

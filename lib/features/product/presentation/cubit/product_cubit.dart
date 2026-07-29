@@ -1,4 +1,4 @@
-import 'package:drugs_ng/features/product/data/repositories/product_repo_impl.dart';
+import 'package:drugs_ng/features/product/data/repositories/product_repository.dart';
 import 'package:drugs_ng/features/product/domain/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drugs_ng/core/data/models/app_responses.dart';

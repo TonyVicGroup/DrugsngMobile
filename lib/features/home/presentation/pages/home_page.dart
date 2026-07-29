@@ -56,14 +56,13 @@ class _HomePageState extends State<HomePage> {
             child: SafeArea(
               bottom: false,
               child:
-                  (state.isEmpty && state is HomeError)
-                      ? ErrorPage(message: state.error.message)
+                  (state.isEmpty && state.status.isFailed)
+                      ? ErrorPage(message: state.error)
                       : ListView(
                         children: [
-                          if (state is HomeError)
+                          if (state.status.isFailed)
                             ErrorBanner(
-                              text:
-                                  "${state.error.message}. Pull down to refresh",
+                              text: "${state.error}. Pull down to refresh",
                             ),
                           16.verticalSpace,
                           Padding(
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           30.verticalSpace,
-                          if (state is HomeLoading)
+                          if (state.status.isLoading)
                             const HomepageLoader()
                           else
                             ...homePageData(state),
@@ -113,11 +112,11 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> homePageData(HomeState state) {
     return [
-      if (state.data.homeAds.isNotEmpty) ...[
-        HomeCarouselWidget(ads: state.data.homeAds),
-        30.verticalSpace,
-      ],
-      if (state.data.newArrivals.isNotEmpty) ...[
+      // if (state.data.homeAds.isNotEmpty) ...[
+      //   HomeCarouselWidget(ads: state.data.homeAds),
+      //   30.verticalSpace,
+      // ],
+      if (state.newArrivals.isNotEmpty) ...[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Row(
@@ -136,7 +135,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              Product arrive = state.data.newArrivals[index];
+              Product arrive = state.newArrivals[index];
               return Padding(
                 padding: EdgeInsets.only(top: 10.h),
                 child: ProductCardWidget(
@@ -152,14 +151,14 @@ class _HomePageState extends State<HomePage> {
               );
             },
             separatorBuilder: (context, index) => 16.horizontalSpace,
-            itemCount: state.data.newArrivals.length,
+            itemCount: state.newArrivals.length,
           ),
         ),
         30.verticalSpace,
       ],
       const OrderPrescriptionWidget(),
       30.verticalSpace,
-      if (state.data.bestSellers.isNotEmpty) ...[
+      if (state.bestSellers.isNotEmpty) ...[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Row(
@@ -180,7 +179,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              Product bSell = state.data.bestSellers[index];
+              Product bSell = state.bestSellers[index];
               return Padding(
                 padding: EdgeInsets.only(top: 10.h),
                 child: ProductCardWidget(
@@ -201,7 +200,7 @@ class _HomePageState extends State<HomePage> {
             separatorBuilder: (context, index) {
               return 16.horizontalSpace;
             },
-            itemCount: state.data.bestSellers.length,
+            itemCount: state.bestSellers.length,
           ),
         ),
         30.verticalSpace,
@@ -210,7 +209,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> reload() async {
-    await context.read<HomeCubit>().reloadData();
+    await context.read<HomeCubit>().getData(showLoader: false);
   }
 
   Future _nextPage(Widget page) async {

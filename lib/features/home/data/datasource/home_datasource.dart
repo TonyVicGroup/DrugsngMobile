@@ -11,21 +11,18 @@ import 'package:flutter/services.dart';
 class HomeDatasource {
   final RestService service = RestService(baseUrl: AppUtils.baseUrl);
 
-  Future<HomeData> getData() async {
-    final response = await service.get(path: 'product/home-page');
-    if (response.hasError) throw response.error;
-
-    final data = response.data!['data'] as Map<String, dynamic>;
-
-    // Extracts ads banner from assets for now
-    final localData = await rootBundle.loadString(
-      "assets/json/home_page_data.json",
-    );
-    final mapData = Map<String, dynamic>.from(json.decode(localData));
-    data.addAll({HomeData.homeAdsKey: mapData[HomeData.homeAdsKey]});
-
-    return HomeData.fromJson(data);
-  }
+  // Future<HomeData> getData() async {
+  //   final response = await service.get(path: 'product/home-page');
+  //   if (response.hasError) throw response.error;
+  //   final data = response.data!['data'] as Map<String, dynamic>;
+  //   // Extracts ads banner from assets for now
+  //   final localData = await rootBundle.loadString(
+  //     "assets/json/home_page_data.json",
+  //   );
+  //   final mapData = Map<String, dynamic>.from(json.decode(localData));
+  //   data.addAll({HomeData.homeAdsKey: mapData[HomeData.homeAdsKey]});
+  //   return HomeData.fromJson(data);
+  // }
 
   Future<String> getCountry() async {
     try {

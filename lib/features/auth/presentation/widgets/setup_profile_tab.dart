@@ -2,6 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/gender_enum.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_back_button.dart';
@@ -10,6 +11,7 @@ import 'package:drugs_ng/core/widgets/buttons/option_chip_tile.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
+import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/email_otp_page.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
@@ -24,17 +26,21 @@ class SetupProfileTab extends StatelessWidget {
     required this.controller,
     required this.firstName,
     required this.lastName,
+    required this.password,
     required this.email,
     required this.birthDay,
     required this.gender,
     required this.formKey,
+    required this.getWeeklyUpdates,
   });
   final PageController controller;
   final TextEditingController firstName;
   final TextEditingController lastName;
+  final TextEditingController password;
   final TextEditingController email;
   final ValueNotifier<DateTime?> birthDay;
   final ValueNotifier<GenderEnum> gender;
+  final ValueNotifier<bool> getWeeklyUpdates;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -161,6 +167,10 @@ class SetupProfileTab extends StatelessWidget {
                       ),
                       22.verticalSpace,
                       BlocConsumer<SignupCubit, SignupState>(
+                        listenWhen:
+                            (previous, current) =>
+                                context.isOnScreen &&
+                                previous.status != current.status,
                         listener: (context, state) {
                           if (state.status.isSuccess) {
                             _signupSuccess(context);
@@ -197,7 +207,14 @@ class SetupProfileTab extends StatelessWidget {
     }
     final signupState = context.read<SignupCubit>().state;
     if (!signupState.status.isLoading) {
-      // context.read<SignupCubit>().signup();
+      final signupData = SignupData(
+        firstName: firstName.text,
+        lastName: lastName.text,
+        email: email.text,
+        password: password.text,
+        getWeeklyUpdates: getWeeklyUpdates.value,
+      );
+      context.read<SignupCubit>().createAccount(signupData);
     }
   }
 
@@ -206,6 +223,7 @@ class SetupProfileTab extends StatelessWidget {
   }
 
   Future<void> _signupSuccess(BuildContext context) async {
+    if (!context.isOnScreen) return;
     EmailOtpPage.verifyOtp(
       context: context,
       email: email.text,
@@ -214,6 +232,7 @@ class SetupProfileTab extends StatelessWidget {
   }
 
   Future<void> _signupFailed(BuildContext context, String? message) async {
+    if (!context.isOnScreen) return;
     AppToast.warn(context, title: 'Error', msg: message ?? 'An Error occured');
   }
 

@@ -2,17 +2,17 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/otp_type_enum.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/navigation/app_route.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/verify_email_otp_cubit.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
-import 'package:drugs_ng/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +57,9 @@ class EmailOtpPage extends StatefulWidget {
     return MaterialPageRoute(
       builder:
           (_) => BlocProvider(
-            create: (context) => EmailOtpCubit(otpType: otpType, email: email),
+            create:
+                (context) =>
+                    EmailOtpCubit(otpType: otpType, email: email)..startTimer(),
             child: EmailOtpPage._(
               email: email!,
               otpType: otpType!,
@@ -192,53 +194,48 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                       alignment: Alignment.center,
                       child: Builder(
                         builder: (context) {
-                          if (state.countdown <= 0) {
-                            return RichText(
-                              text: TextSpan(
-                                text: "I didn't receive a code",
-                                children: [
-                                  TextSpan(
-                                    text: ' Resend Code',
-                                    style: TextStyle(
-                                      color: AppColor.color0B8AE1,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16.sp,
-                                    ),
+                          if (state.resendStatus.isLoading) {
+                            return Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppText.sp16(
+                                  'Sending otp code',
+                                ).w400.setColor(AppColor.color6D6D6D),
+                                10.horizontalSpace,
+                                SizedBox(
+                                  height: 16.h,
+                                  width: 16.w,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 4.w,
+                                    color: AppColor.color0B8AE1,
                                   ),
-                                ],
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  height: 1.25,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: AppText.fontFamily,
-                                  color: AppColor.color6D6D6D,
                                 ),
-                              ),
+                              ],
                             );
-                          } else if (state.resendStatus.isLoading) {
-                            return GestureDetector(
-                              onTap:
-                                  state.resendStatus.isLoading
-                                      ? null
-                                      : resendCode,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppText.sp16(
-                                    'Send code again',
-                                  ).w400.setColor(AppColor.color6D6D6D),
-                                  if (state.resendStatus.isLoading) ...[
-                                    10.horizontalSpace,
-                                    SizedBox(
-                                      height: 16.h,
-                                      width: 16.w,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 4.w,
+                          } else if (state.countdown <= 0) {
+                            return AppButtonAnimator(
+                              onTap: resendCode,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: "I didn't receive a code",
+                                  children: [
+                                    TextSpan(
+                                      text: ' Resend Code',
+                                      style: TextStyle(
                                         color: AppColor.color0B8AE1,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
                                   ],
-                                ],
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    height: 1.25,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: AppText.fontFamily,
+                                    color: AppColor.color6D6D6D,
+                                  ),
+                                ),
                               ),
                             );
                           }
@@ -273,11 +270,13 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
                       builder: (context, value, child) {
                         return AppGradientButton(
                           text: "Verify",
-                          onTap: _sendCode,
+                          onTap: _verify,
                           status:
-                              state.status.isLoading
-                                  ? ButtonStatus.loading
-                                  : ButtonStatus.active,
+                              otpCntrl.text.length < widget.inputLength
+                                  ? ButtonStatus.disabled
+                                  : (state.status.isLoading
+                                      ? ButtonStatus.loading
+                                      : ButtonStatus.active),
                         );
                       },
                     ),
@@ -304,18 +303,7 @@ class _EmailOtpPageState extends State<EmailOtpPage> {
     context.read<EmailOtpCubit>().resendOtp();
   }
 
-  void _sendCode() {
-    // if (widget.otpType.isPasswordReset) {
-    //   AppUtils.pushWidget(
-    //     BlocProvider.value(
-    //       value: context.read<EmailOtpCubit>(),
-    //       child: ResetPasswordPage(otp: otpCntrl.text, email: widget.email),
-    //     ),
-    //   );
-    // } else {
-    //   context.read<EmailOtpCubit>().confirmOtp(otp: otpCntrl.text);
-    // }
-    // context.read<EmailOtpCubit>().confirmOtp(otp: otpCntrl.text);
-    context.pushNamed(AppRoutes.changePassword);
+  void _verify() {
+    context.read<EmailOtpCubit>().confirmOtp(otp: otpCntrl.text);
   }
 }

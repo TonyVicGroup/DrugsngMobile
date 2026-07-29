@@ -22,7 +22,7 @@ class _DashboardPageState extends State<DashboardPage>
     with TickerProviderStateMixin {
   @override
   void initState() {
-    AppUtils.tabController = TabController(length: 3, vsync: this);
+    AppUtils.tabController = TabController(length: 5, vsync: this);
     // listen for 401 errors globally
     // _errorStream = context.read<RestService>().errorStream.listen((event) {
     //   if (event.statusCode == 401) {
@@ -45,10 +45,10 @@ class _DashboardPageState extends State<DashboardPage>
     return BlocBuilder<TabNavigationCubit, TabNavigationState>(
       builder: (context, state) {
         return switch (state.accountType) {
-          AccountTypeEnum.patient => PatientTabView(),
-          AccountTypeEnum.doctor => DoctorTabView(),
-          AccountTypeEnum.delivery => DeliveryTabView(),
-          _ => SizedBox.shrink(),
+          AccountTypeEnum.patient => const PatientTabView(),
+          AccountTypeEnum.doctor => const DoctorTabView(),
+          AccountTypeEnum.delivery => const DeliveryTabView(),
+          _ => const SizedBox.shrink(),
         };
       },
     );

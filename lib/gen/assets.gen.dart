@@ -156,6 +156,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/edit_square.svg
   String get editSquare => 'assets/svg/edit_square.svg';
 
+  /// File path: assets/svg/explore.svg
+  String get explore => 'assets/svg/explore.svg';
+
   /// File path: assets/svg/export_document.svg
   String get exportDocument => 'assets/svg/export_document.svg';
 
@@ -204,6 +207,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/info_triangle.svg
   String get infoTriangle => 'assets/svg/info_triangle.svg';
 
+  /// File path: assets/svg/lab_test.svg
+  String get labTest => 'assets/svg/lab_test.svg';
+
   /// File path: assets/svg/lab_test_thin.svg
   String get labTestThin => 'assets/svg/lab_test_thin.svg';
 
@@ -242,6 +248,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/prescription.svg
   String get prescription => 'assets/svg/prescription.svg';
+
+  /// File path: assets/svg/profile.svg
+  String get profile => 'assets/svg/profile.svg';
 
   /// File path: assets/svg/read_checkmark.svg
   String get readCheckmark => 'assets/svg/read_checkmark.svg';
@@ -368,6 +377,7 @@ class $AssetsSvgGen {
     download,
     edit,
     editSquare,
+    explore,
     exportDocument,
     face,
     filter,
@@ -384,6 +394,7 @@ class $AssetsSvgGen {
     home,
     infoCircle,
     infoTriangle,
+    labTest,
     labTestThin,
     labtest,
     lightning,
@@ -397,6 +408,7 @@ class $AssetsSvgGen {
     phone,
     plus,
     prescription,
+    profile,
     readCheckmark,
     retry,
     reviews,

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/features/home/domain/models/home_data.dart';
 import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
 import 'package:drugs_ng/features/product/domain/models/product.dart';
 
@@ -168,10 +169,10 @@ class ProductDatasource {
     return getSimillarProducts(name);
   }
 
-  Future<Map<String, dynamic>> getHomePageProducts() async {
+  Future<HomeData> getHomePageProducts() async {
     final response = await service.get(path: 'product/home-page');
     if (response.hasError) throw response.error;
-    return Map<String, dynamic>.from(response.data!['data'] ?? {});
+    return HomeData.fromJson(response.data!['data'] ?? {});
   }
 
   Future<List<Map<String, dynamic>>> getDrugs({
