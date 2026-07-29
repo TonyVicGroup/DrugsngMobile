@@ -29,6 +29,10 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingWave =>
       const AssetGenImage('assets/images/onboarding_wave.png');
 
+  /// File path: assets/images/prescription_image.jpg
+  AssetGenImage get prescriptionImage =>
+      const AssetGenImage('assets/images/prescription_image.jpg');
+
   /// File path: assets/images/splash_image.png
   AssetGenImage get splashImage =>
       const AssetGenImage('assets/images/splash_image.png');
@@ -47,6 +51,7 @@ class $AssetsImagesGen {
     drugs,
     onboardingImage,
     onboardingWave,
+    prescriptionImage,
     splashImage,
     splashLogo,
     verifyImage,
@@ -68,6 +73,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/More_Grid.svg
   String get moreGrid => 'assets/svg/More_Grid.svg';
+
+  /// File path: assets/svg/PDF.svg
+  String get pdf => 'assets/svg/PDF.svg';
 
   /// File path: assets/svg/app_logo.svg
   String get appLogo => 'assets/svg/app_logo.svg';
@@ -201,6 +209,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/home.svg
   String get home => 'assets/svg/home.svg';
 
+  /// File path: assets/svg/image.svg
+  String get image => 'assets/svg/image.svg';
+
   /// File path: assets/svg/info_circle.svg
   String get infoCircle => 'assets/svg/info_circle.svg';
 
@@ -225,6 +236,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/lipid.svg
   String get lipid => 'assets/svg/lipid.svg';
 
+  /// File path: assets/svg/location_filled.svg
+  String get locationFilled => 'assets/svg/location_filled.svg';
+
   /// File path: assets/svg/medication.svg
   String get medication => 'assets/svg/medication.svg';
 
@@ -248,6 +262,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/prescription.svg
   String get prescription => 'assets/svg/prescription.svg';
+
+  /// File path: assets/svg/prescription_board.svg
+  String get prescriptionBoard => 'assets/svg/prescription_board.svg';
 
   /// File path: assets/svg/profile.svg
   String get profile => 'assets/svg/profile.svg';
@@ -306,6 +323,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/tag.svg
   String get tag => 'assets/svg/tag.svg';
 
+  /// File path: assets/svg/three_dot_vertical.svg
+  String get threeDotVertical => 'assets/svg/three_dot_vertical.svg';
+
   /// File path: assets/svg/thumbs_up.svg
   String get thumbsUp => 'assets/svg/thumbs_up.svg';
 
@@ -348,6 +368,7 @@ class $AssetsSvgGen {
   /// List of all assets
   List<String> get values => [
     moreGrid,
+    pdf,
     appLogo,
     arrowLeft,
     arrowRight,
@@ -392,6 +413,7 @@ class $AssetsSvgGen {
     heartFilled,
     heartOutline,
     home,
+    image,
     infoCircle,
     infoTriangle,
     labTest,
@@ -400,6 +422,7 @@ class $AssetsSvgGen {
     lightning,
     lineGraph,
     lipid,
+    locationFilled,
     medication,
     minus,
     nonVisible,
@@ -408,6 +431,7 @@ class $AssetsSvgGen {
     phone,
     plus,
     prescription,
+    prescriptionBoard,
     profile,
     readCheckmark,
     retry,
@@ -427,6 +451,7 @@ class $AssetsSvgGen {
     syrup,
     tablet,
     tag,
+    threeDotVertical,
     thumbsUp,
     timerCircle,
     timerFilled,

@@ -7,7 +7,6 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/widgets/recent_upload_loader.dart';
@@ -23,6 +22,10 @@ class PrescriptionOrderPage extends StatefulWidget {
 
   @override
   State<PrescriptionOrderPage> createState() => _PrescriptionOrderPageState();
+
+  static Route<dynamic> route(RouteSettings routeSettings) {
+    return MaterialPageRoute(builder: (_) => PrescriptionOrderPage());
+  }
 }
 
 class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
@@ -32,42 +35,25 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 5,
-        shadowColor: Colors.black.withOpacity(0.2),
-        surfaceTintColor: AppColor.white,
-        backgroundColor: AppColor.white,
-        leading: Center(
-          child: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: SizedBox(
-              width: 20.sp,
-              height: 20.sp,
-              child: SvgPicture.asset(AppSvg.chevronThick),
-            ),
-          ),
-        ),
-        title: AppText.sp18("Order with Prescription").w700.black,
-        centerTitle: true,
-      ),
+      backgroundColor: AppColor.colorF3F5F9,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           children: [
             BlocListener<PrescriptionCubit, PrescriptionState>(
               listener: (context, state) {
-                if (state is PrescriptionUploadSuccess) {
+                if (state.status.isSuccess) {
                   AppToast.success(
                     context,
                     title: "Success",
                     msg: 'Your prescription has been uploaded',
                   );
                   setState(() => file = null);
-                } else if (state is PrescriptionError) {
+                } else if (state.status.isFailed) {
                   AppToast.warn(
                     context,
                     title: "Error",
-                    msg: state.error.message,
+                    msg: state.error ?? 'An error occured',
                   );
                 }
               },
@@ -164,12 +150,12 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
               builder: (context, state) {
                 return AppButton.primary(
                   text: 'Upload',
-                  status:
-                      file == null
-                          ? ButtonStatus.disabled
-                          : state is PrescriptionUploadLoading
-                          ? ButtonStatus.loading
-                          : ButtonStatus.active,
+                  // status:
+                  //     file == null
+                  //         ? ButtonStatus.disabled
+                  //         : state is PrescriptionUploadLoading
+                  //         ? ButtonStatus.loading
+                  //         : ButtonStatus.active,
                   onTap: () async {
                     try {
                       final userId = context.read<AuthCubit>().state.user!.id;
@@ -195,29 +181,30 @@ class _PrescriptionOrderPageState extends State<PrescriptionOrderPage> {
   Widget recentUploads() {
     return BlocBuilder<PrescriptionCubit, PrescriptionState>(
       builder: (context, state) {
-        if (state.prescriptions.isEmpty) {
-          if (state is PrescriptionLoading) {
-            return SizedBox(height: 180.sp, child: const RecentUploadLoader());
-          }
-          return SizedBox(
-            height: 180.sp,
-            child: Center(
-              child:
-                  AppText.sp16(
-                    "You have no recent prescriptions.",
-                  ).setColor(const Color(0xFF979797)).centerText,
-            ),
-          );
-        }
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: state.prescriptions.length,
-          padding: EdgeInsets.zero,
-          itemBuilder: (context, index) {
-            final pres = state.prescriptions[index];
-            return PrescriptionUploadWidget(prescription: pres);
-          },
-        );
+        // if (state.prescriptions.isEmpty) {
+        //   if (state is PrescriptionLoading) {
+        //     return SizedBox(height: 180.sp, child: const RecentUploadLoader());
+        //   }
+        //   return SizedBox(
+        //     height: 180.sp,
+        //     child: Center(
+        //       child:
+        //           AppText.sp16(
+        //             "You have no recent prescriptions.",
+        //           ).setColor(const Color(0xFF979797)).centerText,
+        //     ),
+        //   );
+        // }
+        // return ListView.builder(
+        //   shrinkWrap: true,
+        //   itemCount: state.prescriptions.length,
+        //   padding: EdgeInsets.zero,
+        //   itemBuilder: (context, index) {
+        //     final pres = state.prescriptions[index];
+        //     return PrescriptionUploadWidget(prescription: pres);
+        //   },
+        // );
+        return SizedBox.shrink();
       },
     );
   }

@@ -2,14 +2,15 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
 import 'package:drugs_ng/core/enum/sort_type_enum.dart';
+import 'package:drugs_ng/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/core/services/location_service.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
 import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
@@ -18,7 +19,6 @@ import 'package:drugs_ng/features/home/presentation/widgets/homepage_loader.dart
 import 'package:drugs_ng/features/product/domain/models/product.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/home_carousel_widget.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/order_prescription_widget.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
@@ -46,67 +46,67 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.white,
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          return RefreshIndicator(
-            onRefresh: reload,
-            displacement: 64.h,
-            child: SafeArea(
-              bottom: false,
-              child:
-                  (state.isEmpty && state.status.isFailed)
-                      ? ErrorPage(message: state.error)
-                      : ListView(
-                        children: [
-                          if (state.status.isFailed)
-                            ErrorBanner(
-                              text: "${state.error}. Pull down to refresh",
-                            ),
-                          16.verticalSpace,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Row(
-                              children: [
-                                LocationChip.widget(context),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    // AppButton.svgIcon(
-                                    //   svg: AppSvg.notification,
-                                    //   onTap: notification,
-                                    // ),
-                                    15.horizontalSpace,
-                                    AppButton.svgIcon(
-                                      svg: AppSvg.shopping,
-                                      onTap: cart,
-                                      color: AppColor.black,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: reload,
+          displacement: 64.h,
+          child: SafeArea(
+            bottom: false,
+            child:
+                (state.isEmpty && state.status.isFailed)
+                    ? ErrorPage(message: state.error)
+                    : ListView(
+                      children: [
+                        if (state.status.isFailed)
+                          ErrorBanner(
+                            text: "${state.error}. Pull down to refresh",
                           ),
-                          30.verticalSpace,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: AppTextField.search(
-                              hint: "Search for health products and tests",
-                              onTap: search,
-                            ),
+                        16.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: HomeHeaderWidget(),
+                          // child: Row(
+                          //   children: [
+
+                          //     7.verticalSpace,
+
+                          //     const Spacer(),
+                          //     Row(
+                          //       children: [
+                          //         // AppButton.svgIcon(
+                          //         //   svg: AppSvg.notification,
+                          //         //   onTap: notification,
+                          //         // ),
+                          //         15.horizontalSpace,
+                          //         AppButton.svgIcon(
+                          //           svg: AppSvg.shopping,
+                          //           onTap: cart,
+                          //           color: AppColor.black,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
+                        ),
+                        30.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: AppTextField.search(
+                            hint: "Search for health products and tests",
+                            onTap: search,
                           ),
-                          30.verticalSpace,
-                          if (state.status.isLoading)
-                            const HomepageLoader()
-                          else
-                            ...homePageData(state),
-                        ],
-                      ),
-            ),
-          );
-        },
-      ),
+                        ),
+                        30.verticalSpace,
+                        if (state.status.isLoading)
+                          const HomepageLoader()
+                        else
+                          ...homePageData(state),
+                      ],
+                    ),
+          ),
+        );
+      },
     );
   }
 
@@ -130,33 +130,31 @@ class _HomePageState extends State<HomePage> {
         ),
         12.verticalSpace,
         SizedBox(
-          height: 273.h,
+          height: 289.h,
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               Product arrive = state.newArrivals[index];
-              return Padding(
-                padding: EdgeInsets.only(top: 10.h),
-                child: ProductCardWidget(
-                  image: arrive.imageUrls.firstOrNull,
-                  name: arrive.name,
-                  itemId: arrive.id,
-                  genericName: arrive.genericName,
-                  price: arrive.price,
-                  rating: arrive.rating,
-                  onTap: () => _openProductPage(arrive),
-                  itemType: ItemTypeEnum.product,
-                ),
+              return ProductCardWidget(
+                image: arrive.imageUrls.firstOrNull,
+                name: arrive.name,
+                itemId: arrive.id,
+                genericName: arrive.genericName,
+                price: arrive.price,
+                rating: arrive.rating,
+                onTap: () => _openProductPage(arrive),
+                itemType: ItemTypeEnum.product,
               );
             },
             separatorBuilder: (context, index) => 16.horizontalSpace,
             itemCount: state.newArrivals.length,
           ),
         ),
-        30.verticalSpace,
+        10.verticalSpace,
       ],
-      const OrderPrescriptionWidget(),
+      10.verticalSpace,
+      const OrderPrescriptionWidget().padSymmetric(horizontal: 16.w),
       30.verticalSpace,
       if (state.bestSellers.isNotEmpty) ...[
         Padding(
@@ -174,27 +172,21 @@ class _HomePageState extends State<HomePage> {
         ),
         12.verticalSpace,
         SizedBox(
-          height: 273.h,
+          height: 289.h,
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               Product bSell = state.bestSellers[index];
-              return Padding(
-                padding: EdgeInsets.only(top: 10.h),
-                child: ProductCardWidget(
-                  image: bSell.imageUrls.firstOrNull,
-                  name: bSell.name,
-                  itemId: bSell.id,
-                  genericName: bSell.genericName,
-                  price: bSell.price,
-                  rating: bSell.rating,
-                  onTap: () => _openProductPage(bSell),
-                  itemType: ItemTypeEnum.product,
-                  // onLike: () async {
-                  //   await _addToWishlist(bSell);
-                  // },
-                ),
+              return ProductCardWidget(
+                image: bSell.imageUrls.firstOrNull,
+                name: bSell.name,
+                itemId: bSell.id,
+                genericName: bSell.genericName,
+                price: bSell.price,
+                rating: bSell.rating,
+                onTap: () => _openProductPage(bSell),
+                itemType: ItemTypeEnum.product,
               );
             },
             separatorBuilder: (context, index) {
@@ -203,7 +195,7 @@ class _HomePageState extends State<HomePage> {
             itemCount: state.bestSellers.length,
           ),
         ),
-        30.verticalSpace,
+        100.verticalSpace,
       ],
     ];
   }

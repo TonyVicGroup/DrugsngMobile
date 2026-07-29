@@ -1,10 +1,12 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/pages/prescription_order_page.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/login_required_modal.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,51 +17,39 @@ class OrderPrescriptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 156.sp,
+      height: 88.h,
       width: double.maxFinite,
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.r),
-        color: const Color(0xFFEAEFF5),
+        borderRadius: BorderRadius.circular(10.r),
+        color: AppColor.colorFFFFFF,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          CustomImage(Assets.svg.prescriptionBoard, width: 60.h),
+          8.horizontalSpace,
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Spacer(),
-                AppText.sp18("Order with Prescription").w800.black,
-                const Spacer(),
-                AppText.sp14(
-                  "Upload a prescription and a pharmacist will arrange your medications.",
-                ).w400.setColor(const Color(0xFF6D6D6D)),
-                const Spacer(flex: 2),
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () => upload(context),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30.w,
-                          vertical: 18.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColor.primary,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: AppText.sp14("Upload").w800.white,
-                      ),
-                    ),
-                  ],
-                ),
+                AppText.sp16(
+                  "Order with Prescription",
+                ).w600.setColor(AppColor.color333333),
+                AppText.sp11(
+                  'Upload a prescription and a pharmacist'
+                  ' will arrange your medications.',
+                ).w400.setColor(AppColor.color6D6D6D),
               ],
             ),
           ),
-          10.horizontalSpace,
-          Image.asset(height: 71.h, AppImage.clipboard),
+          2.horizontalSpace,
+          AppGradientButton(
+            text: 'Upload',
+            onTap: () => upload(context),
+            width: 88.w,
+            height: 46.h,
+          ),
         ],
       ),
     );

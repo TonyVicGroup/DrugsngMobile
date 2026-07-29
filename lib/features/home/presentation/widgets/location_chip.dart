@@ -1,11 +1,11 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/home/presentation/cubit/get_country_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LocationChip extends StatelessWidget {
@@ -30,10 +30,10 @@ class LocationChip extends StatelessWidget {
             baseColor: AppColor.shimmerBase,
             highlightColor: AppColor.shimmerHighlight,
             child: Container(
-              height: 30.sp,
-              width: 90.w,
+              height: 38.h,
+              width: 116.w,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3.r),
+                borderRadius: BorderRadius.circular(10.r),
                 color: AppColor.white,
               ),
             ),
@@ -48,24 +48,26 @@ class LocationChip extends StatelessWidget {
                   }
                   : null,
           child: Container(
-            height: 30.sp,
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            height: 38.h,
+            constraints: BoxConstraints(maxWidth: 116.w),
+            padding: EdgeInsets.symmetric(horizontal: 7.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3.r),
-              color: const Color(0xFFEAEFF5),
+              borderRadius: BorderRadius.circular(10.r),
+              color: AppColor.colorDBE2EA,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(
-                  AppSvg.location,
-                  colorFilter: const ColorFilter.mode(
-                    AppColor.black,
-                    BlendMode.srcIn,
-                  ),
+                CustomImage(
+                  Assets.svg.locationFilled,
+                  width: 16.w,
+                  height: 16.h,
+                  color: AppColor.color333333,
                 ),
                 8.horizontalSpace,
-                AppText.sp14(state.country).w300.black.setMaxLines(1),
+                AppText.sp14(
+                  state.country,
+                ).w500.black.setMaxLines(1).setColor(AppColor.color333333),
               ],
             ),
           ),

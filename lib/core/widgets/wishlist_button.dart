@@ -1,10 +1,10 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/services/log_service.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,12 +92,12 @@ class WishlistButton extends StatelessWidget {
                     ),
                     child: SvgPicture.asset(
                       state.isInWishlist(produtId, itemType)
-                          ? AppSvg.heartFilled
-                          : AppSvg.heartOutline,
+                          ? Assets.svg.heartFilled
+                          : Assets.svg.heartOutline,
                       colorFilter: ColorFilter.mode(
                         state.isInWishlist(produtId, itemType)
-                            ? AppColor.primary
-                            : const Color(0xFF8B96A5),
+                            ? AppColor.color0B8AE1
+                            : AppColor.color8B96A5,
                         BlendMode.srcIn,
                       ),
                     ),

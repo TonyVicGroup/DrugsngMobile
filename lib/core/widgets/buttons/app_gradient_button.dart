@@ -12,10 +12,14 @@ class AppGradientButton extends StatelessWidget {
     FontWeight fontWeight = FontWeight.w500,
     ButtonStatus status = ButtonStatus.active,
     double? fontSize,
+    double? height,
+    double? width,
   }) {
     return AppGradientButton._(
       onTap: onTap,
       status: status,
+      height: height,
+      width: width,
       child:
           status.isLoading
               ? SizedBox(
@@ -41,14 +45,24 @@ class AppGradientButton extends StatelessWidget {
     required this.onTap,
     required this.status,
     required this.child,
+    this.height,
+    this.width,
   });
 
   factory AppGradientButton.widget({
     required void Function() onTap,
     required Widget child,
     ButtonStatus status = ButtonStatus.active,
+    double? height,
+    double? width,
   }) {
-    return AppGradientButton._(onTap: onTap, status: status, child: child);
+    return AppGradientButton._(
+      onTap: onTap,
+      status: status,
+      height: height,
+      width: width,
+      child: child,
+    );
   }
 
   factory AppGradientButton.suffixIcon({
@@ -60,10 +74,14 @@ class AppGradientButton extends StatelessWidget {
     double? fontSize,
     double? svgWidth,
     double? svgHeight,
+    double? height,
+    double? width,
   }) {
     return AppGradientButton._(
       onTap: onTap,
       status: status,
+      height: height,
+      width: width,
       child:
           status.isLoading
               ? SizedBox(
@@ -106,10 +124,15 @@ class AppGradientButton extends StatelessWidget {
     double? fontSize,
     double? svgWidth,
     double? svgHeight,
+    double? width,
+    double? height,
+    double? spacer,
   }) {
     return AppGradientButton._(
       onTap: onTap,
       status: status,
+      height: height,
+      width: width,
       child:
           status.isLoading
               ? SizedBox(
@@ -121,7 +144,8 @@ class AppGradientButton extends StatelessWidget {
                 ),
               )
               : Row(
-                mainAxisSize: MainAxisSize.min,
+                // mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomImage(
                     svg,
@@ -129,7 +153,7 @@ class AppGradientButton extends StatelessWidget {
                     height: svgHeight ?? 18.r,
                     color: AppColor.colorFFFFFF,
                   ),
-                  10.horizontalSpace,
+                  SizedBox(width: spacer ?? 10.w),
                   Text(
                     text,
                     style: TextStyle(
@@ -146,6 +170,8 @@ class AppGradientButton extends StatelessWidget {
   final void Function() onTap;
   final ButtonStatus status;
   final Widget child;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +179,8 @@ class AppGradientButton extends StatelessWidget {
       enabled: status.isActive,
       onTap: onTap,
       child: Container(
-        height: 51.h,
-        width: double.maxFinite,
+        height: height ?? 51.h,
+        width: width ?? double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: status.isDisabled ? AppColor.colorC5CDD8 : null,
