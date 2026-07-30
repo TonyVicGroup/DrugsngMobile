@@ -1,16 +1,16 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/profile_menu_widget.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileTab extends StatelessWidget {
+  const ProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class ProfilePage extends StatelessWidget {
             right: 0,
             height: 246.h,
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF0B8AE1), Color(0xFF2B78CA)],
+                  colors: [AppColor.color0B8AE1, AppColor.color2B78CA],
                 ),
               ),
             ),
@@ -58,7 +58,10 @@ class ProfilePage extends StatelessWidget {
                           state.settledStatus.isInitial) {
                         context.read<OrderHistoryCubit>().getSettled();
                       }
-                      return profileIcon(AppImage.package, "$orders Orders");
+                      return profileIcon(
+                        Assets.svg.ordersColored,
+                        "$orders Orders",
+                      );
                     },
                   ),
                   // profileIcon(AppImage.microscope, "0 Lab test"),
@@ -101,14 +104,11 @@ class ProfilePage extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  AppSvg.idCard,
+                                CustomImage(
+                                  Assets.svg.idCard,
                                   width: 13.r,
                                   height: 13.r,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColor.primary,
-                                    BlendMode.srcIn,
-                                  ),
+                                  color: AppColor.color0B8AE1,
                                 ),
                                 5.horizontalSpace,
                                 AppText.sp12(

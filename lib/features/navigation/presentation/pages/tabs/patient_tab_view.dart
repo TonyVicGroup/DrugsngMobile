@@ -1,9 +1,12 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/features/consultation/presentation/pages/consultation_tab.dart';
 import 'package:drugs_ng/features/explore/presentation/pages/explore_tab.dart';
 import 'package:drugs_ng/features/home/presentation/pages/home_page.dart';
+import 'package:drugs_ng/features/lab_test/presentation/pages/lab_test_tab.dart';
 import 'package:drugs_ng/features/navigation/domain/entities/nav_item.dart';
 import 'package:drugs_ng/features/navigation/presentation/widgets/app_bottom_nav_bar_widget.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/profile_tab.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -23,9 +26,9 @@ class PatientTabView extends StatelessWidget {
               children: [
                 const HomePage(),
                 const ExploreTab(),
-                Container(color: Colors.blue),
-                Container(color: Colors.yellow),
-                Container(color: Colors.pink),
+                const LabTestTab(),
+                const ConsultationTab(),
+                const ProfileTab(),
               ],
             ),
           ),

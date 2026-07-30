@@ -2,6 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/profile_update_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:drugs_ng/features/profile/presentation/pages/personal_info_page.
 import 'package:drugs_ng/features/profile/presentation/pages/wishlist_page.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/login_required_modal.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/logout_dialog.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +49,7 @@ class ProfileMenuWidget extends StatelessWidget {
           shrinkWrap: true,
           children: [
             _menuTile(
-              AppSvg.profile,
+              Assets.svg.profile,
               "Personal Info",
               () => nextPage(
                 context,
@@ -62,34 +64,39 @@ class ProfileMenuWidget extends StatelessWidget {
               ),
             ),
             _menuTile(
-              AppSvg.addresses,
+              Assets.svg.map,
               "Addresses",
               () => nextPage(context, const AddressPage(), true),
             ),
             _menuTile(
-              AppSvg.orderHistory,
+              Assets.svg.orderHistory,
               "Order History",
               () => nextPage(context, const OrderHistoryPage(), true),
             ),
             _menuTile(
-              AppSvg.wishlist,
+              Assets.svg.wishlist,
               "Wishlist",
               () => nextPage(context, const WishlistPage(), true),
             ),
             _menuTile(
-              AppSvg.myReviews,
+              Assets.svg.myReviews,
               "My Reviews",
               () => nextPage(context, const MyReviewPage(), true),
             ),
             _menuTile(
-              AppSvg.helpSupport,
+              Assets.svg.support,
               "Help and Support",
               () => nextPage(context, const HelpSupportPage(), false),
             ),
-            if (context.read<AuthCubit>().isLoggedIn)
-              _menuTile(AppSvg.logout, "Logout", () => _logout(context), true)
-            else
-              _menuTile(AppSvg.logout, "Login", () => _login(context)),
+            _menuTile(
+              Assets.svg.raiseDispute,
+              "Raise a dispute",
+              () => nextPage(context, const HelpSupportPage(), false),
+            ),
+            // if (context.read<AuthCubit>().isLoggedIn)
+            //   _menuTile(Assets.svg.logout, "Logout", () => _logout(context), true)
+            // else
+            //   _menuTile(Assets.svg.logout, "Login", () => _login(context)),
           ],
         ),
       ),
@@ -110,14 +117,11 @@ class ProfileMenuWidget extends StatelessWidget {
             width: 40.r,
             height: 48.r,
             child: Center(
-              child: SvgPicture.asset(
+              child: CustomImage(
                 svg,
                 width: 16.r,
                 height: 16.r,
-                colorFilter: ColorFilter.mode(
-                  isLogout ? AppColor.red : AppColor.primary,
-                  BlendMode.srcIn,
-                ),
+                color: isLogout ? AppColor.red : AppColor.color0B8AE1,
               ),
             ),
           ),

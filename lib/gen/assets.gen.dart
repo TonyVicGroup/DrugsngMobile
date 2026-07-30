@@ -131,6 +131,10 @@ class $AssetsSvgGen {
   /// File path: assets/svg/checkmark.svg
   String get checkmark => 'assets/svg/checkmark.svg';
 
+  /// File path: assets/svg/checkmark_circle_outline.svg
+  String get checkmarkCircleOutline =>
+      'assets/svg/checkmark_circle_outline.svg';
+
   /// File path: assets/svg/chevron_down.svg
   String get chevronDown => 'assets/svg/chevron_down.svg';
 
@@ -143,11 +147,23 @@ class $AssetsSvgGen {
   /// File path: assets/svg/close.svg
   String get close => 'assets/svg/close.svg';
 
+  /// File path: assets/svg/close_circle_outline.svg
+  String get closeCircleOutline => 'assets/svg/close_circle_outline.svg';
+
+  /// File path: assets/svg/close_circle_pending.svg
+  String get closeCirclePending => 'assets/svg/close_circle_pending.svg';
+
+  /// File path: assets/svg/consultations.svg
+  String get consultations => 'assets/svg/consultations.svg';
+
   /// File path: assets/svg/create_account.svg
   String get createAccount => 'assets/svg/create_account.svg';
 
   /// File path: assets/svg/delete.svg
   String get delete => 'assets/svg/delete.svg';
+
+  /// File path: assets/svg/doctor.svg
+  String get doctor => 'assets/svg/doctor.svg';
 
   /// File path: assets/svg/document.svg
   String get document => 'assets/svg/document.svg';
@@ -157,6 +173,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/download.svg
   String get download => 'assets/svg/download.svg';
+
+  /// File path: assets/svg/download_line.svg
+  String get downloadLine => 'assets/svg/download_line.svg';
 
   /// File path: assets/svg/edit.svg
   String get edit => 'assets/svg/edit.svg';
@@ -209,6 +228,12 @@ class $AssetsSvgGen {
   /// File path: assets/svg/home.svg
   String get home => 'assets/svg/home.svg';
 
+  /// File path: assets/svg/house_address.svg
+  String get houseAddress => 'assets/svg/house_address.svg';
+
+  /// File path: assets/svg/id_card.svg
+  String get idCard => 'assets/svg/id_card.svg';
+
   /// File path: assets/svg/image.svg
   String get image => 'assets/svg/image.svg';
 
@@ -217,6 +242,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/info_triangle.svg
   String get infoTriangle => 'assets/svg/info_triangle.svg';
+
+  /// File path: assets/svg/lab_beaker.svg
+  String get labBeaker => 'assets/svg/lab_beaker.svg';
 
   /// File path: assets/svg/lab_test.svg
   String get labTest => 'assets/svg/lab_test.svg';
@@ -239,14 +267,29 @@ class $AssetsSvgGen {
   /// File path: assets/svg/location_filled.svg
   String get locationFilled => 'assets/svg/location_filled.svg';
 
+  /// File path: assets/svg/map.svg
+  String get map => 'assets/svg/map.svg';
+
   /// File path: assets/svg/medication.svg
   String get medication => 'assets/svg/medication.svg';
+
+  /// File path: assets/svg/microscope.svg
+  String get microscope => 'assets/svg/microscope.svg';
 
   /// File path: assets/svg/minus.svg
   String get minus => 'assets/svg/minus.svg';
 
+  /// File path: assets/svg/my_reviews.svg
+  String get myReviews => 'assets/svg/my_reviews.svg';
+
   /// File path: assets/svg/non_visible.svg
   String get nonVisible => 'assets/svg/non_visible.svg';
+
+  /// File path: assets/svg/order_history.svg
+  String get orderHistory => 'assets/svg/order_history.svg';
+
+  /// File path: assets/svg/orders_colored.svg
+  String get ordersColored => 'assets/svg/orders_colored.svg';
 
   /// File path: assets/svg/people.svg
   String get people => 'assets/svg/people.svg';
@@ -269,11 +312,17 @@ class $AssetsSvgGen {
   /// File path: assets/svg/profile.svg
   String get profile => 'assets/svg/profile.svg';
 
+  /// File path: assets/svg/raise_dispute.svg
+  String get raiseDispute => 'assets/svg/raise_dispute.svg';
+
   /// File path: assets/svg/read_checkmark.svg
   String get readCheckmark => 'assets/svg/read_checkmark.svg';
 
   /// File path: assets/svg/retry.svg
   String get retry => 'assets/svg/retry.svg';
+
+  /// File path: assets/svg/retry_circle.svg
+  String get retryCircle => 'assets/svg/retry_circle.svg';
 
   /// File path: assets/svg/reviews.svg
   String get reviews => 'assets/svg/reviews.svg';
@@ -313,6 +362,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/stethoscope.svg
   String get stethoscope => 'assets/svg/stethoscope.svg';
+
+  /// File path: assets/svg/support.svg
+  String get support => 'assets/svg/support.svg';
 
   /// File path: assets/svg/svg.svg
   String get svg => 'assets/svg/svg.svg';
@@ -365,6 +417,12 @@ class $AssetsSvgGen {
   /// File path: assets/svg/warn_triangle.svg
   String get warnTriangle => 'assets/svg/warn_triangle.svg';
 
+  /// File path: assets/svg/wishlist.svg
+  String get wishlist => 'assets/svg/wishlist.svg';
+
+  /// File path: assets/svg/work_address.svg
+  String get workAddress => 'assets/svg/work_address.svg';
+
   /// File path: assets/svg/write_review.svg
   String get writeReview => 'assets/svg/write_review.svg';
 
@@ -390,15 +448,21 @@ class $AssetsSvgGen {
     chatBubble,
     checkCircle,
     checkmark,
+    checkmarkCircleOutline,
     chevronDown,
     chevronLeft,
     clinicalNote,
     close,
+    closeCircleOutline,
+    closeCirclePending,
+    consultations,
     createAccount,
     delete,
+    doctor,
     document,
     documentPad,
     download,
+    downloadLine,
     edit,
     editSquare,
     explore,
@@ -416,9 +480,12 @@ class $AssetsSvgGen {
     heartFilled,
     heartOutline,
     home,
+    houseAddress,
+    idCard,
     image,
     infoCircle,
     infoTriangle,
+    labBeaker,
     labTest,
     labTestThin,
     labtest,
@@ -426,9 +493,14 @@ class $AssetsSvgGen {
     lineGraph,
     lipid,
     locationFilled,
+    map,
     medication,
+    microscope,
     minus,
+    myReviews,
     nonVisible,
+    orderHistory,
+    ordersColored,
     people,
     person,
     phone,
@@ -436,8 +508,10 @@ class $AssetsSvgGen {
     prescription,
     prescriptionBoard,
     profile,
+    raiseDispute,
     readCheckmark,
     retry,
+    retryCircle,
     reviews,
     search,
     send,
@@ -451,6 +525,7 @@ class $AssetsSvgGen {
     starOutline,
     startOutline,
     stethoscope,
+    support,
     svg,
     syrup,
     tablet,
@@ -468,6 +543,8 @@ class $AssetsSvgGen {
     wallet,
     warnCircle,
     warnTriangle,
+    wishlist,
+    workAddress,
     writeReview,
   ];
 }

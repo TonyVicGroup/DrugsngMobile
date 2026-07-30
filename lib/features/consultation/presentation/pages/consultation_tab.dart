@@ -24,14 +24,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ConsultationPage extends StatefulWidget {
-  const ConsultationPage({super.key});
+class ConsultationTab extends StatefulWidget {
+  const ConsultationTab({super.key});
 
   @override
-  State<ConsultationPage> createState() => _ConsultationPageState();
+  State<ConsultationTab> createState() => _ConsultationTabState();
 }
 
-class _ConsultationPageState extends State<ConsultationPage> {
+class _ConsultationTabState extends State<ConsultationTab> {
   @override
   Widget build(BuildContext context) {
     return ComingSoonWidget();
