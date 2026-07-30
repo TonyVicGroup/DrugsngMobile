@@ -9,6 +9,10 @@ class ProductDetailCubit extends Cubit<ProductState> {
   final ProductRepository repo = ProductRepository();
   ProductDetailCubit() : super(const ProductState());
 
+  void changeTab(ProductDetailTabEnum tab) {
+    emit(state.copyWith(tab: tab));
+  }
+
   Future getDataFromProduct(Product prod) async {
     emit(state.copyWith(productStatus: LoadStatusEnum.loading));
     final result = await repo.getProduct(prod.id);
@@ -55,6 +59,7 @@ class ProductState extends Equatable {
   final List<Product> similarProduct;
   final LoadStatusEnum productStatus;
   final LoadStatusEnum similarProdStatus;
+  final ProductDetailTabEnum tab;
   final String? error;
 
   const ProductState({
@@ -62,6 +67,7 @@ class ProductState extends Equatable {
     this.similarProduct = const [],
     this.productStatus = LoadStatusEnum.initial,
     this.similarProdStatus = LoadStatusEnum.initial,
+    this.tab = ProductDetailTabEnum.description,
     this.error,
   });
 
@@ -70,12 +76,14 @@ class ProductState extends Equatable {
     List<Product>? similarProduct,
     LoadStatusEnum? productStatus,
     LoadStatusEnum? similarProdStatus,
+    ProductDetailTabEnum? tab,
     String? error,
   }) => ProductState(
     product: product ?? this.product,
     similarProduct: similarProduct ?? this.similarProduct,
     productStatus: productStatus ?? this.productStatus,
     similarProdStatus: similarProdStatus ?? this.similarProdStatus,
+    tab: tab ?? this.tab,
     error: error ?? this.error,
   );
 
@@ -85,6 +93,20 @@ class ProductState extends Equatable {
     similarProduct,
     productStatus,
     similarProdStatus,
+    tab,
     error,
   ];
+}
+
+enum ProductDetailTabEnum {
+  description,
+  review;
+
+  String get displayName => switch (this) {
+    description => 'Descriptions',
+    review => 'Review',
+  };
+
+  @override
+  String toString() => displayName;
 }

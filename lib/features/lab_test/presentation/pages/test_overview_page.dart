@@ -145,32 +145,32 @@ class _TestOverviewPageState extends State<TestOverviewPage> {
                         ),
                         43.verticalSpace,
                       ],
-                      BlocConsumer<CartCubit, CartState>(
-                        listener: (context, state) {
-                          if (state is CartStateError) {
-                            AppToast.warn(
-                              context,
-                              title: 'Error',
-                              msg: state.error.message,
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is CartStateInitial) {
-                            context.read<CartCubit>().getCart();
-                          }
-                          int idx = state.cart.items.indexWhere((ct) {
-                            return ct.name == test.name && ct.itemId == test.id;
-                          });
-                          if (idx >= 0) {
-                            return AppText.sp12(
-                              "${state.cart.items[idx].quantity} item added to cart",
-                            ).w400.black;
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      ),
+                      // BlocConsumer<CartCubit, CartState>(
+                      //   listener: (context, state) {
+                      //     if (state is CartStateError) {
+                      //       AppToast.warn(
+                      //         context,
+                      //         title: 'Error',
+                      //         msg: state.error.message,
+                      //       );
+                      //     }
+                      //   },
+                      //   builder: (context, state) {
+                      //     if (state is CartStateInitial) {
+                      //       context.read<CartCubit>().getCart();
+                      //     }
+                      //     int idx = state.cart.items.indexWhere((ct) {
+                      //       return ct.name == test.name && ct.itemId == test.id;
+                      //     });
+                      //     if (idx >= 0) {
+                      //       return AppText.sp12(
+                      //         "${state.cart.items[idx].quantity} item added to cart",
+                      //       ).w400.black;
+                      //     } else {
+                      //       return const SizedBox.shrink();
+                      //     }
+                      //   },
+                      // ),
                       5.verticalSpace,
                       Row(
                         children: [
@@ -226,31 +226,7 @@ class _TestOverviewPageState extends State<TestOverviewPage> {
   }
 
   Future addToCart(BuildContext context, DiagnosticTestDetail test) async {
-    btnStatus.value = ButtonStatus.loading;
-    final items = context.read<CartCubit>().state.cart.items;
-    bool exists =
-        items.indexWhere((ct) {
-          return ct.name == test.name && ct.itemId == test.id;
-        }) >=
-        0;
-
-    if (exists) {
-      await context.read<CartCubit>().increase(test.name, widget.productId, 1);
-    } else {
-      await context.read<CartCubit>().addItem(
-        CartItem(
-          itemId: widget.productId,
-          name: test.name,
-          size: "1",
-          form: null,
-          quantity: 1,
-          amount: test.price,
-          url: null,
-          type: null,
-        ),
-      );
-    }
-    btnStatus.value = ButtonStatus.active;
+    context.read<CartCubit>().addLabTest(labTest: test, quantity: 1);
   }
 
   Future reload({bool showLoader = false}) async {

@@ -321,24 +321,24 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
         ),
       );
       btnStatus.value = ButtonStatus.active;
-      if (result != null) {
-        final orderInfo = context.read<CartCubit>().state.orderInformation!;
-        // ignore: use_build_context_synchronously
-        context.read<CartCubit>().clearCart();
-        // ignore: use_build_context_synchronously
-        await PaymentPage.start(context, result.link);
-        // await Navigator.of(context)
-        //     .push(AppUtils.transition(PaymentPage(url: result.link)))
-        //     .then((success) {
-        //       if (success ?? false) {
-        //         AppFunctions.showOrderConfirmation(
-        //           context,
-        //           orderResponse: orderInfo,
-        //           email: emailCntrl.text,
-        //         );
-        //       }
-        //     });
-      }
+      // if (result != null) {
+      //   final orderInfo = context.read<CartCubit>().state.orderInformation!;
+      //   // ignore: use_build_context_synchronously
+      //   context.read<CartCubit>().clearCart();
+      //   // ignore: use_build_context_synchronously
+      //   await PaymentPage.start(context, result.link);
+      //   // await Navigator.of(context)
+      //   //     .push(AppUtils.transition(PaymentPage(url: result.link)))
+      //   //     .then((success) {
+      //   //       if (success ?? false) {
+      //   //         AppFunctions.showOrderConfirmation(
+      //   //           context,
+      //   //           orderResponse: orderInfo,
+      //   //           email: emailCntrl.text,
+      //   //         );
+      //   //       }
+      //   //     });
+      // }
     }
   }
 }

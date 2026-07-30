@@ -1,19 +1,17 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ProductSpecificationWidget extends StatelessWidget {
   const ProductSpecificationWidget({
-    super.key,
-
     required this.quantity,
     required this.form,
     required this.size,
+    super.key,
   });
   final ValueNotifier<int> quantity;
   final String form;
@@ -77,39 +75,71 @@ class ProductSpecificationWidget extends StatelessWidget {
 
   Expanded _quantityInfo() {
     return Expanded(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              _quantityButton(false),
-              Expanded(
-                child: ValueListenableBuilder(
-                  valueListenable: quantity,
-                  builder: (context, value, child) {
-                    return AppText.sp16(
-                      "$value",
-                    ).w500.setColor(AppColor.color333333);
-                  },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                _quantityButton(false),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 50.w),
+                    child: ValueListenableBuilder(
+                      valueListenable: quantity,
+                      builder: (context, value, child) {
+                        return AppText.sp16(
+                          "$value",
+                        ).w500.setColor(AppColor.color333333);
+                      },
+                    ),
+                  ),
                 ),
-              ),
-              _quantityButton(true),
-            ],
-          ),
-          AppText.sp12('Quantity').w400.setColor(AppColor.color333333),
-        ],
+                _quantityButton(true),
+              ],
+            ),
+            AppText.sp12('Quantity').w400.setColor(AppColor.color333333),
+          ],
+        ),
       ),
     );
   }
 
   Widget _quantityButton(bool isPlus) {
-    return Container(
-      width: 25.r,
-      height: 25.r,
-      decoration: BoxDecoration(color: AppColor.colorFFFFFF),
-      child: CustomImage(
-        isPlus ? Assets.svg.plus : Assets.svg.minus,
-        width: 9.w,
-        color: AppColor.color333333,
+    return AppButtonAnimator(
+      onTap: () {
+        if (isPlus) {
+          quantity.value++;
+        } else {
+          if (quantity.value > 0) {
+            quantity.value--;
+          }
+        }
+      },
+      child: Container(
+        width: 25.r,
+        height: 25.r,
+        decoration: BoxDecoration(
+          color: AppColor.colorFFFFFF,
+          borderRadius: BorderRadius.horizontal(
+            left: Radius.circular(isPlus ? 0 : 5.r),
+            right: Radius.circular(isPlus ? 5.r : 0),
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Icon(
+          isPlus ? Icons.add : Icons.remove,
+          size: 16.r,
+          color: AppColor.color333333,
+        ),
+        // child: CustomImage(
+        //   isPlus ? Assets.svg.plus : Assets.svg.minus,
+        //   width: 9.w,
+        //   color: AppColor.color333333,
+        // ),
       ),
     );
   }

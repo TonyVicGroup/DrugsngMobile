@@ -22,14 +22,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LabTestPage extends StatefulWidget {
-  const LabTestPage({super.key});
+class LabTestTab extends StatefulWidget {
+  const LabTestTab({super.key});
 
   @override
-  State<LabTestPage> createState() => _LabTestPageState();
+  State<LabTestTab> createState() => _LabTestTabState();
 }
 
-class _LabTestPageState extends State<LabTestPage> {
+class _LabTestTabState extends State<LabTestTab> {
   @override
   void initState() {
     super.initState();

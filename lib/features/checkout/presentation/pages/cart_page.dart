@@ -36,7 +36,7 @@ class _CartPageState extends State<CartPage> {
     if (context.read<AddressCubit>().state.status.isInitial) {
       context.read<AddressCubit>().getAddresses(refresh: true);
     }
-    if (context.read<CartCubit>().state is CartStateInitial) {
+    if (context.read<CartCubit>().state.getCartStatus.isInitialOrFailed) {
       context.read<CartCubit>().getCart();
     }
   }
@@ -68,12 +68,16 @@ class _CartPageState extends State<CartPage> {
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
-          if (state is CartStateError) {
-            AppToast.warn(context, title: 'Error', msg: state.error.message);
+          if (state.getCartStatus.isFailed) {
+            AppToast.warn(
+              context,
+              title: 'Error',
+              msg: state.error ?? 'An error occured',
+            );
           }
         },
         builder: (context, state) {
-          if ((state is CartStateInitial) || (state is CartStateLoading)) {
+          if (state.getCartStatus.isLoading) {
             return const CartLoader();
           } else if (state.cart.items.isEmpty) {
             return const EmptyCart();

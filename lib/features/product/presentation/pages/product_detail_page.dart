@@ -1,10 +1,8 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
-import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_multiple_tab_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
-import 'package:drugs_ng/features/checkout/data/models/cart.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
 import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
@@ -13,13 +11,10 @@ import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/features/product/presentation/cubit/product_detail_cubit.dart';
-import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_carousel.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_loader.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_information_widget.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_specification_widget.dart';
-import 'package:drugs_ng/features/product/presentation/widgets/rating_stars_widget.dart';
-import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,9 +36,6 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  ValueNotifier<ButtonStatus> status = ValueNotifier<ButtonStatus>(
-    ButtonStatus.active,
-  );
   final ValueNotifier<int> quantity = ValueNotifier(1);
 
   @override
@@ -56,7 +48,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   void dispose() {
-    status.dispose();
     super.dispose();
   }
 
@@ -141,22 +132,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   form: product.productFormName,
                   size: product.size,
                 ),
-                20.verticalSpace,
+                10.verticalSpace,
+                SizedBox(
+                  width: 302.w,
+                  child: AppMultipleTabWidget(
+                    tabs: ProductDetailTabEnum.values,
+                    selectedTab: state.tab,
+                    onTabSelected: (tab) {
+                      context.read<ProductDetailCubit>().changeTab(tab);
+                    },
+                  ),
+                ),
                 43.verticalSpace,
                 BlocConsumer<CartCubit, CartState>(
                   listener: (context, state) {
-                    if (state is CartStateError) {
+                    if (state.updateProductStatus.isFailed) {
                       AppToast.warn(
                         context,
                         title: 'Error',
-                        msg: state.error.message,
+                        msg: state.error ?? 'An error occured',
                       );
                     }
                   },
                   builder: (context, state) {
-                    if (state is CartStateInitial) {
-                      context.read<CartCubit>().getCart();
-                    }
                     int idx = state.cart.items.indexWhere((ct) {
                       return ct.name == product.name && ct.itemId == product.id;
                     });
@@ -173,17 +171,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Row(
                   children: [
                     Expanded(
-                      child: ValueListenableBuilder(
-                        valueListenable: status,
-                        builder: (context, value, child) {
-                          return AppButton.primary(
-                            text: "ADD TO CART",
-                            onTap: () async {
-                              await addToCart(context, product);
-                            },
-                            status: value,
-                          );
+                      child: AppButton.primary(
+                        text: "ADD TO CART",
+                        onTap: () async {
+                          await addToCart(context, product);
                         },
+                        // status:
+                        //     state.updateProductStatus.isLoading
+                        //         ? ButtonStatus.loading
+                        //         : ButtonStatus.active,
                       ),
                     ),
                     21.horizontalSpace,
@@ -236,37 +232,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Future addToCart(BuildContext context, ProductDetail product) async {
-    status.value = ButtonStatus.loading;
-    final items = context.read<CartCubit>().state.cart.items;
-    bool exists =
-        items.indexWhere((ct) {
-          return ct.name == product.name && ct.itemId == product.id;
-        }) >=
-        0;
-
-    if (exists) {
-      await context.read<CartCubit>().increase(
-        product.name,
-        widget.productId,
-        1,
-      );
-    } else {
-      await context.read<CartCubit>().addItem(
-        CartItem(
-          itemId: widget.productId,
-          name: product.name,
-          size: product.size,
-          form: product.productFormName,
-          quantity: 1,
-          amount: product.price,
-          url: null,
-          type: null,
-        ),
-      );
-    }
-    status.value = ButtonStatus.active;
-  }
+  Future addToCart(BuildContext context, ProductDetail product) async {}
 }
 
 class _CheckoutIcon extends StatelessWidget {

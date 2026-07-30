@@ -27,26 +27,27 @@ class Cart extends Equatable {
     num deliveryFee = json[_deliveryFeeKey];
 
     return Cart(
-      items: List<Map>.from(json[_itemsKey])
-          .map((e) => CartItem.fromJson(e))
-          .toList(),
+      items:
+          List<Map>.from(
+            json[_itemsKey],
+          ).map((e) => CartItem.fromJson(e)).toList(),
       subtotal: subtotal.toDouble(),
       deliveryFee: deliveryFee.toDouble(),
       total: total.toDouble(),
     );
   }
 
-  Cart copy(
-          {List<CartItem>? items,
-          double? subtotal,
-          double? deliveryFee,
-          double? total}) =>
-      Cart(
-        items: items ?? this.items,
-        subtotal: subtotal ?? this.subtotal,
-        deliveryFee: deliveryFee ?? this.deliveryFee,
-        total: total ?? this.total,
-      );
+  Cart copy({
+    List<CartItem>? items,
+    double? subtotal,
+    double? deliveryFee,
+    double? total,
+  }) => Cart(
+    items: items ?? this.items,
+    subtotal: subtotal ?? this.subtotal,
+    deliveryFee: deliveryFee ?? this.deliveryFee,
+    total: total ?? this.total,
+  );
 
   int get totalItems => items.fold(0, (prev, item) => item.quantity + prev);
 
@@ -99,16 +100,16 @@ class CartItem extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        _itemIdKey: itemId,
-        _nameKey: name,
-        _sizeKey: size,
-        _formKey: form,
-        _quantityKey: quantity,
-        _amountKey: amount,
-        _urlKey: url,
-        _typeKey: type,
-        'itemType': type,
-      };
+    _itemIdKey: itemId,
+    _nameKey: name,
+    _sizeKey: size,
+    _formKey: form,
+    _quantityKey: quantity,
+    _amountKey: amount,
+    _urlKey: url,
+    _typeKey: type,
+    'itemType': type,
+  };
 
   CartItem copy({
     int? itemId,
@@ -119,21 +120,28 @@ class CartItem extends Equatable {
     double? amount,
     String? url,
     String? type,
-  }) =>
-      CartItem(
-        itemId: itemId ?? this.itemId,
-        name: name ?? this.name,
-        size: size ?? this.size,
-        form: form ?? this.form,
-        quantity: quantity ?? this.quantity,
-        amount: amount ?? this.amount,
-        url: url ?? this.url,
-        type: type ?? this.type,
-      );
+  }) => CartItem(
+    itemId: itemId ?? this.itemId,
+    name: name ?? this.name,
+    size: size ?? this.size,
+    form: form ?? this.form,
+    quantity: quantity ?? this.quantity,
+    amount: amount ?? this.amount,
+    url: url ?? this.url,
+    type: type ?? this.type,
+  );
 
   double get totalPrice => amount * quantity;
 
   @override
-  List<Object?> get props =>
-      [itemId, name, size, form, quantity, amount, url, type];
+  List<Object?> get props => [
+    itemId,
+    name,
+    size,
+    form,
+    quantity,
+    amount,
+    url,
+    type,
+  ];
 }

@@ -167,26 +167,26 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
         ),
       );
       btnStatus.value = ButtonStatus.active;
-      if (result != null) {
-        final orderInfo = context.read<CartCubit>().state.orderInformation!;
-        // ignore: use_build_context_synchronously
-        context.read<CartCubit>().clearCart();
-        // ignore: use_build_context_synchronously
-        PaymentPage.start(context, result.link);
-        // await Navigator.of(context)
-        //     .push<bool>(AppUtils.transition(PaymentPage(url: result.link)))
-        //     .then((result) {
-        //       if (result ?? false) {
-        //         AppFunctions.showOrderConfirmation(
-        //           context,
-        //           orderResponse: orderInfo,
-        //           email: userData?.email ?? '',
-        //         );
-        //       } else {
-        //         // failed page
-        //       }
-        //     });
-      }
+      // if (result != null) {
+      //   final orderInfo = context.read<CartCubit>().state.orderInformation!;
+      //   // ignore: use_build_context_synchronously
+      //   context.read<CartCubit>().clearCart();
+      //   // ignore: use_build_context_synchronously
+      //   PaymentPage.start(context, result.link);
+      //   // await Navigator.of(context)
+      //   //     .push<bool>(AppUtils.transition(PaymentPage(url: result.link)))
+      //   //     .then((result) {
+      //   //       if (result ?? false) {
+      //   //         AppFunctions.showOrderConfirmation(
+      //   //           context,
+      //   //           orderResponse: orderInfo,
+      //   //           email: userData?.email ?? '',
+      //   //         );
+      //   //       } else {
+      //   //         // failed page
+      //   //       }
+      //   //     });
+      // }
     }
   }
 }

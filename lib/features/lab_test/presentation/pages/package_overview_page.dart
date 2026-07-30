@@ -169,33 +169,33 @@ class _PackageOverviewPageState extends State<PackageOverviewPage> {
                         ),
                         43.verticalSpace,
                       ],
-                      BlocConsumer<CartCubit, CartState>(
-                        listener: (context, state) {
-                          if (state is CartStateError) {
-                            AppToast.warn(
-                              context,
-                              title: 'Error',
-                              msg: state.error.message,
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is CartStateInitial) {
-                            context.read<CartCubit>().getCart();
-                          }
-                          int idx = state.cart.items.indexWhere((ct) {
-                            return ct.name == package.name &&
-                                ct.itemId == package.id;
-                          });
-                          if (idx >= 0) {
-                            return AppText.sp12(
-                              "${state.cart.items[idx].quantity} item added to cart",
-                            ).w400.black;
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      ),
+                      // BlocConsumer<CartCubit, CartState>(
+                      //   listener: (context, state) {
+                      //     if (state.s) {
+                      //       AppToast.warn(
+                      //         context,
+                      //         title: 'Error',
+                      //         msg: state.error.message,
+                      //       );
+                      //     }
+                      //   },
+                      //   builder: (context, state) {
+                      //     if (state is CartStateInitial) {
+                      //       context.read<CartCubit>().getCart();
+                      //     }
+                      //     int idx = state.cart.items.indexWhere((ct) {
+                      //       return ct.name == package.name &&
+                      //           ct.itemId == package.id;
+                      //     });
+                      //     if (idx >= 0) {
+                      //       return AppText.sp12(
+                      //         "${state.cart.items[idx].quantity} item added to cart",
+                      //       ).w400.black;
+                      //     } else {
+                      //       return const SizedBox.shrink();
+                      //     }
+                      //   },
+                      // ),
                       5.verticalSpace,
                       Row(
                         children: [
@@ -241,35 +241,7 @@ class _PackageOverviewPageState extends State<PackageOverviewPage> {
   }
 
   Future addToCart(BuildContext context, WellnessPackageDetail package) async {
-    btnStatus.value = ButtonStatus.loading;
-    final items = context.read<CartCubit>().state.cart.items;
-    bool exists =
-        items.indexWhere((ct) {
-          return ct.name == package.name && ct.itemId == package.id;
-        }) >=
-        0;
-
-    if (exists) {
-      await context.read<CartCubit>().increase(
-        package.name,
-        widget.productId,
-        1,
-      );
-    } else {
-      await context.read<CartCubit>().addItem(
-        CartItem(
-          itemId: widget.productId,
-          name: package.name,
-          size: "1",
-          form: null,
-          quantity: 1,
-          amount: package.price,
-          url: null,
-          type: null,
-        ),
-      );
-    }
-    btnStatus.value = ButtonStatus.active;
+    context.read<CartCubit>().addWellnessPackage(package: package, quantity: 1);
   }
 
   Future reload() async {
