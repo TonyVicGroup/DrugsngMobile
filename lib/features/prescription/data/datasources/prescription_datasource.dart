@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:drugs_ng/core/services/rest_service.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/auth/data/datasource/user_preference.dart';
 import 'package:drugs_ng/features/prescription/data/models/prescription.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mime/mime.dart';
@@ -31,12 +30,11 @@ class PrescriptionDatasource {
     return;
   }
 
-  Future<List<Prescription>> getData([
+  Future<List<Prescription>> getData(
+    int userId, [
     int pageNumber = 1,
     int pageSize = 15,
   ]) async {
-    final userId = UserPreference.getUser()!.accountModel!.userId;
-
     final response = await service.get(
       path: 'prescription/user/$userId',
       params: {'PageNumber': pageNumber, 'PageSize': pageSize},

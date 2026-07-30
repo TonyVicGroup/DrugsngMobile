@@ -22,6 +22,8 @@ class BorderTextField extends StatelessWidget {
     this.borderColor = AppColor.colorBDC4CD,
     this.borderRadius,
     this.readOnly,
+    this.maxLines = 1,
+    this.prefixIcon,
   });
 
   final String? hint;
@@ -41,6 +43,8 @@ class BorderTextField extends StatelessWidget {
   final Color borderColor;
   final double? borderRadius;
   final bool? readOnly;
+  final int? maxLines;
+  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,7 @@ class BorderTextField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       enabled: enabled,
+      maxLines: maxLines,
       readOnly: readOnly ?? onTap != null,
       onTap: onTap,
       style: TextStyle(
@@ -85,6 +90,7 @@ class BorderTextField extends StatelessWidget {
                     child: suffixIcon,
                   ),
                 ),
+        prefixIcon: prefixIcon,
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 10.r),

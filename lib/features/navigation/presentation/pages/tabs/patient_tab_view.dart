@@ -1,5 +1,6 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/features/explore/presentation/pages/explore_tab.dart';
 import 'package:drugs_ng/features/home/presentation/pages/home_page.dart';
 import 'package:drugs_ng/features/navigation/domain/entities/nav_item.dart';
 import 'package:drugs_ng/features/navigation/presentation/widgets/app_bottom_nav_bar_widget.dart';
@@ -21,7 +22,7 @@ class PatientTabView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 const HomePage(),
-                Container(color: Colors.green),
+                const ExploreTab(),
                 Container(color: Colors.blue),
                 Container(color: Colors.yellow),
                 Container(color: Colors.pink),

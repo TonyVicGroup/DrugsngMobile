@@ -1,6 +1,4 @@
-import 'package:drugs_ng/features/product/data/models/product_review.dart';
-import 'package:drugs_ng/features/product/domain/models/review.dart';
-import 'package:drugs_ng/features/profile/data/models/review.dart';
+import 'package:drugs_ng/features/product/domain/models/product.dart';
 import 'package:equatable/equatable.dart';
 
 class ProductDetail extends Equatable {
@@ -76,7 +74,7 @@ class ProductDetail extends Equatable {
       warning: json["warning"],
       size: json["size"],
       quantity: json["quantity"],
-      amountSold: json["amountSold"] ?? 1,
+      amountSold: json["amountSold"] ?? 0,
       bannerUrl: json["bannerUrl"],
       nonReturnable: json["nonReturnable"],
       productFormId: json["productFormId"],
@@ -97,6 +95,39 @@ class ProductDetail extends Equatable {
           ).map<BriefReview>((r) => BriefReview.fromJson(r)).toList(),
       imageUrls: List<String>.from(json["productImageUrls"]),
       pharmacyId: json["pharmacyId"],
+    );
+  }
+
+  factory ProductDetail.fromProduct(Product product) {
+    return ProductDetail(
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      oldPrice: product.price,
+      description: product.description,
+      deliveryTime: DateTime.now().add(const Duration(days: 3)),
+      dosage: '',
+      warning: '',
+      size: '',
+      quantity: 1,
+      amountSold: 1,
+      bannerUrl: null,
+      nonReturnable: true,
+      productFormId: product.tagId,
+      productFormName: '',
+      genericNameId: 0,
+      genericName: product.genericName ?? '',
+      categoryId: 0,
+      categoryName: 'Others',
+      subCategoryId: 0,
+      subCategory: 'Others',
+      brandId: 0,
+      brandName: product.brandName ?? 'Others',
+      reviews: [],
+      imageUrls: product.imageUrls,
+      averageRating: product.rating.toDouble(),
+      pharmacyId: null,
+      discountPercentage: 0.0,
     );
   }
 

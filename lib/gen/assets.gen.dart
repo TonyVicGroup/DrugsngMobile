@@ -296,6 +296,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/shopping--cart.svg
   String get shoppingCart => 'assets/svg/shopping--cart.svg';
 
+  /// File path: assets/svg/shopping_cart_empty.svg
+  String get shoppingCartEmpty => 'assets/svg/shopping_cart_empty.svg';
+
   /// File path: assets/svg/sold_icon.svg
   String get soldIcon => 'assets/svg/sold_icon.svg';
 
@@ -442,6 +445,7 @@ class $AssetsSvgGen {
     shieldCheck,
     shieldOutline,
     shoppingCart,
+    shoppingCartEmpty,
     soldIcon,
     starFilled,
     starOutline,

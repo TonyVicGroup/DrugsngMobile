@@ -3,30 +3,31 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/features/explore/domain/models/major_category.dart';
 import 'package:drugs_ng/features/explore/presentation/cubit/explore_cubit.dart';
 import 'package:drugs_ng/features/explore/presentation/cubit/explore_major_category_cubit.dart';
 import 'package:drugs_ng/features/explore/presentation/pages/explore_category_page.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/login_required_modal.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
 import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_category_widget.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/major_category_loader.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ExplorePage extends StatelessWidget {
-  const ExplorePage({super.key});
+class ExploreTab extends StatelessWidget {
+  const ExploreTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,9 @@ class ExplorePage extends StatelessWidget {
                 await context.read<ExploreMajorCategoryCubit>().getCategories();
               },
               child:
-                  (state.isEmpty && state is ExploreMajorCategoryFailed)
+                  (state.isEmpty && state.status.isFailed)
                       ? ErrorPage(
-                        message: state.error.message,
+                        message: state.error,
                         onRetry:
                             () =>
                                 context
@@ -54,54 +55,49 @@ class ExplorePage extends StatelessWidget {
                       )
                       : ListView(
                         children: [
-                          if (state is ExploreMajorCategoryFailed)
+                          if (state.status.isFailed)
                             ErrorBanner(
-                              text:
-                                  "${state.error.message}. Pull down to refresh",
+                              text: "${state.error}. Pull down to refresh",
                             ),
                           16.verticalSpace,
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Row(
-                              children: [
-                                LocationChip.widget(context),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    // AppButton.svgIcon(
-                                    //   svg: AppSvg.notification,
-                                    //   onTap: () => notification(context),
-                                    // ),
-                                    15.horizontalSpace,
-                                    AppButton.svgIcon(
-                                      svg: AppSvg.shopping,
-                                      onTap: () => cart(context),
-                                      color: AppColor.black,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            child: HomeHeaderWidget(),
                           ),
-                          30.verticalSpace,
+                          10.verticalSpace,
+
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: AppTextField.search(
-                              hint: "Search for health products and tests",
-                              onTap: () => search(context),
+                            child: BorderTextField(
+                              borderRadius: 50.r,
+                              borderColor: AppColor.colorE5E5E5,
+                              filled: true,
+                              fillColor: AppColor.colorFFFFFF,
+                              prefixIcon: SizedBox(
+                                width: 20.w,
+                                child: Center(
+                                  child: CustomImage(
+                                    Assets.svg.search,
+                                    color: AppColor.color555555,
+                                    width: 20.r,
+                                    height: 20.r,
+                                  ),
+                                ),
+                              ),
+                              hint: 'Search for health products and tests...',
                             ),
                           ),
-                          30.verticalSpace,
+                          10.verticalSpace,
                           Builder(
                             builder: (context) {
-                              if (state is ExploreMajorCategoryInitial) {
+                              if (state.status.isInitial) {
                                 context
                                     .read<ExploreMajorCategoryCubit>()
                                     .getCategories();
                                 return const MajorCategoryLoader();
-                              } else if (state is ExploreMajorCategoryLoading) {
+                              } else if (state.status.isLoading) {
                                 return const MajorCategoryLoader();
-                              } else if (state is ExploreMajorCategorySuccess) {
+                              } else if (state.status.isSuccess) {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -167,7 +163,7 @@ class ExplorePage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    20.verticalSpace,
+
                                     Builder(
                                       builder: (context) {
                                         if (state.categoryList.isEmpty) {
@@ -221,8 +217,10 @@ class ExplorePage extends StatelessWidget {
                                   ],
                                 );
                               }
-                              if (state is ExploreMajorCategoryFailed) {
-                                return _errorContainer(state.error.message);
+                              if (state.status.isFailed) {
+                                return _errorContainer(
+                                  state.error ?? 'App error',
+                                );
                               }
                               return _errorContainer(AppError.unknown.message);
                             },

@@ -34,6 +34,19 @@ class App extends StatelessWidget {
                 useMaterial3: true,
                 fontFamily: AppText.fontFamily,
                 scaffoldBackgroundColor: AppColor.colorF3F5F9,
+                appBarTheme: AppBarTheme(
+                  backgroundColor: AppColor.colorFFFFFF,
+                  centerTitle: true,
+                  iconTheme: IconThemeData(
+                    color: AppColor.color333333,
+                    size: 25.r,
+                  ),
+                  titleTextStyle: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.color333333,
+                  ),
+                ),
               ),
               debugShowCheckedModeBanner: false,
               onGenerateRoute: AppRoutes.onGenerateRoute,

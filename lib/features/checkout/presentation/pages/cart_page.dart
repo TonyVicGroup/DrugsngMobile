@@ -1,6 +1,8 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
@@ -11,16 +13,20 @@ import 'package:drugs_ng/features/checkout/presentation/widgets/cart_item_widget
 import 'package:drugs_ng/features/checkout/presentation/widgets/cart_loader.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/cart_total_widget.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/empty_cart.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (_) => CartPage(), settings: settings);
+  }
 }
 
 class _CartPageState extends State<CartPage> {
@@ -40,20 +46,17 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        shadowColor: Colors.black.withOpacity(0.2),
-        elevation: 5,
-        surfaceTintColor: AppColor.white,
-        backgroundColor: AppColor.white,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
+        leading: AppButtonAnimator(
+          onTap: context.pop,
           child: Center(
-            child: SizedBox(
-              width: 20.sp,
-              height: 20.sp,
-              child: SvgPicture.asset(AppSvg.chevronThick),
+            child: CustomImage(
+              Assets.svg.chevronLeft,
+              color: AppColor.color333333,
+              width: 9.2.w,
             ),
           ),
         ),
+        title: Text('Cart'),
         actions: [
           TextButton(
             onPressed: () {
@@ -62,8 +65,6 @@ class _CartPageState extends State<CartPage> {
             child: AppText.sp14('Clear Cart'),
           ),
         ],
-        title: AppText.sp18("Cart").w700.black,
-        centerTitle: true,
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {

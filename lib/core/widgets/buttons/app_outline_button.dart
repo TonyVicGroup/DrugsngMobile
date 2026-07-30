@@ -16,6 +16,8 @@ class AppOutlineButton extends StatelessWidget {
     Color fillColor = AppColor.colorF5F7FA,
     Color borderColor = AppColor.colorE0E0E0,
     double? borderRadius,
+    double? width,
+    double? height,
   }) {
     return AppOutlineButton._(
       onTap: onTap,
@@ -23,6 +25,8 @@ class AppOutlineButton extends StatelessWidget {
       fillColor: fillColor,
       borderColor: borderColor,
       borderRadius: borderRadius,
+      width: width,
+      height: height,
       child:
           status.isLoading
               ? _loader(foregroundColor)
@@ -44,6 +48,8 @@ class AppOutlineButton extends StatelessWidget {
     required this.fillColor,
     required this.child,
     required this.borderRadius,
+    required this.width,
+    required this.height,
     super.key,
   });
 
@@ -54,6 +60,8 @@ class AppOutlineButton extends StatelessWidget {
     Color fillColor = AppColor.colorF5F7FA,
     Color borderColor = AppColor.colorE0E0E0,
     double? borderRadius,
+    double? width,
+    double? height,
   }) {
     return AppOutlineButton._(
       onTap: onTap,
@@ -61,6 +69,8 @@ class AppOutlineButton extends StatelessWidget {
       fillColor: fillColor,
       borderColor: borderColor,
       borderRadius: borderRadius,
+      width: width,
+      height: height,
       child: child,
     );
   }
@@ -77,6 +87,8 @@ class AppOutlineButton extends StatelessWidget {
     Color fillColor = AppColor.colorF5F7FA,
     Color borderColor = AppColor.colorE0E0E0,
     double? borderRadius,
+    double? width,
+    double? height,
   }) {
     return AppOutlineButton._(
       onTap: onTap,
@@ -84,6 +96,8 @@ class AppOutlineButton extends StatelessWidget {
       fillColor: fillColor,
       borderColor: borderColor,
       borderRadius: borderRadius,
+      width: width,
+      height: height,
       child:
           status.isLoading
               ? SizedBox(
@@ -129,6 +143,8 @@ class AppOutlineButton extends StatelessWidget {
     Color fillColor = AppColor.colorF5F7FA,
     Color borderColor = AppColor.colorE0E0E0,
     double? borderRadius,
+    double? width,
+    double? height,
   }) {
     return AppOutlineButton._(
       onTap: onTap,
@@ -136,6 +152,8 @@ class AppOutlineButton extends StatelessWidget {
       fillColor: fillColor,
       borderColor: borderColor,
       borderRadius: borderRadius,
+      width: width,
+      height: height,
       child:
           status.isLoading
               ? SizedBox(
@@ -175,14 +193,16 @@ class AppOutlineButton extends StatelessWidget {
   final Color borderColor;
   final Widget child;
   final double? borderRadius;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return AppButtonAnimator(
       onTap: onTap,
       child: Container(
-        height: 52.h,
-        width: double.maxFinite,
+        height: height ?? 52.h,
+        width: width ?? double.maxFinite,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: fillColor,

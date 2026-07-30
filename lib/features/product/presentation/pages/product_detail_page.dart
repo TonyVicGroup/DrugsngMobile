@@ -1,8 +1,8 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/checkout/data/models/cart.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
@@ -12,13 +12,14 @@ import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.dart';
-import 'package:drugs_ng/features/product/presentation/cubit/product_cubit.dart';
+import 'package:drugs_ng/features/product/presentation/cubit/product_detail_cubit.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_carousel.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_loader.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_information_widget.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_specification_widget.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/rating_stars_widget.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,13 @@ class ProductDetailPage extends StatefulWidget {
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    final productId = settings.arguments as int;
+    return MaterialPageRoute(
+      builder: (ctx) => ProductDetailPage(productId: productId),
+    );
+  }
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
@@ -41,7 +49,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProductCubit>().getData(widget.productId);
+      context.read<ProductDetailCubit>().getData(widget.productId);
     });
   }
 
@@ -59,27 +67,59 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         elevation: 5,
         surfaceTintColor: AppColor.white,
         backgroundColor: AppColor.white,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Center(
-            child: SizedBox(
-              width: 20.sp,
-              height: 20.sp,
-              child: SvgPicture.asset(AppSvg.chevronThick),
-            ),
-          ),
-        ),
+
         title: AppText.sp18("Product Details").w700.black,
         centerTitle: true,
       ),
-      body: BlocBuilder<ProductCubit, ProductState>(
+      body: BlocBuilder<ProductDetailCubit, ProductState>(
         builder: (context, state) {
-          if (state is ProductLoading || state is ProductInitial) {
+          if (state.productStatus.isLoadingOrInitial) {
             return const ProductDetailLoader();
-          } else if (state is ProductSuccess) {
-            ProductDetail product = state.product;
-            return ListView(
+          } else if (state.productStatus.isFailed) {
+            final String message;
+            if (state.productStatus.isFailed) {
+              message = state.error ?? "An unknown error occurred";
+            } else {
+              message = "An unknown error occurred";
+            }
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Spacer(flex: 2),
+                AppText.sp16(message).w500,
+                10.verticalSpace,
+                const Row(),
+                InkWell(
+                  onTap: () {
+                    context.read<ProductDetailCubit>().getData(
+                      widget.productId,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText.sp16("Retry").w800.primaryColor,
+                        5.horizontalSpace,
+                        Icon(
+                          Icons.refresh,
+                          color: AppColor.primary,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Spacer(flex: 3),
+              ],
+            );
+          } else {
+            ProductDetail product = state.product!;
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              children: [
+                10.verticalSpace,
                 ProductDetailCarousel(
                   images: product.imageUrls,
                   produtId: product.id,
@@ -93,13 +133,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     children: [
                       Row(
                         children: [
-                          SvgPicture.asset(
-                            AppSvg.checkMark,
+                          CustomImage(
+                            Assets.svg.checkmark,
                             width: 9.w,
-                            colorFilter: const ColorFilter.mode(
-                              AppColor.green,
-                              BlendMode.srcIn,
-                            ),
+                            color: AppColor.green,
                           ),
                           8.horizontalSpace,
                           AppText.sp12(
@@ -227,43 +264,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ],
                   ),
                 ),
-              ],
-            );
-          } else {
-            final String message;
-            if (state is ProductError) {
-              message = state.error.message;
-            } else {
-              message = "An unknown error occurred";
-            }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(flex: 2),
-                AppText.sp16(message).w500,
-                10.verticalSpace,
-                const Row(),
-                InkWell(
-                  onTap: () {
-                    context.read<ProductCubit>().getData(widget.productId);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppText.sp16("Retry").w800.primaryColor,
-                        5.horizontalSpace,
-                        Icon(
-                          Icons.refresh,
-                          color: AppColor.primary,
-                          size: 18.sp,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Spacer(flex: 3),
               ],
             );
           }

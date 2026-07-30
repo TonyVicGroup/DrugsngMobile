@@ -28,7 +28,7 @@ class ExploreCategoryWidget extends StatelessWidget {
         width: double.maxFinite,
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
         decoration: BoxDecoration(
-          color: const Color(0xFFEAEFF5),
+          color: AppColor.colorFFFFFF,
           borderRadius: BorderRadius.circular(5.r),
         ),
         child: Row(

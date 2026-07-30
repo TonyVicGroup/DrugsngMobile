@@ -7,6 +7,7 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/features/prescription/data/models/prescription.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +49,7 @@ class PrescriptionUploadWidget extends StatelessWidget {
       child: Row(
         children: [
           SvgPicture.asset(
-            isPdf ? AppSvg.pdf : AppSvg.image,
+            isPdf ? Assets.svg.pdf : Assets.svg.image,
             height: 20.sp,
             colorFilter: const ColorFilter.mode(
               AppColor.primary,

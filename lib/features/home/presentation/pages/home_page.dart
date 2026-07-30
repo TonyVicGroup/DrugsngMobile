@@ -2,13 +2,17 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
 import 'package:drugs_ng/core/enum/sort_type_enum.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/services/location_service.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
+import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
@@ -22,6 +26,7 @@ import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.
 import 'package:drugs_ng/features/home/presentation/widgets/order_prescription_widget.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,35 +71,28 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: HomeHeaderWidget(),
-                          // child: Row(
-                          //   children: [
-
-                          //     7.verticalSpace,
-
-                          //     const Spacer(),
-                          //     Row(
-                          //       children: [
-                          //         // AppButton.svgIcon(
-                          //         //   svg: AppSvg.notification,
-                          //         //   onTap: notification,
-                          //         // ),
-                          //         15.horizontalSpace,
-                          //         AppButton.svgIcon(
-                          //           svg: AppSvg.shopping,
-                          //           onTap: cart,
-                          //           color: AppColor.black,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ],
-                          // ),
                         ),
-                        30.verticalSpace,
+                        10.verticalSpace,
+
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: AppTextField.search(
-                            hint: "Search for health products and tests",
-                            onTap: search,
+                          child: BorderTextField(
+                            borderRadius: 50.r,
+                            borderColor: AppColor.colorE5E5E5,
+                            filled: true,
+                            fillColor: AppColor.colorFFFFFF,
+                            prefixIcon: SizedBox(
+                              width: 20.w,
+                              child: Center(
+                                child: CustomImage(
+                                  Assets.svg.search,
+                                  color: AppColor.color555555,
+                                  width: 20.r,
+                                  height: 20.r,
+                                ),
+                              ),
+                            ),
+                            hint: 'Search for health products and tests...',
                           ),
                         ),
                         30.verticalSpace,
@@ -123,8 +121,11 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText.sp16("New Arrivals").w500.black,
-              // AppText.sp14("View All").w400.primaryColor.clickable(
-              //     () => _moveToCategory(context, SortTypeEnum.newArrival)),
+              AppText.sp14("View All").w400
+                  .setColor(AppColor.color0B8AE1)
+                  .clickable(
+                    () => _moveToCategory(context, SortTypeEnum.newArrival),
+                  ),
             ],
           ),
         ),
@@ -230,7 +231,7 @@ class _HomePageState extends State<HomePage> {
   void viewAllBestSellers() {}
 
   void _openProductPage(Product product) {
-    _nextPage(ProductDetailPage(productId: product.id));
+    context.pushNamed(AppRoutes.productDetailScreen, arguments: product.id);
   }
 
   // Future _addToWishlist(Product product) async {

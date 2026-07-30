@@ -1,11 +1,34 @@
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/prescription/data/repositories/prescription_repository.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drugs_ng/features/prescription/data/models/prescription.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 
-enum PrescriptionTabEnum { newUpload, recentUploads }
+enum PrescriptionTabEnum {
+  newUpload,
+  recentUploads;
+
+  String get displayName => switch (this) {
+    newUpload => "New Upload",
+    recentUploads => "Recent Uploads",
+  };
+
+  int get indexNumber => switch (this) {
+    newUpload => 0,
+    recentUploads => 1,
+  };
+
+  static PrescriptionTabEnum fromIndex(int index) => switch (index) {
+    1 => recentUploads,
+    _ => newUpload,
+  };
+
+  @override
+  String toString() => displayName;
+}
 
 class PrescriptionCubit extends Cubit<PrescriptionState> {
   final PrescriptionRepository repo = PrescriptionRepository();
@@ -15,9 +38,19 @@ class PrescriptionCubit extends Cubit<PrescriptionState> {
     emit(state.copyWith(tab: tab));
   }
 
+  void pickFile(PlatformFile file) {
+    emit(state.copyWith(pickedFile: file, clearPickedFile: false));
+  }
+
+  void clearPickedFile() {
+    emit(state.copyWith(clearPickedFile: true));
+  }
+
   Future getData() async {
+    final account = GetIt.I.get<AuthCubit>().state.account;
+    if (account == null) return;
     emit(state.copyWith(status: LoadStatusEnum.loading));
-    final result = await repo.getData();
+    final result = await repo.getData(account.userId);
     result.fold(
       (left) {
         emit(
@@ -32,9 +65,12 @@ class PrescriptionCubit extends Cubit<PrescriptionState> {
     );
   }
 
-  Future addData(int userId, PlatformFile file) async {
+  Future submitPrescription() async {
+    final account = GetIt.I.get<AuthCubit>().state.account;
+    if (account == null) return;
+    if (state.pickedFile == null) return;
     emit(state.copyWith(uploadStatus: LoadStatusEnum.loading));
-    final result = await repo.addData(userId, file);
+    final result = await repo.addData(account.userId, state.pickedFile!);
     result.fold(
       (left) {
         emit(
@@ -92,6 +128,7 @@ class PrescriptionState extends Equatable {
   final LoadStatusEnum deleteStatus;
   final PrescriptionTabEnum tab;
   final String? error;
+  final PlatformFile? pickedFile;
 
   const PrescriptionState({
     this.recentUploads = const [],
@@ -99,6 +136,7 @@ class PrescriptionState extends Equatable {
     this.uploadStatus = LoadStatusEnum.initial,
     this.deleteStatus = LoadStatusEnum.initial,
     this.tab = PrescriptionTabEnum.newUpload,
+    this.pickedFile,
     this.error,
   });
 
@@ -109,12 +147,15 @@ class PrescriptionState extends Equatable {
     LoadStatusEnum? deleteStatus,
     PrescriptionTabEnum? tab,
     String? error,
+    PlatformFile? pickedFile,
+    bool clearPickedFile = false,
   }) {
     return PrescriptionState(
       recentUploads: recentUploads ?? this.recentUploads,
       status: status ?? this.status,
       uploadStatus: uploadStatus ?? this.uploadStatus,
       deleteStatus: deleteStatus ?? this.deleteStatus,
+      pickedFile: clearPickedFile ? null : pickedFile ?? this.pickedFile,
       tab: tab ?? this.tab,
       error: error ?? this.error,
     );
@@ -126,6 +167,7 @@ class PrescriptionState extends Equatable {
     status,
     uploadStatus,
     deleteStatus,
+    pickedFile,
     tab,
     error,
   ];

@@ -1,5 +1,4 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/wishlist_button.dart';
@@ -28,77 +27,83 @@ class _ProductDetailCarouselState extends State<ProductDetailCarousel> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 397.h,
       width: double.maxFinite,
-      height: 300.h,
-      color: const Color(0xFFEAEFF5),
+      padding: EdgeInsets.all(10.r),
+      decoration: BoxDecoration(
+        color: AppColor.colorFFFFFF,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
       child: Stack(
         children: [
           if (widget.images.isNotEmpty)
-            Align(
-              alignment: Alignment.center,
-              child: CustomImage(
-                widget.images[imageIdx],
-                width: 250.w,
-                height: 250.h,
-              ),
+            Positioned(
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 20.h,
+              child: CustomImage(widget.images[imageIdx]),
             ),
           Positioned(
-            top: 25.h,
-            left: 16.w,
+            top: 10.h,
+            right: 10.w,
             child: WishlistButton(
               produtId: widget.produtId,
               itemType: widget.itemType,
             ),
           ),
           Positioned(
-            top: 0,
-            right: 16.w,
-            width: 55.w,
             bottom: 0,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 25.h),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      imageIdx = index;
-                    });
-                  },
-                  child: Container(
-                    height: 55.h,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.w,
-                      vertical: 5.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(3.r),
-                      border:
-                          index == imageIdx
-                              ? Border.all(color: const Color(0xFF8B96A5))
-                              : null,
-                    ),
-                    child: CustomImage(
-                      widget.images[index],
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => 10.verticalSpace,
-              itemCount: widget.images.length,
-            ),
-          ),
-          Positioned(
-            bottom: 15.h,
             left: 0,
             right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                widget.images.length,
-                (idx) => _indicator(idx),
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  // color: AppColor.colorFFFFFF,
+                  height: 55.h,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 25.h),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            imageIdx = index;
+                          });
+                        },
+                        child: Container(
+                          height: 55.h,
+                          width: 55.w,
+                          decoration: BoxDecoration(
+                            color: AppColor.white,
+                            borderRadius: BorderRadius.circular(3.r),
+                            border:
+                                index == imageIdx
+                                    ? Border.all(color: AppColor.colorF3F5F9)
+                                    : null,
+                          ),
+                          child: CustomImage(
+                            widget.images[index],
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => 10.horizontalSpace,
+                    itemCount: widget.images.length,
+                  ),
+                ),
+                10.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    widget.images.length,
+                    (idx) => _indicator(idx),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -113,10 +118,7 @@ class _ProductDetailCarouselState extends State<ProductDetailCarousel> {
       margin: EdgeInsets.symmetric(horizontal: 1.w),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color:
-            index == imageIdx
-                ? const Color(0xFF0B8AE1)
-                : const Color(0xFFBDC4CD),
+        color: index == imageIdx ? AppColor.color0B8AE1 : AppColor.colorBDC4CD,
       ),
     );
   }

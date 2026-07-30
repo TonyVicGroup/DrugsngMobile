@@ -1,8 +1,9 @@
+import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomMultipleTabWidget<T> extends StatelessWidget {
-  const CustomMultipleTabWidget({
+class AppMultipleTabWidget<T> extends StatelessWidget {
+  const AppMultipleTabWidget({
     required this.tabs,
     required this.selectedTab,
     required this.onTabSelected,
@@ -26,10 +27,12 @@ class CustomMultipleTabWidget<T> extends StatelessWidget {
     final tabSpacing = 24.r;
 
     return Container(
-      height: 40.h,
+      height: 42.h,
+      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: const Color(0x0D101828),
-        borderRadius: BorderRadius.circular(12.r),
+        color: AppColor.colorFFFFFF,
+        borderRadius: BorderRadius.circular(40.r),
+        boxShadow: AppColor.blueShadow,
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -48,8 +51,8 @@ class CustomMultipleTabWidget<T> extends StatelessWidget {
                 width: tabWidth,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(12.r),
+                    color: AppColor.color0B8AE1,
+                    borderRadius: BorderRadius.circular(40.r),
                   ),
                 ),
               ),
@@ -87,8 +90,8 @@ class CustomMultipleTabWidget<T> extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
-              color: selected ? Colors.white : Colors.grey[600],
+              fontWeight: FontWeight.w400,
+              color: selected ? AppColor.colorFFFFFF : AppColor.color0B8AE1,
             ),
             overflow: TextOverflow.ellipsis,
           ),

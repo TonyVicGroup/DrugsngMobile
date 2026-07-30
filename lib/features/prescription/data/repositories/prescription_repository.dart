@@ -30,12 +30,13 @@ class PrescriptionRepository {
     }
   }
 
-  AsyncApiErrorOr<List<Prescription>> getData([
+  AsyncApiErrorOr<List<Prescription>> getData(
+    int userId, [
     int pageNumber = 1,
     int pageSize = 15,
   ]) async {
     try {
-      final result = await datasource.getData(pageNumber, pageSize);
+      final result = await datasource.getData(userId, pageNumber, pageSize);
       return Right(result);
     } on ApiError catch (e) {
       return Left(e);

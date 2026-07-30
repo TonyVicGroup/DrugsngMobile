@@ -14,7 +14,7 @@ import 'package:drugs_ng/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
 import 'package:drugs_ng/features/navigation/presentation/cubit/tab_navigation_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
-import 'package:drugs_ng/features/product/presentation/cubit/product_cubit.dart';
+import 'package:drugs_ng/features/product/presentation/cubit/product_detail_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
@@ -37,7 +37,7 @@ class DependencyInjectionService {
       ..registerLazySingleton<ExploreMajorCategoryCubit>(
         ExploreMajorCategoryCubit.new,
       )
-      ..registerLazySingleton<ProductCubit>(ProductCubit.new)
+      ..registerLazySingleton<ProductDetailCubit>(ProductDetailCubit.new)
       ..registerLazySingleton<LabTestCubit>(LabTestCubit.new)
       // cubits
       ..registerLazySingleton<CartCubit>(CartCubit.new)
