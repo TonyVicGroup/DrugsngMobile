@@ -44,6 +44,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ValueNotifier<ButtonStatus> status = ValueNotifier<ButtonStatus>(
     ButtonStatus.active,
   );
+  final ValueNotifier<int> quantity = ValueNotifier(1);
 
   @override
   void initState() {
@@ -125,183 +126,113 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   produtId: product.id,
                   itemType: ItemTypeEnum.product,
                 ),
-                20.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CustomImage(
-                            Assets.svg.checkmark,
-                            width: 9.w,
-                            color: AppColor.green,
-                          ),
-                          8.horizontalSpace,
-                          AppText.sp12(
-                            "In Stock",
-                          ).w400.setColor(AppColor.green),
-                        ],
-                      ),
-                      4.verticalSpace,
-                      AppText.sp16(product.name).w700.black,
-                      20.verticalSpace,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RatingStarsWidget(
-                            rating: product.averageRating.toDouble(),
-                          ),
-                          4.horizontalSpace,
-                          AppText.sp14(
-                            "(${product.averageRating.toStringAsFixed(1)})",
-                          ).w400.setColor(AppColor.primary),
-                          dot(),
-                          InkWell(
-                            onTap: () => viewReviews(context),
-                            child: iconText(
-                              AppSvg.reviews,
-                              "${product.reviews.length} reviews",
-                            ),
-                          ),
-                          2.horizontalSpace,
-                          dot(),
-                          iconText(AppSvg.sold, "${product.amountSold} sold"),
-                        ],
-                      ),
-                      10.verticalSpace,
-                      ProductSpecificationWidget(product: product),
-                      20.verticalSpace,
-                      ProductInformationWidget(product: product),
-                      43.verticalSpace,
-                      BlocConsumer<CartCubit, CartState>(
-                        listener: (context, state) {
-                          if (state is CartStateError) {
-                            AppToast.warn(
-                              context,
-                              title: 'Error',
-                              msg: state.error.message,
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is CartStateInitial) {
-                            context.read<CartCubit>().getCart();
-                          }
-                          int idx = state.cart.items.indexWhere((ct) {
-                            return ct.name == product.name &&
-                                ct.itemId == product.id;
-                          });
-                          if (idx >= 0) {
-                            return AppText.sp12(
-                              "${state.cart.items[idx].quantity} item added to cart",
-                            ).w400.black;
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      ),
-                      5.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ValueListenableBuilder(
-                              valueListenable: status,
-                              builder: (context, value, child) {
-                                return AppButton.primary(
-                                  text: "ADD TO CART",
-                                  onTap: () async {
-                                    await addToCart(context, product);
-                                  },
-                                  status: value,
-                                );
-                              },
-                            ),
-                          ),
-                          21.horizontalSpace,
-                          const _CheckoutIcon(),
-                        ],
-                      ),
-                      if (state.similarProduct.isNotEmpty) ...[
-                        40.verticalSpace,
-                        AppText.sp16("Similar Products").w500.black,
-                        22.verticalSpace,
-                        SizedBox(
-                          height: 263.h,
-                          width: double.maxFinite,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            itemCount: state.similarProduct.length,
-                            itemBuilder: (context, index) {
-                              final product = state.similarProduct[index];
-                              return ProductCardWidget(
-                                image: product.imageUrls.firstOrNull,
-                                name: product.name,
-                                itemId: product.id,
-                                genericName: product.genericName,
-                                price: product.price,
-                                rating: product.rating,
-                                itemType: ItemTypeEnum.product,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    AppUtils.transition(
-                                      ProductDetailPage(productId: product.id),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return 16.horizontalSpace;
-                            },
-                          ),
-                        ),
-                      ],
-                      50.verticalSpace,
-                    ],
-                  ),
+                10.verticalSpace,
+                ProductInformationWidget(
+                  inStock: true,
+                  name: product.name,
+                  rating: product.averageRating,
+                  reviews: product.reviews.length.toDouble(),
+                  amountSold: product.amountSold.toDouble(),
+                  price: product.price,
                 ),
+                6.verticalSpace,
+                ProductSpecificationWidget(
+                  quantity: quantity,
+                  form: product.productFormName,
+                  size: product.size,
+                ),
+                20.verticalSpace,
+                43.verticalSpace,
+                BlocConsumer<CartCubit, CartState>(
+                  listener: (context, state) {
+                    if (state is CartStateError) {
+                      AppToast.warn(
+                        context,
+                        title: 'Error',
+                        msg: state.error.message,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is CartStateInitial) {
+                      context.read<CartCubit>().getCart();
+                    }
+                    int idx = state.cart.items.indexWhere((ct) {
+                      return ct.name == product.name && ct.itemId == product.id;
+                    });
+                    if (idx >= 0) {
+                      return AppText.sp12(
+                        "${state.cart.items[idx].quantity} item added to cart",
+                      ).w400.black;
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+                5.verticalSpace,
+                Row(
+                  children: [
+                    Expanded(
+                      child: ValueListenableBuilder(
+                        valueListenable: status,
+                        builder: (context, value, child) {
+                          return AppButton.primary(
+                            text: "ADD TO CART",
+                            onTap: () async {
+                              await addToCart(context, product);
+                            },
+                            status: value,
+                          );
+                        },
+                      ),
+                    ),
+                    21.horizontalSpace,
+                    const _CheckoutIcon(),
+                  ],
+                ),
+                if (state.similarProduct.isNotEmpty) ...[
+                  40.verticalSpace,
+                  AppText.sp16("Similar Products").w500.black,
+                  22.verticalSpace,
+                  SizedBox(
+                    height: 263.h,
+                    width: double.maxFinite,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      itemCount: state.similarProduct.length,
+                      itemBuilder: (context, index) {
+                        final product = state.similarProduct[index];
+                        return ProductCardWidget(
+                          image: product.imageUrls.firstOrNull,
+                          name: product.name,
+                          itemId: product.id,
+                          genericName: product.genericName,
+                          price: product.price,
+                          rating: product.rating,
+                          itemType: ItemTypeEnum.product,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              AppUtils.transition(
+                                ProductDetailPage(productId: product.id),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return 16.horizontalSpace;
+                      },
+                    ),
+                  ),
+                ],
+                50.verticalSpace,
               ],
             );
           }
         },
       ),
-    );
-  }
-
-  Widget dot() => Container(
-    width: 6.r,
-    height: 6.r,
-    margin: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 0),
-    decoration: const BoxDecoration(
-      shape: BoxShape.circle,
-      color: Color(0xFFBDC4CD),
-    ),
-  );
-
-  Widget iconText(String svg, String text) => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      SvgPicture.asset(
-        svg,
-        width: 16.r,
-        height: 16.r,
-        colorFilter: const ColorFilter.mode(
-          AppColor.lightGrey,
-          BlendMode.srcIn,
-        ),
-      ),
-      6.horizontalSpace,
-      AppText.sp14(text).w400.darkGrey,
-    ],
-  );
-
-  void viewReviews(BuildContext context) {
-    Navigator.of(context).push(
-      AppUtils.transition(ProductReviewsPage(productId: widget.productId)),
     );
   }
 

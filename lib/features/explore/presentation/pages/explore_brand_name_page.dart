@@ -85,7 +85,7 @@ class _ExploreBrandNamePageState extends State<ExploreBrandNamePage> {
                 20.verticalSpace,
                 Expanded(
                   child:
-                      state is ExploreNamesLoading
+                      state.status.isLoading
                           ? const ExploreSubCategoryLoader()
                           : FetchMoreIndicator(
                             onAction: () async {

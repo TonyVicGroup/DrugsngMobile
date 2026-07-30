@@ -87,6 +87,7 @@ class _ProductDetailCarouselState extends State<ProductDetailCarousel> {
                           child: CustomImage(
                             widget.images[index],
                             fit: BoxFit.contain,
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                       );

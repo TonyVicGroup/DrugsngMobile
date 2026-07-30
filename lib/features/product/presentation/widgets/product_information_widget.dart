@@ -1,72 +1,118 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
+import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_formater.dart';
+import 'package:drugs_ng/features/product/presentation/widgets/rating_stars_widget.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class ProductInformationWidget extends StatelessWidget {
-  final ProductDetail product;
-  const ProductInformationWidget({super.key, required this.product});
+  const ProductInformationWidget({
+    required this.inStock,
+    required this.name,
+    required this.rating,
+    required this.reviews,
+    required this.amountSold,
+    required this.price,
+    super.key,
+  });
+
+  final bool inStock;
+  final String name;
+  final double rating;
+  final double reviews;
+  final double amountSold;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            AppText.sp14("Price:").w400.setColor(const Color(0xFF8B96A5)),
-            const Spacer(),
-            AppText.sp16(
-              "₦${TextFormater.amount(product.price)}",
-            ).w700.primaryColor,
-            AppText.sp12(
-              " *final price shown at checkout",
-            ).w400.setColor(const Color(0xFF8B96A5)),
-          ],
-        ),
-        12.verticalSpace,
-        _divider(),
-        12.verticalSpace,
-        _infoRow("Description", [product.description]),
-        _infoRow("Brand", [product.brandName]),
-        _infoRow("Delivery", [
-          DateFormat("dd MMMM yyyy").format(product.deliveryTime),
-        ]),
-        // ...data1.map((dt) => _infoRow(dt.$1, dt.$2)),
-        _divider(),
-        12.verticalSpace,
-        // _infoRow("Ingredients", []),
-        _infoRow("Dosage", [product.dosage]),
-        _infoRow("Warnings", [product.warning]),
-        _divider(),
-      ],
-    );
-  }
-
-  Container _divider() => Container(
-    width: double.maxFinite,
-    height: 1,
-    color: const Color(0xFFE5E5E5),
-  );
-
-  Padding _infoRow(String title, List<String> data) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
-      child: Row(
+    return Container(
+      // margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.r),
+      decoration: BoxDecoration(
+        color: AppColor.colorFFFFFF,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 140.w,
-            child: AppText.sp14(
-              "$title:",
-            ).w400.setColor(const Color(0xFF8B96A5)),
+          if (inStock)
+            Row(
+              children: [
+                CustomImage(
+                  Assets.svg.checkmark,
+                  width: 9.w,
+                  color: AppColor.color39C316,
+                ),
+                8.horizontalSpace,
+                AppText.sp12("In Stock").w400.setColor(AppColor.color39C316),
+              ],
+            ),
+          4.verticalSpace,
+          AppText.sp16(name).w700.black,
+          10.verticalSpace,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RatingStarsWidget(rating: rating),
+              4.horizontalSpace,
+              AppText.sp14(
+                "(${rating.toStringAsFixed(1)})",
+              ).w400.setColor(AppColor.primary),
+              dot(),
+              InkWell(
+                onTap: () => viewReviews(context),
+                child: iconText(
+                  Assets.svg.reviews,
+                  "${reviews.toInt()} reviews",
+                ),
+              ),
+              2.horizontalSpace,
+              dot(),
+              iconText(Assets.svg.soldIcon, "${amountSold.toInt()} sold"),
+            ],
           ),
-          Expanded(
-            child: Column(
-              children: data.map((txt) => bulletList(txt)).toList(),
+          10.verticalSpace,
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "Price: ",
+                  style: TextStyle(
+                    color: AppColor.color8B96A5,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: AppText.fontFamily,
+                  ),
+                ),
+
+                TextSpan(
+                  text: "₦${TextFormater.amount(price)}  ",
+                  style: TextStyle(
+                    color: AppColor.primary,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: AppText.fontFamily,
+                  ),
+                ),
+                TextSpan(
+                  text: " *final price shown at checkout",
+                  style: TextStyle(
+                    color: AppColor.color8B96A5,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: AppText.fontFamily,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -74,23 +120,34 @@ class ProductInformationWidget extends StatelessWidget {
     );
   }
 
-  Row bulletList(String text) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        dot(),
-        Expanded(child: AppText.sp14(text).w400.setColor(AppColor.darkGrey)),
-      ],
-    );
-  }
-
   Widget dot() => Container(
     width: 6.r,
     height: 6.r,
-    margin: EdgeInsets.all(6.r),
+    margin: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 0),
     decoration: const BoxDecoration(
       shape: BoxShape.circle,
-      color: AppColor.darkGrey,
+      color: Color(0xFFBDC4CD),
     ),
   );
+
+  Widget iconText(String svg, String text) => Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      SvgPicture.asset(
+        svg,
+        width: 16.r,
+        height: 16.r,
+        colorFilter: const ColorFilter.mode(
+          AppColor.lightGrey,
+          BlendMode.srcIn,
+        ),
+      ),
+      6.horizontalSpace,
+      AppText.sp14(text).w400.darkGrey,
+    ],
+  );
+
+  void viewReviews(BuildContext context) {
+    context.pushNamed(AppRoutes.productReviewPage);
+  }
 }

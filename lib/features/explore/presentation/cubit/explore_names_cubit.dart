@@ -1,12 +1,11 @@
 import 'package:drugs_ng/core/data/models/app_responses.dart';
+import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/features/explore/data/repository/explore_repository.dart';
 import 'package:drugs_ng/features/explore/domain/models/generic_brand_name.dart';
 import 'package:drugs_ng/features/explore/domain/models/page_filter.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-
-part 'explore_names_state.dart';
 
 enum ExploreNameEnum {
   brand,
@@ -26,12 +25,10 @@ class ExploreNamesCubit extends Cubit<ExploreNamesState> {
 
   /// cubit for both generic names and brandnames
   ExploreNamesCubit(this.repo, this.nameType)
-    : super(const ExploreNamesInitial());
+    : super(const ExploreNamesState());
 
   Future getNames() async {
-    emit(
-      ExploreNamesLoading(state.brands, state.searchResult, state.pageNumber),
-    );
+    emit(state.copyWith(status: LoadStatusEnum.loading));
     final Either<ApiError, List<GenericBrandName>> result;
     final pageFilter = PageFilter(
       pageNumber: state.pageNumber,
@@ -45,16 +42,18 @@ class ExploreNamesCubit extends Cubit<ExploreNamesState> {
     result.fold(
       (left) {
         emit(
-          ExploreNamesFailed(
-            state.brands,
-            state.searchResult,
-            state.pageNumber,
-            left.message,
-          ),
+          state.copyWith(status: LoadStatusEnum.failed, error: left.message),
         );
       },
       (right) {
-        emit(ExploreNamesSuccess(right, right, state.pageNumber));
+        emit(
+          state.copyWith(
+            brands: right,
+            searchResult: right,
+            pageNumber: state.pageNumber + 1,
+            status: LoadStatusEnum.success,
+          ),
+        );
       },
     );
   }
@@ -74,20 +73,16 @@ class ExploreNamesCubit extends Cubit<ExploreNamesState> {
     result.fold(
       (left) {
         emit(
-          ExploreNamesFailed(
-            state.brands,
-            state.searchResult,
-            state.pageNumber,
-            left.message,
-          ),
+          state.copyWith(status: LoadStatusEnum.failed, error: left.message),
         );
       },
       (right) {
         emit(
-          ExploreNamesSuccess(
-            state.brands..addAll(right),
-            state.brands..addAll(right),
-            nextPage,
+          state.copyWith(
+            brands: state.brands..addAll(right),
+            searchResult: state.brands..addAll(right),
+            pageNumber: nextPage,
+            status: LoadStatusEnum.success,
           ),
         );
       },
@@ -96,11 +91,47 @@ class ExploreNamesCubit extends Cubit<ExploreNamesState> {
 
   void search(String query) {
     emit(
-      ExploreNamesSuccess(
-        state.brands,
-        state.brands.where((subCat) => subCat.name.contains(query)).toList(),
-        state.pageNumber,
+      state.copyWith(
+        searchResult:
+            state.brands
+                .where((subCat) => subCat.name.contains(query))
+                .toList(),
       ),
     );
   }
+}
+
+class ExploreNamesState extends Equatable {
+  final List<GenericBrandName> brands;
+  final List<GenericBrandName> searchResult;
+  final int pageNumber;
+  final LoadStatusEnum status;
+  final String? error;
+
+  const ExploreNamesState({
+    this.brands = const [],
+    this.searchResult = const [],
+    this.pageNumber = 0,
+    this.status = LoadStatusEnum.initial,
+    this.error,
+  });
+
+  ExploreNamesState copyWith({
+    List<GenericBrandName>? brands,
+    List<GenericBrandName>? searchResult,
+    int? pageNumber,
+    LoadStatusEnum? status,
+    String? error,
+  }) {
+    return ExploreNamesState(
+      brands: brands ?? this.brands,
+      searchResult: searchResult ?? this.searchResult,
+      pageNumber: pageNumber ?? this.pageNumber,
+      status: status ?? this.status,
+      error: error ?? this.error,
+    );
+  }
+
+  @override
+  List<Object?> get props => [brands, searchResult, pageNumber, status, error];
 }

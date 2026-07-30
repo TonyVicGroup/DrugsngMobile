@@ -12,6 +12,7 @@ import 'package:drugs_ng/features/notification/presentation/pages/notification_p
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
+import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/complete_doctor_verification_summary_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/doctor_application_status_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/doctor_registration_page.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const doctorRegistration = '/doctorRegistration';
   static const doctorApplicationStatus = '/doctorApplicationStatus';
   static const productDetailScreen = '/productDetailScreen';
+  static const productReviewPage = '/productReviewPage';
   static const cartPage = '/cartPage';
   static const notificationPage = '/notificationPage';
 
@@ -75,6 +77,8 @@ class AppRoutes {
         return DoctorApplicationStatusPage.route(routeSettings);
       case productDetailScreen:
         return ProductDetailPage.route(routeSettings);
+      case productReviewPage:
+        return ProductReviewsPage.route(routeSettings);
       case cartPage:
         return CartPage.route(routeSettings);
       case notificationPage:
