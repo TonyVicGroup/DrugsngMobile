@@ -33,13 +33,13 @@ class ExploreMajorCategoryCubit extends Cubit<ExploreMajorCategoryState> {
 
 class ExploreMajorCategoryState extends Equatable {
   final MajorCategoryData? categoryData;
-  final MajorCategoryType? categoryType;
+  final MajorCategoryType categoryType;
   final LoadStatusEnum status;
   final String? error;
 
   const ExploreMajorCategoryState({
     this.categoryData,
-    this.categoryType,
+    this.categoryType = MajorCategoryType.drug,
     this.status = LoadStatusEnum.initial,
     this.error,
   });

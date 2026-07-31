@@ -33,6 +33,10 @@ class $AssetsImagesGen {
   AssetGenImage get prescriptionImage =>
       const AssetGenImage('assets/images/prescription_image.jpg');
 
+  /// File path: assets/images/sample_doctor.png
+  AssetGenImage get sampleDoctor =>
+      const AssetGenImage('assets/images/sample_doctor.png');
+
   /// File path: assets/images/splash_image.png
   AssetGenImage get splashImage =>
       const AssetGenImage('assets/images/splash_image.png');
@@ -52,6 +56,7 @@ class $AssetsImagesGen {
     onboardingImage,
     onboardingWave,
     prescriptionImage,
+    sampleDoctor,
     splashImage,
     splashLogo,
     verifyImage,
@@ -110,6 +115,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/calendar_filled.svg
   String get calendarFilled => 'assets/svg/calendar_filled.svg';
 
+  /// File path: assets/svg/calendar_today.svg
+  String get calendarToday => 'assets/svg/calendar_today.svg';
+
   /// File path: assets/svg/camera.svg
   String get camera => 'assets/svg/camera.svg';
 
@@ -164,6 +172,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/doctor.svg
   String get doctor => 'assets/svg/doctor.svg';
+
+  /// File path: assets/svg/doctor_user.svg
+  String get doctorUser => 'assets/svg/doctor_user.svg';
 
   /// File path: assets/svg/document.svg
   String get document => 'assets/svg/document.svg';
@@ -441,6 +452,7 @@ class $AssetsSvgGen {
     calendar,
     calendarCheck,
     calendarFilled,
+    calendarToday,
     camera,
     cancelUser,
     capsule,
@@ -459,6 +471,7 @@ class $AssetsSvgGen {
     createAccount,
     delete,
     doctor,
+    doctorUser,
     document,
     documentPad,
     download,

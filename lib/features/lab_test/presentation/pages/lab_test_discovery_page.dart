@@ -1,32 +1,33 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
-import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
 import 'package:drugs_ng/features/lab_test/domain/models/diagnostic_test.dart';
 import 'package:drugs_ng/features/lab_test/domain/models/wellness_package.dart';
 import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
 import 'package:drugs_ng/features/lab_test/presentation/widgets/diagnostic_test_widget.dart';
 import 'package:drugs_ng/features/lab_test/presentation/widgets/wellness_package_widget.dart';
-import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LabTestDiscovery extends StatefulWidget {
-  const LabTestDiscovery({super.key});
+class LabTestDiscoveryPage extends StatefulWidget {
+  const LabTestDiscoveryPage({super.key});
 
   @override
-  State<LabTestDiscovery> createState() => _LabTestDiscoveryState();
+  State<LabTestDiscoveryPage> createState() => _LabTestDiscoveryPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder: (context) => const LabTestDiscoveryPage(),
+    );
+  }
 }
 
-class _LabTestDiscoveryState extends State<LabTestDiscovery> {
+class _LabTestDiscoveryPageState extends State<LabTestDiscoveryPage> {
   PageController controller = PageController();
   @override
   void initState() {
@@ -48,42 +49,12 @@ class _LabTestDiscoveryState extends State<LabTestDiscovery> {
       body: SafeArea(
         child: Column(
           children: [
-            20.verticalSpace,
+            16.verticalSpace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                children: [
-                  AppButton.back(() {
-                    Navigator.pop(context);
-                  }),
-                  // const LocationChip(),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      AppButton.svgIcon(
-                        svg: AppSvg.notification,
-                        onTap: notification,
-                      ),
-                      15.horizontalSpace,
-                      AppButton.svgIcon(
-                        svg: AppSvg.shopping,
-                        onTap: cart,
-                        color: AppColor.black,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: HomeHeaderWidget(onTap: search),
             ),
-            20.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: AppTextField.search(
-                hint: "Search for health products and tests",
-                onTap: search,
-              ),
-            ),
-            30.verticalSpace,
+            10.verticalSpace,
             BlocBuilder<LabTestCubit, LabTestState>(
               builder: (context, state) {
                 return Expanded(
@@ -148,20 +119,10 @@ class _LabTestDiscoveryState extends State<LabTestDiscovery> {
   }
 
   void search() {
-    Navigator.push(
-      context,
-      AppUtils.transition(
-        const SearchPage(searchType: SearchType.testAndPackage),
-      ),
+    context.pushNamed(
+      AppRoutes.searchPage,
+      arguments: SearchType.testAndPackage,
     );
-  }
-
-  void notification() {
-    Navigator.push(context, AppUtils.transition(const NotificationPage()));
-  }
-
-  void cart() {
-    Navigator.push(context, AppUtils.transition(const CartPage()));
   }
 
   Widget wellnessPackages() {

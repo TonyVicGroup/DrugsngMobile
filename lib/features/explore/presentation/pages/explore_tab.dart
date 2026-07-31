@@ -43,7 +43,7 @@ class ExploreTab extends StatelessWidget {
                 await context.read<ExploreMajorCategoryCubit>().getCategories();
               },
               child:
-                  (state.isEmpty && state.status.isFailed)
+                  (state.status.isFailed)
                       ? ErrorPage(
                         message: state.error,
                         onRetry:
@@ -53,6 +53,7 @@ class ExploreTab extends StatelessWidget {
                                     .getCategories(),
                       )
                       : ListView(
+                        padding: EdgeInsets.zero,
                         children: [
                           if (state.status.isFailed)
                             ErrorBanner(
@@ -62,29 +63,6 @@ class ExploreTab extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: HomeHeaderWidget(),
-                          ),
-                          10.verticalSpace,
-
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: BorderTextField(
-                              borderRadius: 50.r,
-                              borderColor: AppColor.colorE5E5E5,
-                              filled: true,
-                              fillColor: AppColor.colorFFFFFF,
-                              prefixIcon: SizedBox(
-                                width: 20.w,
-                                child: Center(
-                                  child: CustomImage(
-                                    Assets.svg.search,
-                                    color: AppColor.color555555,
-                                    width: 20.r,
-                                    height: 20.r,
-                                  ),
-                                ),
-                              ),
-                              hint: 'Search for health products and tests...',
-                            ),
                           ),
                           10.verticalSpace,
                           Builder(

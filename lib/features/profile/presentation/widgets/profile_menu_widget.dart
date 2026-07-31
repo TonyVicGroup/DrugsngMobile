@@ -1,7 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
@@ -14,6 +14,7 @@ import 'package:drugs_ng/features/profile/presentation/pages/personal_info_page.
 import 'package:drugs_ng/features/profile/presentation/pages/wishlist_page.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/login_required_modal.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/logout_dialog.dart';
+import 'package:drugs_ng/features/profile/presentation/widgets/switch_to_doctor_button.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,88 +29,104 @@ class ProfileMenuWidget extends StatelessWidget {
     return Positioned(
       left: 16.w,
       right: 16.w,
-      top: 322.h,
-      bottom: 30.h,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-        decoration: BoxDecoration(
-          color: AppColor.white,
-          borderRadius: BorderRadius.circular(8.r),
-          boxShadow: [
-            BoxShadow(
-              color: AppColor.black.withOpacity(0.05),
-              offset: const Offset(0, 4),
-              blurRadius: 10,
-            ),
-          ],
-        ),
-        child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          children: [
-            _menuTile(
-              Assets.svg.profile,
-              "Personal Info",
-              () => nextPage(
-                context,
-                BlocProvider(
-                  create:
-                      (context) => ProfileUpdateCubit(
-                        authCubit: context.read<AuthCubit>(),
-                      ),
-                  child: const PersonalInfoPage(),
+      top: 310.h,
+      bottom: 0.h,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          SwitchToDoctorButton(),
+          20.verticalSpace,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.circular(20.r),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColor.black.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
                 ),
-                true,
-              ),
+              ],
             ),
-            _menuTile(
-              Assets.svg.map,
-              "Addresses",
-              () => nextPage(context, const AddressPage(), true),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _menuTile(
+                  Assets.svg.profile,
+                  "Personal Info",
+                  () => nextPage(
+                    context,
+                    BlocProvider(
+                      create:
+                          (context) => ProfileUpdateCubit(
+                            authCubit: context.read<AuthCubit>(),
+                          ),
+                      child: const PersonalInfoPage(),
+                    ),
+                    true,
+                  ),
+                ),
+                _menuTile(
+                  Assets.svg.map,
+                  "Addresses",
+                  () => nextPage(context, const AddressPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.orderHistory,
+                  "Order History",
+                  () => nextPage(context, const OrderHistoryPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.labTest,
+                  "Lab Tests",
+                  () => nextPage(context, const WishlistPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.consultations,
+                  "Consultations",
+                  () => nextPage(context, const WishlistPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.wishlist,
+                  "Wishlist",
+                  () => nextPage(context, const WishlistPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.myReviews,
+                  "My Reviews",
+                  () => nextPage(context, const MyReviewPage(), true),
+                ),
+                _menuTile(
+                  Assets.svg.support,
+                  "Help and Support",
+                  () => nextPage(context, const HelpSupportPage(), false),
+                ),
+                _menuTile(
+                  Assets.svg.raiseDispute,
+                  "Raise a dispute",
+                  () => nextPage(context, const HelpSupportPage(), false),
+                ),
+                // if (context.read<AuthCubit>().isLoggedIn)
+                //   _menuTile(Assets.svg.logout, "Logout", () => _logout(context), true)
+                // else
+                //   _menuTile(Assets.svg.logout, "Login", () => _login(context)),
+              ],
             ),
-            _menuTile(
-              Assets.svg.orderHistory,
-              "Order History",
-              () => nextPage(context, const OrderHistoryPage(), true),
-            ),
-            _menuTile(
-              Assets.svg.wishlist,
-              "Wishlist",
-              () => nextPage(context, const WishlistPage(), true),
-            ),
-            _menuTile(
-              Assets.svg.myReviews,
-              "My Reviews",
-              () => nextPage(context, const MyReviewPage(), true),
-            ),
-            _menuTile(
-              Assets.svg.support,
-              "Help and Support",
-              () => nextPage(context, const HelpSupportPage(), false),
-            ),
-            _menuTile(
-              Assets.svg.raiseDispute,
-              "Raise a dispute",
-              () => nextPage(context, const HelpSupportPage(), false),
-            ),
-            // if (context.read<AuthCubit>().isLoggedIn)
-            //   _menuTile(Assets.svg.logout, "Logout", () => _logout(context), true)
-            // else
-            //   _menuTile(Assets.svg.logout, "Login", () => _login(context)),
-          ],
-        ),
+          ),
+          100.verticalSpace,
+        ],
       ),
     );
   }
 
-  InkWell _menuTile(
+  Widget _menuTile(
     String svg,
     String title,
     void Function() onTap, [
     bool isLogout = false,
   ]) {
-    return InkWell(
+    return AppButtonAnimator(
       onTap: onTap,
       child: Row(
         children: [
@@ -127,19 +144,19 @@ class ProfileMenuWidget extends StatelessWidget {
           ),
           14.horizontalSpace,
           Expanded(
-            child: AppText.sp18(
+            child: AppText.sp16(
               title,
-            ).w400.setColor(isLogout ? AppColor.red : AppColor.black),
+            ).w400.setColor(isLogout ? AppColor.red : AppColor.color333333),
           ),
           20.horizontalSpace,
           if (!isLogout)
             RotatedBox(
-              quarterTurns: 3,
+              quarterTurns: 2,
               child: SvgPicture.asset(
-                AppSvg.chevronLight,
-                width: 12.r,
+                Assets.svg.chevronLeft,
+                width: 5.7.r,
                 colorFilter: const ColorFilter.mode(
-                  AppColor.darkGrey,
+                  AppColor.color8B96A5,
                   BlendMode.srcIn,
                 ),
               ),

@@ -14,6 +14,7 @@ import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
 import 'package:drugs_ng/core/widgets/textfield/border_text_field.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/features/consultation/presentation/widgets/consultation_doctor_carousel.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
@@ -21,7 +22,6 @@ import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
 import 'package:drugs_ng/features/home/presentation/cubit/home_cubit.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/homepage_loader.dart';
 import 'package:drugs_ng/features/product/domain/models/product.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/order_prescription_widget.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
@@ -31,14 +31,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeTab extends StatefulWidget {
+  const HomeTab({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeTab> createState() => _HomeTabState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     super.initState();
@@ -72,30 +72,9 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: HomeHeaderWidget(),
                         ),
-                        10.verticalSpace,
-
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: BorderTextField(
-                            borderRadius: 50.r,
-                            borderColor: AppColor.colorE5E5E5,
-                            filled: true,
-                            fillColor: AppColor.colorFFFFFF,
-                            prefixIcon: SizedBox(
-                              width: 20.w,
-                              child: Center(
-                                child: CustomImage(
-                                  Assets.svg.search,
-                                  color: AppColor.color555555,
-                                  width: 20.r,
-                                  height: 20.r,
-                                ),
-                              ),
-                            ),
-                            hint: 'Search for health products and tests...',
-                          ),
-                        ),
-                        30.verticalSpace,
+                        20.verticalSpace,
+                        ConsultationDoctorCarousel(),
+                        20.verticalSpace,
                         if (state.status.isLoading)
                           const HomepageLoader()
                         else

@@ -11,7 +11,7 @@ import 'package:drugs_ng/features/consultation/presentation/cubit/doctor_cubit.d
 import 'package:drugs_ng/features/consultation/presentation/pages/doctor_appointment_page.dart';
 import 'package:drugs_ng/features/consultation/presentation/widgets/doctor_filter_widget.dart';
 import 'package:drugs_ng/features/consultation/presentation/widgets/doctor_list_tile.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,30 +57,7 @@ class _FindDoctorPageState extends State<FindDoctorPage> {
                 16.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    spacing: 5,
-                    children: [
-                      AppButton.back(() {
-                        Navigator.pop(context);
-                      }),
-                      LocationChip.widget(context),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          AppButton.svgIcon(
-                            svg: AppSvg.notification,
-                            onTap: () => notification(context),
-                          ),
-                          15.horizontalSpace,
-                          AppButton.svgIcon(
-                            svg: AppSvg.shopping,
-                            onTap: () => cart(context),
-                            color: AppColor.black,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  child: HomeHeaderWidget(),
                 ),
                 10.verticalSpace,
                 Padding(

@@ -2,7 +2,7 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/consultation/presentation/pages/consultation_tab.dart';
 import 'package:drugs_ng/features/explore/presentation/pages/explore_tab.dart';
-import 'package:drugs_ng/features/home/presentation/pages/home_page.dart';
+import 'package:drugs_ng/features/home/presentation/pages/home_tab.dart';
 import 'package:drugs_ng/features/lab_test/presentation/pages/lab_test_tab.dart';
 import 'package:drugs_ng/features/navigation/domain/entities/nav_item.dart';
 import 'package:drugs_ng/features/navigation/presentation/widgets/app_bottom_nav_bar_widget.dart';
@@ -24,7 +24,7 @@ class PatientTabView extends StatelessWidget {
               controller: AppUtils.tabController,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                const HomePage(),
+                const HomeTab(),
                 const ExploreTab(),
                 const LabTestTab(),
                 const ConsultationTab(),

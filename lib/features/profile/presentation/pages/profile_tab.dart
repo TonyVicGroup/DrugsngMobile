@@ -1,5 +1,6 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
@@ -43,7 +44,7 @@ class ProfileTab extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: AppColor.white,
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -61,11 +62,12 @@ class ProfileTab extends StatelessWidget {
                       return profileIcon(
                         Assets.svg.ordersColored,
                         "$orders Orders",
+                        () {},
                       );
                     },
                   ),
-                  // profileIcon(AppImage.microscope, "0 Lab test"),
-                  // profileIcon(AppImage.womanHealthWorker, "0 Consultations"),
+                  profileIcon(Assets.svg.labTest, "0 Lab test", () {}),
+                  profileIcon(Assets.svg.doctor, "0 Consultations", () {}),
                 ],
               ),
             ),
@@ -181,14 +183,17 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget profileIcon(String image, String text) {
+  Widget profileIcon(String image, String text, VoidCallback onTap) {
     return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(image, width: 32.r, height: 32.r),
-          AppText.sp12(text).w400,
-        ],
+      child: AppButtonAnimator(
+        onTap: onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomImage(image, width: 26.r, height: 26.r),
+            AppText.sp12(text).w500.setColor(AppColor.color333333),
+          ],
+        ),
       ),
     );
   }

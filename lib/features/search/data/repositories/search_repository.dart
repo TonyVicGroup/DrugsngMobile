@@ -2,7 +2,6 @@ import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/utils/app_data_types.dart';
 import 'package:drugs_ng/features/search/data/datasources/search_datasource.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
-import 'package:drugs_ng/features/search/domain/repositories/search_repo.dart';
 import 'package:either_dart/either.dart';
 
 class SearchRepository {

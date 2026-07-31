@@ -1,23 +1,14 @@
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/widgets/coming_soon_widget.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
-import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
-import 'package:drugs_ng/features/search/data/models/search_item.dart';
-import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
+import 'package:drugs_ng/features/consultation/presentation/widgets/consultation_doctor_carousel.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/lab_test/presentation/cubit/lab_test_cubit.dart';
-import 'package:drugs_ng/features/lab_test/presentation/pages/lab_test_discovery.dart';
 import 'package:drugs_ng/features/lab_test/presentation/widgets/diagnostic_list_widget.dart';
-import 'package:drugs_ng/features/lab_test/presentation/widgets/lab_test_carousel.dart';
 import 'package:drugs_ng/features/lab_test/presentation/widgets/wellness_list_widget.dart';
-import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,12 +24,11 @@ class _LabTestTabState extends State<LabTestTab> {
   @override
   void initState() {
     super.initState();
-    // context.read<LabTestCubit>().refreshAll();
+    context.read<LabTestCubit>().refreshAll();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ComingSoonWidget();
     return Scaffold(
       body: RefreshIndicator(
         displacement: 64.h,
@@ -71,45 +61,18 @@ class _LabTestTabState extends State<LabTestTab> {
                             );
                           },
                         ),
-                      20.verticalSpace,
+                      16.verticalSpace,
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Row(
-                          children: [
-                            LocationChip.widget(context),
-                            const Spacer(),
-                            Row(
-                              children: [
-                                AppButton.svgIcon(
-                                  svg: AppSvg.notification,
-                                  onTap: () => notification(context),
-                                ),
-                                15.horizontalSpace,
-                                AppButton.svgIcon(
-                                  svg: AppSvg.shopping,
-                                  onTap: () => cart(context),
-                                  color: AppColor.black,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        child: HomeHeaderWidget(),
                       ),
-                      30.verticalSpace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: AppTextField.search(
-                          hint: "Search for health products and tests",
-                          onTap: () => search(context),
-                        ),
-                      ),
-                      30.verticalSpace,
+                      10.verticalSpace,
                       Builder(
                         builder: (context) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              LabTestCarousel(state: state),
+                              ConsultationDoctorCarousel(),
                               30.verticalSpace,
                               if (state.diagnosticTests.isNotEmpty ||
                                   state.diagnosticStatus.isLoading) ...[
@@ -163,27 +126,8 @@ class _LabTestTabState extends State<LabTestTab> {
     );
   }
 
-  Future _nextPage(Widget page) async {
-    // context.read<NavigationTabCubit>().hide();
-    // await Navigator.push(context, AppUtils.transition(page));
-    // // ignore: use_build_context_synchronously
-    // context.read<NavigationTabCubit>().show();
-  }
-
-  void search(BuildContext context) {
-    _nextPage(const SearchPage(searchType: SearchType.testAndPackage));
-  }
-
-  void notification(BuildContext context) {
-    _nextPage(const NotificationPage());
-  }
-
-  void cart(BuildContext context) {
-    _nextPage(const CartPage());
-  }
-
   void viewAll(bool isTest) async {
     context.read<LabTestCubit>().toggleTab(isTest);
-    _nextPage(const LabTestDiscovery());
+    context.pushNamed(AppRoutes.labTestDiscovery);
   }
 }

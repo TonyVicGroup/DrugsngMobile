@@ -7,12 +7,14 @@ import 'package:drugs_ng/features/auth/presentation/pages/signup_screen.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/features/lab_test/presentation/pages/lab_test_discovery_page.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/dashboard_page.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
+import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/complete_doctor_verification_summary_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/doctor_application_status_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/doctor_registration_page.dart';
@@ -37,7 +39,8 @@ class AppRoutes {
   static const productReviewPage = '/productReviewPage';
   static const cartPage = '/cartPage';
   static const notificationPage = '/notificationPage';
-
+  static const labTestDiscovery = '/labTestDiscovery';
+  static const searchPage = '/searchPage';
   //
   static const dashboard = '/dashboard';
 
@@ -83,6 +86,10 @@ class AppRoutes {
         return CartPage.route(routeSettings);
       case notificationPage:
         return NotificationPage.route(routeSettings);
+      case labTestDiscovery:
+        return LabTestDiscoveryPage.route(routeSettings);
+      case searchPage:
+        return SearchPage.route(routeSettings);
       //
       case dashboard:
         return DashboardPage.route(routeSettings);

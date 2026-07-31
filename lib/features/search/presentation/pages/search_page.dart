@@ -7,7 +7,6 @@ import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
-import 'package:drugs_ng/features/search/domain/repositories/search_repo.dart';
 import 'package:drugs_ng/features/search/presentation/cubit/search_cubit.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_search_field.dart';
@@ -24,6 +23,13 @@ class SearchPage extends StatefulWidget {
 
   @override
   State<SearchPage> createState() => _SearchPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder:
+          (context) => SearchPage(searchType: settings.arguments as SearchType),
+    );
+  }
 }
 
 class _SearchPageState extends State<SearchPage> {
@@ -38,7 +44,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchCubit(context.read<SearchRepo>()),
+      create: (context) => SearchCubit(),
       child: Scaffold(
         appBar: AppBar(
           shadowColor: Colors.black.withOpacity(0.2),
@@ -76,15 +82,15 @@ class _SearchPageState extends State<SearchPage> {
                 Expanded(
                   child: Builder(
                     builder: (context) {
-                      if (state is SearchInitial) {
+                      if (state.status.isInitial) {
                         return Center(
                           child: AppText.sp16(
                             "Enter your search in the search field",
                           ),
                         );
-                      } else if (state is SearchLoading) {
+                      } else if (state.status.isLoading) {
                         return SearchLoader(length: state.searchResult.length);
-                      } else if (state is SearchSuccess &&
+                      } else if (state.status.isFailed &&
                           state.searchResult.isEmpty) {
                         // if there is no item with the query
                         return Column(

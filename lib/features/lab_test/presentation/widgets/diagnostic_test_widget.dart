@@ -2,11 +2,9 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_formater.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/lab_test/domain/models/diagnostic_test.dart';
-import 'package:drugs_ng/features/lab_test/presentation/pages/test_overview_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DiagnosticTestWidget extends StatelessWidget {
@@ -52,10 +50,7 @@ class DiagnosticTestWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: AppColor.primary.withOpacity(0.1),
               ),
-              child:
-                  test.imageUrls != null
-                      ? Image.network(test.imageUrls!)
-                      : Image.asset(AppImage.urinalysisTest),
+              child: CustomImage(test.imageUrls ?? ''),
             ),
             Flexible(child: AppText.sp16(test.name).w700.black),
             Flexible(

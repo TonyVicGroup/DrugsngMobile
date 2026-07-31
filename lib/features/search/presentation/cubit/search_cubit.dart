@@ -1,18 +1,17 @@
 import 'package:drugs_ng/core/data/models/app_responses.dart';
+import 'package:drugs_ng/core/enum/load_status_enum.dart';
 import 'package:drugs_ng/features/search/data/models/search_item.dart';
-import 'package:drugs_ng/features/search/domain/repositories/search_repo.dart';
+import 'package:drugs_ng/features/search/data/repositories/search_repository.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'search_state.dart';
-
 class SearchCubit extends Cubit<SearchState> {
-  final SearchRepo repo;
-  SearchCubit(this.repo) : super(SearchInitial());
+  final SearchRepository repo = SearchRepository();
+  SearchCubit() : super(SearchState());
 
   Future search(String query, SearchType type) async {
-    emit(SearchLoading(state.searchResult));
+    emit(state.copyWith(status: LoadStatusEnum.loading));
 
     final Either<ApiError, List<SearchItem>> result;
     switch (type) {
@@ -34,11 +33,41 @@ class SearchCubit extends Cubit<SearchState> {
     }
     result.fold(
       (left) {
-        emit(SearchError(left, state.searchResult));
+        emit(
+          state.copyWith(status: LoadStatusEnum.failed, error: left.message),
+        );
       },
       (right) {
-        emit(SearchSuccess(result.right));
+        emit(
+          state.copyWith(searchResult: right, status: LoadStatusEnum.success),
+        );
       },
     );
   }
+}
+
+class SearchState extends Equatable {
+  const SearchState({
+    this.searchResult = const [],
+    this.status = LoadStatusEnum.initial,
+    this.error,
+  });
+  final List<SearchItem> searchResult;
+  final LoadStatusEnum status;
+  final String? error;
+
+  SearchState copyWith({
+    List<SearchItem>? searchResult,
+    LoadStatusEnum? status,
+    String? error,
+  }) {
+    return SearchState(
+      searchResult: searchResult ?? this.searchResult,
+      status: status ?? this.status,
+      error: error ?? this.error,
+    );
+  }
+
+  @override
+  List<Object?> get props => [searchResult, status, error];
 }

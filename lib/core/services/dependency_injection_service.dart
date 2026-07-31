@@ -20,6 +20,7 @@ import 'package:drugs_ng/features/profile/presentation/cubit/card/card_cubit.dar
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/reviews_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
+import 'package:drugs_ng/features/search/presentation/cubit/search_cubit.dart';
 import 'package:drugs_ng/features/verification/presentation/cubit/doctor_registration_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -61,6 +62,8 @@ class DependencyInjectionService {
       ..registerLazySingleton<TabNavigationCubit>(
         () => TabNavigationCubit(inst.get<AuthCubit>()),
       )
-      ..registerLazySingleton<NotificationCubit>(NotificationCubit.new);
+      ..registerLazySingleton<NotificationCubit>(NotificationCubit.new)
+    // ..registerLazySingleton<SearchCubit>(SearchCubit.new)
+    ;
   }
 }

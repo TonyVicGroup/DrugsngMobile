@@ -1,10 +1,6 @@
 import 'dart:math' as math;
-import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/coming_soon_widget.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
 import 'package:drugs_ng/core/widgets/error_page.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -14,11 +10,11 @@ import 'package:drugs_ng/features/consultation/presentation/cubit/consultation_c
 import 'package:drugs_ng/features/consultation/presentation/cubit/doctor_cubit.dart';
 import 'package:drugs_ng/features/consultation/presentation/pages/doctor_appointment_page.dart';
 import 'package:drugs_ng/features/consultation/presentation/pages/find_doctor_page.dart';
-import 'package:drugs_ng/features/consultation/presentation/widgets/consultation_header_widget.dart';
+import 'package:drugs_ng/features/consultation/presentation/widgets/consultation_doctor_carousel.dart';
 import 'package:drugs_ng/features/consultation/presentation/widgets/consultation_loader.dart';
 import 'package:drugs_ng/features/consultation/presentation/widgets/doctor_list_tile.dart';
 import 'package:drugs_ng/features/consultation/presentation/widgets/service_list_tile.dart';
-import 'package:drugs_ng/features/home/presentation/widgets/location_chip.dart';
+import 'package:drugs_ng/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +30,6 @@ class ConsultationTab extends StatefulWidget {
 class _ConsultationTabState extends State<ConsultationTab> {
   @override
   Widget build(BuildContext context) {
-    return ComingSoonWidget();
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<ConsultationCubit, ConsultationState>(
@@ -49,6 +44,7 @@ class _ConsultationTabState extends State<ConsultationTab> {
                   (state.homeData.isEmpty && state is ConsultationStateError)
                       ? ErrorPage(message: state.error.message)
                       : ListView(
+                        padding: EdgeInsets.zero,
                         children: [
                           if (state is ConsultationStateError)
                             ErrorBanner(
@@ -58,28 +54,9 @@ class _ConsultationTabState extends State<ConsultationTab> {
                           16.verticalSpace,
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Row(
-                              children: [
-                                LocationChip.widget(context),
-                                const Spacer(),
-                                Row(
-                                  children: [
-                                    AppButton.svgIcon(
-                                      svg: AppSvg.notification,
-                                      onTap: notification,
-                                    ),
-                                    15.horizontalSpace,
-                                    AppButton.svgIcon(
-                                      svg: AppSvg.shopping,
-                                      onTap: cart,
-                                      color: AppColor.black,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            child: HomeHeaderWidget(),
                           ),
-                          30.verticalSpace,
+                          10.verticalSpace,
                           Builder(
                             builder: (context) {
                               if (state is ConsultationStateInitial) {
@@ -106,7 +83,7 @@ class _ConsultationTabState extends State<ConsultationTab> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const ConsultationHeaderWidget(),
+        ConsultationDoctorCarousel(),
         30.verticalSpace,
         if (state.homeData.service.isNotEmpty) ...[
           Padding(
