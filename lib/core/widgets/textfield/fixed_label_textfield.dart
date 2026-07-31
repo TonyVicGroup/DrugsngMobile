@@ -18,14 +18,16 @@ class FixedLabelTextfield extends StatelessWidget {
     this.onTap,
     this.enabled,
     this.inputFormatters,
+    this.autofocus = false,
+    this.obscureText = false,
   });
 
   final String? hint;
   final String? labelText;
   final FocusNode? focusNode;
   final TextEditingController? controller;
-  final bool autofocus = false;
-  final bool obscureText = false;
+  final bool autofocus;
+  final bool obscureText;
   final TextInputType? keyboardType;
   final Widget? prefix;
   final Widget? suffixIcon;

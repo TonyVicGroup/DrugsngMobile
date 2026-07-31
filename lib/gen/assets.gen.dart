@@ -121,6 +121,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/camera.svg
   String get camera => 'assets/svg/camera.svg';
 
+  /// File path: assets/svg/camera_outline.svg
+  String get cameraOutline => 'assets/svg/camera_outline.svg';
+
   /// File path: assets/svg/cancel_user.svg
   String get cancelUser => 'assets/svg/cancel_user.svg';
 
@@ -454,6 +457,7 @@ class $AssetsSvgGen {
     calendarFilled,
     calendarToday,
     camera,
+    cameraOutline,
     cancelUser,
     capsule,
     cardiac,

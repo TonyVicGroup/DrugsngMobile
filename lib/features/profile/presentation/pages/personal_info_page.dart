@@ -1,21 +1,22 @@
 // import 'package:collection_ext/collection_ext.dart';
 import 'package:collection/collection.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/gender_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
+import 'package:drugs_ng/core/widgets/textfield/fixed_label_dropdown_field.dart';
 import 'package:drugs_ng/core/widgets/textfield/fixed_label_textfield.dart';
 import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/country_code.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/profile_update_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart' show Assets;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -140,7 +141,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       children: [
                         SizedBox(
                           width: 120.w,
-                          child: FixedLabelTextfield(
+                          child: FixedLabelDropdownField(
                             options: CountryCode.all,
                             labelText: "Code",
                             onChanged: (code) {
@@ -200,7 +201,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       },
                     ),
                     20.verticalSpace,
-                    AppTextField.greyDropdown<GenderEnum>(
+                    FixedLabelDropdownField(
                       labelText: "Gender",
                       options: GenderEnum.all,
                       selectedValue: selectedGender,
@@ -262,8 +263,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   SizedBox profileAvatar() {
     return SizedBox(
-      width: 116.r,
-      height: 116.r,
+      width: 77.r,
+      height: 78.r,
       child: Stack(
         children: [
           Positioned(
@@ -273,42 +274,36 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             bottom: 0,
             child: Container(
               alignment: Alignment.center,
+              padding: EdgeInsets.all(5.r),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(33.r),
-                color: const Color(0xFFEAEFF5),
-                // image: const DecorationImage(
-                //   image: AssetImage(AppImage.testAvatar),
-                // ),
+                shape: BoxShape.circle,
+                color: AppColor.colorEAEFF5,
               ),
+
               child:
                   AppText.sp41(
                     context.read<AuthCubit>().state.user?.avatar ?? '',
                   ).w700.primaryColor,
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   right: 0,
-          //   child: Container(
-          //     width: 30.r,
-          //     height: 30.r,
-          //     alignment: Alignment.center,
-          //     decoration: BoxDecoration(
-          //       shape: BoxShape.circle,
-          //       border: Border.all(color: AppColor.white),
-          //       color: const Color(0xFFEAEFF5),
-          //     ),
-          //     child: SvgPicture.asset(
-          //       AppSvg.camera,
-          //       width: 16.r,
-          //       height: 16.r,
-          //       colorFilter: const ColorFilter.mode(
-          //         AppColor.primary,
-          //         BlendMode.srcIn,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              width: 20.r,
+              height: 20.r,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColor.color0B8AE1,
+              ),
+              child: CustomImage(
+                Assets.svg.cameraOutline,
+                width: 11.r,
+                color: AppColor.colorFFFFFF,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -3,10 +3,10 @@ import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
-import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_input_formaters.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/textfield/fixed_label_textfield.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/profile/data/models/debit_card.dart';
@@ -73,7 +73,7 @@ class _AddCardPageState extends State<AddCardPage> {
           child: Column(
             children: [
               20.verticalSpace,
-              AppTextField.grey(
+              FixedLabelTextfield(
                 labelText: "CARD HOLDER NAME",
                 controller: cardHolderName,
                 validator: () {
@@ -84,7 +84,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 },
               ),
               20.verticalSpace,
-              AppTextField.grey(
+              FixedLabelTextfield(
                 labelText: "CARD NUMBER",
                 controller: cardNumber,
                 keyboardType: TextInputType.number,
@@ -103,7 +103,7 @@ class _AddCardPageState extends State<AddCardPage> {
               Row(
                 children: [
                   Expanded(
-                    child: AppTextField.grey(
+                    child: FixedLabelTextfield(
                       labelText: "EXPIRE DATE",
                       enabled: false,
                       onTap: _showDatePicker,
@@ -118,7 +118,7 @@ class _AddCardPageState extends State<AddCardPage> {
                   ),
                   10.horizontalSpace,
                   Expanded(
-                    child: AppTextField.grey(
+                    child: FixedLabelTextfield(
                       labelText: "CVC",
                       controller: cvc,
                       keyboardType: TextInputType.number,

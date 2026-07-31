@@ -1,6 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/features/lab_test/presentation/pages/package_overview_page.dart';
 import 'package:drugs_ng/features/lab_test/presentation/pages/test_overview_page.dart';
 import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
@@ -46,24 +47,7 @@ class _SearchPageState extends State<SearchPage> {
     return BlocProvider(
       create: (context) => SearchCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.black.withOpacity(0.2),
-          elevation: 5,
-          surfaceTintColor: AppColor.white,
-          backgroundColor: AppColor.white,
-          leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Center(
-              child: SizedBox(
-                width: 20.sp,
-                height: 20.sp,
-                child: SvgPicture.asset(AppSvg.chevronThick),
-              ),
-            ),
-          ),
-          title: AppText.sp18("Search").w700.black,
-          centerTitle: true,
-        ),
+        appBar: CustomAppBarWidget(title: "Search"),
         body: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
             return Column(

@@ -5,9 +5,8 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
-import 'package:drugs_ng/core/utils/app_functions.dart';
-import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
+import 'package:drugs_ng/core/widgets/textfield/fixed_label_textfield.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/models/country_code.dart';
@@ -15,7 +14,6 @@ import 'package:drugs_ng/features/checkout/data/models/order_information.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/state_and_city_cubit.dart';
-import 'package:drugs_ng/features/checkout/presentation/pages/payment_page.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/address_form_fields.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/address_label_widget.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +124,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                       25.verticalSpace,
                       AppText.sp16("Recipient Information").w700.black,
                       25.verticalSpace,
-                      AppTextField.grey(
+                      FixedLabelTextfield(
                         enabled: true,
                         labelText: "Full Name",
                         controller: nameCntrl,
@@ -194,7 +192,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                           ),
                           8.horizontalSpace,
                           Expanded(
-                            child: AppTextField.grey(
+                            child: FixedLabelTextfield(
                               enabled: true,
                               labelText: "Phone Number",
                               controller: phoneCntrl,
@@ -210,7 +208,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                         "For shipping related questions only.",
                       ).w400.setColor(const Color(0xFF868E96)),
                       8.verticalSpace,
-                      AppTextField.grey(
+                      FixedLabelTextfield(
                         enabled: true,
                         controller: emailCntrl,
                         labelText: "E-mail Address",
