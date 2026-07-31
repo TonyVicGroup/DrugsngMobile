@@ -1,6 +1,10 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_outline_button.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,56 +34,6 @@ class LabResultsPage extends StatelessWidget {
                   "Once you book your first lab test, you'll see all your test results here",
                 ).w400,
                 20.verticalSpace,
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18.r),
-                    border: Border.all(color: AppColor.colorE8EEF4, width: 1),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 48.r,
-                            height: 48.r,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: AppColor.color0B8AE1,
-                            ),
-                          ),
-                          12.horizontalSpace,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                AppText.sp14(
-                                  'You have no lab results yet',
-                                ).w700.setColor(AppColor.color1A2332),
-                                5.verticalSpace,
-                                AppText.sp11(
-                                  "Once you book your first lab test, you'll",
-                                ).w500.setColor(AppColor.color6B7280),
-                              ],
-                            ),
-                          ),
-                          10.horizontalSpace,
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 9.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: AppColor.color0B8AE1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
