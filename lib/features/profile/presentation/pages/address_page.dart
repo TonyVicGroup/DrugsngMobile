@@ -20,6 +20,10 @@ class AddressPage extends StatefulWidget {
 
   @override
   State<AddressPage> createState() => _AddressPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (context) => const AddressPage());
+  }
 }
 
 class _AddressPageState extends State<AddressPage> {

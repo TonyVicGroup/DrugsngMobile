@@ -14,6 +14,12 @@ import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_scree
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/address_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/help_support_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/my_review_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/order_history_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/personal_info_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/wishlist_page.dart';
 import 'package:drugs_ng/features/search/presentation/pages/search_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/complete_doctor_verification_summary_page.dart';
 import 'package:drugs_ng/features/verification/presentation/pages/doctor_application_status_page.dart';
@@ -41,6 +47,12 @@ class AppRoutes {
   static const notificationPage = '/notificationPage';
   static const labTestDiscovery = '/labTestDiscovery';
   static const searchPage = '/searchPage';
+  static const personalInfoPage = '/personalInfoPage';
+  static const addressPage = '/addressPage';
+  static const orderHistoryPage = '/orderHistoryPage';
+  static const wishlistPage = '/wishlistPage';
+  static const myReviewPage = '/myReviewPage';
+  static const helpSupportPage = '/helpSupportPage';
   //
   static const dashboard = '/dashboard';
 
@@ -90,6 +102,18 @@ class AppRoutes {
         return LabTestDiscoveryPage.route(routeSettings);
       case searchPage:
         return SearchPage.route(routeSettings);
+      case personalInfoPage:
+        return PersonalInfoPage.route(routeSettings);
+      case addressPage:
+        return AddressPage.route(routeSettings);
+      case orderHistoryPage:
+        return OrderHistoryPage.route(routeSettings);
+      case wishlistPage:
+        return WishlistPage.route(routeSettings);
+      case myReviewPage:
+        return MyReviewPage.route(routeSettings);
+      case helpSupportPage:
+        return HelpSupportPage.route(routeSettings);
       //
       case dashboard:
         return DashboardPage.route(routeSettings);

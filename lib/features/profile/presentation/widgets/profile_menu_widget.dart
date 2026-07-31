@@ -1,17 +1,12 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
-import 'package:drugs_ng/features/profile/presentation/cubit/profile_update_cubit.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/address_page.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/help_support_page.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/my_review_page.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/order_history_page.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/personal_info_page.dart';
-import 'package:drugs_ng/features/profile/presentation/pages/wishlist_page.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/login_required_modal.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/switch_to_doctor_button.dart';
@@ -29,11 +24,12 @@ class ProfileMenuWidget extends StatelessWidget {
     return Positioned(
       left: 16.w,
       right: 16.w,
-      top: 310.h,
+      top: 280.h,
       bottom: 0.h,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+          30.verticalSpace,
           SwitchToDoctorButton(),
           20.verticalSpace,
           Container(
@@ -55,57 +51,47 @@ class ProfileMenuWidget extends StatelessWidget {
                 _menuTile(
                   Assets.svg.profile,
                   "Personal Info",
-                  () => nextPage(
-                    context,
-                    BlocProvider(
-                      create:
-                          (context) => ProfileUpdateCubit(
-                            authCubit: context.read<AuthCubit>(),
-                          ),
-                      child: const PersonalInfoPage(),
-                    ),
-                    true,
-                  ),
+                  () => nextPage(context, AppRoutes.personalInfoPage, true),
                 ),
                 _menuTile(
                   Assets.svg.map,
                   "Addresses",
-                  () => nextPage(context, const AddressPage(), true),
+                  () => nextPage(context, AppRoutes.addressPage, true),
                 ),
                 _menuTile(
                   Assets.svg.orderHistory,
                   "Order History",
-                  () => nextPage(context, const OrderHistoryPage(), true),
+                  () => nextPage(context, AppRoutes.orderHistoryPage, true),
                 ),
                 _menuTile(
                   Assets.svg.labTest,
                   "Lab Tests",
-                  () => nextPage(context, const WishlistPage(), true),
+                  () => nextPage(context, AppRoutes.wishlistPage, true),
                 ),
                 _menuTile(
                   Assets.svg.consultations,
                   "Consultations",
-                  () => nextPage(context, const WishlistPage(), true),
+                  () => nextPage(context, AppRoutes.wishlistPage, true),
                 ),
                 _menuTile(
                   Assets.svg.wishlist,
                   "Wishlist",
-                  () => nextPage(context, const WishlistPage(), true),
+                  () => nextPage(context, AppRoutes.wishlistPage, true),
                 ),
                 _menuTile(
                   Assets.svg.myReviews,
                   "My Reviews",
-                  () => nextPage(context, const MyReviewPage(), true),
+                  () => nextPage(context, AppRoutes.myReviewPage, true),
                 ),
                 _menuTile(
                   Assets.svg.support,
                   "Help and Support",
-                  () => nextPage(context, const HelpSupportPage(), false),
+                  () => nextPage(context, AppRoutes.helpSupportPage, false),
                 ),
                 _menuTile(
                   Assets.svg.raiseDispute,
                   "Raise a dispute",
-                  () => nextPage(context, const HelpSupportPage(), false),
+                  () => nextPage(context, AppRoutes.helpSupportPage, false),
                 ),
                 // if (context.read<AuthCubit>().isLoggedIn)
                 //   _menuTile(Assets.svg.logout, "Logout", () => _logout(context), true)
@@ -166,15 +152,16 @@ class ProfileMenuWidget extends StatelessWidget {
     );
   }
 
-  Future nextPage(BuildContext context, Widget page, bool requiresLogin) async {
+  Future nextPage(
+    BuildContext context,
+    String routeName,
+    bool requiresLogin,
+  ) async {
     if (requiresLogin && !context.read<AuthCubit>().isLoggedIn) {
       LoginRequiredModal.show(context);
       return;
     }
-    // context.read<NavigationTabCubit>().hide();
-    // await Navigator.push(context, AppUtils.transition(page));
-    // // ignore: use_build_context_synchronously
-    // context.read<NavigationTabCubit>().show();
+    context.pushNamed(routeName);
   }
 
   void _logout(BuildContext context) async {

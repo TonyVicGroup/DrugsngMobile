@@ -15,6 +15,10 @@ import 'package:flutter_svg/svg.dart';
 class MyReviewPage extends StatefulWidget {
   const MyReviewPage({super.key});
 
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (context) => const MyReviewPage());
+  }
+
   @override
   State<MyReviewPage> createState() => _MyReviewPageState();
 }

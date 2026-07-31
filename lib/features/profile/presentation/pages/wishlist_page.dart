@@ -1,9 +1,11 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
 import 'package:drugs_ng/features/profile/data/models/wishlist.dart';
@@ -16,6 +18,10 @@ import 'package:flutter_svg/svg.dart';
 
 class WishlistPage extends StatelessWidget {
   const WishlistPage({super.key});
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (context) => const WishlistPage());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,33 +129,13 @@ class WishlistPage extends StatelessWidget {
     );
   }
 
-  Column emptyWishlist(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.favorite_border_rounded,
-          size: 120.sp,
-          color: AppColor.darkGrey.withOpacity(0.3),
-        ),
-        24.verticalSpace,
-        AppText.sp20("Your Wishlist is Empty").w600.black,
-        8.verticalSpace,
-        AppText.sp14(
-          "Add items you love to your wishlist",
-        ).w400.copyWith(color: AppColor.darkGrey),
-        32.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48.w),
-          child: AppButton.primary(
-            text: "Start Shopping",
-            onTap: () {
-              Navigator.pop(context);
-              // AppUtils.tabController?.jumpToTab(0);
-            },
-          ),
-        ),
-      ],
+  Widget emptyWishlist(BuildContext context) {
+    return EmptyWidget(
+      title: "Your Wishlist is Empty",
+      subtitle: "Add items you love to your wishlist",
+      svg: AppSvg.heartOutline,
+      buttonText: "Start Shopping",
+      onTap: context.pop,
     );
   }
 

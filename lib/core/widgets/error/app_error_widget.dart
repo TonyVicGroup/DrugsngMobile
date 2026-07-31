@@ -10,7 +10,6 @@ class AppErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final errorMessage = details.exceptionAsString();
-    final hasNavigator = Navigator.of(context, rootNavigator: true).canPop();
 
     return Material(
       color: Colors.transparent,

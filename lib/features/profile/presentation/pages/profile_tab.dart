@@ -1,8 +1,12 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
+import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:drugs_ng/features/navigation/presentation/cubit/tab_navigation_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/profile_menu_widget.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
@@ -36,6 +40,9 @@ class ProfileTab extends StatelessWidget {
               ),
             ),
           ),
+
+          // menu item
+          const ProfileMenuWidget(),
           Positioned(
             left: 16.w,
             right: 16.w,
@@ -45,6 +52,7 @@ class ProfileTab extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColor.white,
                 borderRadius: BorderRadius.circular(20.r),
+                boxShadow: AppColor.blueShadow,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -62,18 +70,24 @@ class ProfileTab extends StatelessWidget {
                       return profileIcon(
                         Assets.svg.ordersColored,
                         "$orders Orders",
-                        () {},
+                        () => _orders(context),
                       );
                     },
                   ),
-                  profileIcon(Assets.svg.labTest, "0 Lab test", () {}),
-                  profileIcon(Assets.svg.doctor, "0 Consultations", () {}),
+                  profileIcon(
+                    Assets.svg.labTest,
+                    "0 Lab test",
+                    () => _labTest(context),
+                  ),
+                  profileIcon(
+                    Assets.svg.doctor,
+                    "0 Consultations",
+                    () => _consultation(context),
+                  ),
                 ],
               ),
             ),
           ),
-          // menu item
-          const ProfileMenuWidget(),
           Positioned(
             top: 64.h,
             left: 16.w,
@@ -195,6 +209,26 @@ class ProfileTab extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _orders(BuildContext context) {
+    context.pushNamed(AppRoutes.orderHistoryPage);
+  }
+
+  void _labTest(BuildContext context) {
+    context.read<TabNavigationCubit>().setTab(2);
+    AppUtils.tabController?.animateTo(
+      2,
+      duration: AppUtils.kPageTransitionDuration,
+    );
+  }
+
+  void _consultation(BuildContext context) {
+    context.read<TabNavigationCubit>().setTab(3);
+    AppUtils.tabController?.animateTo(
+      3,
+      duration: AppUtils.kPageTransitionDuration,
     );
   }
 }

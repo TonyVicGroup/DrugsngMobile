@@ -3,6 +3,7 @@ import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart';
@@ -12,7 +13,6 @@ import 'package:drugs_ng/features/checkout/presentation/pages/choose_address_pag
 import 'package:drugs_ng/features/checkout/presentation/widgets/cart_item_widget.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/cart_loader.dart';
 import 'package:drugs_ng/features/checkout/presentation/widgets/cart_total_widget.dart';
-import 'package:drugs_ng/features/checkout/presentation/widgets/empty_cart.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +80,15 @@ class _CartPageState extends State<CartPage> {
           if (state.getCartStatus.isLoading) {
             return const CartLoader();
           } else if (state.cart.items.isEmpty) {
-            return const EmptyCart();
+            return EmptyWidget(
+              title: "Your Cart Is Empty",
+              subtitle:
+                  "It looks like you haven't added anything to your cart"
+                  " yet. Browse our products and find what you need!",
+              svg: Assets.svg.shoppingCartEmpty,
+              buttonText: 'Start Shopping',
+              onTap: context.pop,
+            );
           }
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),

@@ -6,10 +6,12 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/gender_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
+import 'package:drugs_ng/core/widgets/textfield/fixed_label_textfield.dart';
 import 'package:drugs_ng/features/auth/domain/models/auth_models.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/country_code.dart';
@@ -25,6 +27,18 @@ class PersonalInfoPage extends StatefulWidget {
 
   @override
   State<PersonalInfoPage> createState() => _PersonalInfoPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder:
+          (context) => BlocProvider(
+            create:
+                (context) =>
+                    ProfileUpdateCubit(authCubit: context.read<AuthCubit>()),
+            child: const PersonalInfoPage(),
+          ),
+    );
+  }
 }
 
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
@@ -68,149 +82,143 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.black.withOpacity(0.2),
-        elevation: 5,
-        surfaceTintColor: AppColor.white,
-        backgroundColor: AppColor.white,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Center(
-            child: SizedBox(
-              width: 20.sp,
-              height: 20.sp,
-              child: SvgPicture.asset(AppSvg.chevronThick),
-            ),
-          ),
-        ),
-        title: AppText.sp18("Personal Info").w700.black,
-        centerTitle: true,
-      ),
+      appBar: CustomAppBarWidget(title: "Personal Info"),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                25.verticalSpace,
-                profileAvatar(),
-                25.verticalSpace,
-                Row(
+        child: Column(
+          children: [
+            20.verticalSpace,
+            Container(
+              width: double.maxFinite,
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 25.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                color: AppColor.colorFFFFFF,
+                boxShadow: AppColor.blueShadow,
+              ),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: AppTextField.grey(
-                        labelText: "First Name",
-                        controller: firstName,
-                        validator: () {
-                          if (firstName.text.isEmpty) {
-                            return "Enter a valid name";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                    profileAvatar(),
+                    25.verticalSpace,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FixedLabelTextfield(
+                            labelText: "First Name",
+                            controller: firstName,
+                            validator: () {
+                              if (firstName.text.isEmpty) {
+                                return "Enter a valid name";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        8.horizontalSpace,
+                        Expanded(
+                          child: FixedLabelTextfield(
+                            labelText: "Last Name",
+                            controller: lastName,
+                            validator: () {
+                              if (lastName.text.isEmpty) {
+                                return "Enter a valid name";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    8.horizontalSpace,
-                    Expanded(
-                      child: AppTextField.grey(
-                        labelText: "Last Name",
-                        controller: lastName,
-                        validator: () {
-                          if (lastName.text.isEmpty) {
-                            return "Enter a valid name";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                    20.verticalSpace,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 120.w,
+                          child: FixedLabelTextfield(
+                            options: CountryCode.all,
+                            labelText: "Code",
+                            onChanged: (code) {
+                              countryCode = code;
+                            },
+                            validator:
+                                () => AppValidators.notNull(
+                                  countryCode,
+                                  "Select country code",
+                                ),
+                          ),
+                        ),
+                        8.horizontalSpace,
+                        Expanded(
+                          child: FixedLabelTextfield(
+                            labelText: "Phone Number",
+                            controller: phoneNumber,
+                            keyboardType: TextInputType.number,
+                            validator:
+                                () => AppValidators.phone(phoneNumber.text),
+                          ),
+                        ),
+                      ],
                     ),
+                    20.verticalSpace,
+                    FixedLabelTextfield(
+                      controller: email,
+                      labelText: "E-mail Address",
+                      enabled: false,
+                      validator: () => AppValidators.email(email.text),
+                    ),
+                    20.verticalSpace,
+                    FixedLabelTextfield(
+                      controller: dateOfBirth,
+                      labelText: "Birthday",
+                      onTap: () async {
+                        final dob = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1000),
+                          lastDate: DateTime.now(),
+                        );
+                        if (dob != null) {
+                          setState(() {
+                            this.dob = dob;
+                            dateOfBirth.text = DateFormat(
+                              'yyyy-MM-dd',
+                            ).format(dob);
+                          });
+                        }
+                      },
+                      validator: () {
+                        if (dateOfBirth.text.isEmpty) {
+                          return "Select your date of birth";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    20.verticalSpace,
+                    AppTextField.greyDropdown<GenderEnum>(
+                      labelText: "Gender",
+                      options: GenderEnum.all,
+                      selectedValue: selectedGender,
+                      onChanged: (gender) {
+                        selectedGender = gender;
+                      },
+                      validator:
+                          () => AppValidators.notNull(
+                            selectedGender,
+                            'Select your gender',
+                          ),
+                    ),
+                    40.verticalSpace,
                   ],
                 ),
-                20.verticalSpace,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 120.w,
-                      child: AppTextField.greyDropdown(
-                        showIcon: false,
-                        options: CountryCode.all,
-                        labelText: "Code",
-                        selectedValue: countryCode,
-                        onChanged: (code) {
-                          countryCode = code;
-                        },
-                        validator:
-                            () => AppValidators.notNull(
-                              countryCode,
-                              "Select country code",
-                            ),
-                      ),
-                    ),
-                    8.horizontalSpace,
-                    Expanded(
-                      child: AppTextField.grey(
-                        labelText: "Phone Number",
-                        controller: phoneNumber,
-                        keyboardType: TextInputType.number,
-                        validator: () => AppValidators.phone(phoneNumber.text),
-                      ),
-                    ),
-                  ],
-                ),
-                20.verticalSpace,
-                AppTextField.grey(
-                  controller: email,
-                  labelText: "E-mail Address",
-                  enabled: false,
-                  validator: () => AppValidators.email(email.text),
-                ),
-                20.verticalSpace,
-                AppTextField.grey(
-                  controller: dateOfBirth,
-                  labelText: "Birthday",
-                  enabled: false,
-                  onTap: () async {
-                    final dob = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(1000),
-                      lastDate: DateTime.now(),
-                    );
-                    if (dob != null) {
-                      setState(() {
-                        this.dob = dob;
-                        dateOfBirth.text = DateFormat('yyyy-MM-dd').format(dob);
-                      });
-                    }
-                  },
-                  validator: () {
-                    if (dateOfBirth.text.isEmpty) {
-                      return "Select your date of birth";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                20.verticalSpace,
-                AppTextField.greyDropdown<GenderEnum>(
-                  labelText: "Gender",
-                  options: GenderEnum.all,
-                  selectedValue: selectedGender,
-                  onChanged: (gender) {
-                    selectedGender = gender;
-                  },
-                  validator:
-                      () => AppValidators.notNull(
-                        selectedGender,
-                        'Select your gender',
-                      ),
-                ),
-                40.verticalSpace,
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
       bottomNavigationBar: BlocConsumer<ProfileUpdateCubit, ProfileUpdateState>(

@@ -141,15 +141,15 @@ class _PreviewConsultationDetailsPageState
       widget.data,
     );
     btnStatus.value = ButtonStatus.active;
-    if (result != null) {
-      // ignore: use_build_context_synchronously
-      AppToast.warn(context, title: 'Error', msg: result.message);
-    } else {
-      Navigator.push(
-        // ignore: use_build_context_synchronously
-        context,
-        AppUtils.transition(ConsultSuccessPage(data: widget.data)),
-      );
-    }
+    // if (result != null) {
+    //   // ignore: use_build_context_synchronously
+    //   AppToast.warn(context, title: 'Error', msg: result.message);
+    // } else {
+    //   Navigator.push(
+    //     // ignore: use_build_context_synchronously
+    //     context,
+    //     AppUtils.transition(ConsultSuccessPage(data: widget.data)),
+    //   );
+    // }
   }
 }

@@ -41,15 +41,15 @@ class _ConsultationTabState extends State<ConsultationTab> {
                 );
               },
               child:
-                  (state.homeData.isEmpty && state is ConsultationStateError)
-                      ? ErrorPage(message: state.error.message)
+                  (state.homeData.isEmpty &&
+                          state.getConsultationsStatus.isFailed)
+                      ? ErrorPage(message: state.error!)
                       : ListView(
                         padding: EdgeInsets.zero,
                         children: [
-                          if (state is ConsultationStateError)
+                          if (state.getConsultationsStatus.isFailed)
                             ErrorBanner(
-                              text:
-                                  "${state.error.message}. Pull down to refresh",
+                              text: "${state.error}. Pull down to refresh",
                             ),
                           16.verticalSpace,
                           Padding(
@@ -59,10 +59,12 @@ class _ConsultationTabState extends State<ConsultationTab> {
                           10.verticalSpace,
                           Builder(
                             builder: (context) {
-                              if (state is ConsultationStateInitial) {
+                              if (state.getConsultationsStatus.isInitial) {
                                 context.read<ConsultationCubit>().getHomeData();
                                 return const ConsultationLoader();
-                              } else if (state is ConsultationStateLoading) {
+                              } else if (state
+                                  .getConsultationsStatus
+                                  .isLoading) {
                                 return const ConsultationLoader();
                               }
                               return appBody(state);

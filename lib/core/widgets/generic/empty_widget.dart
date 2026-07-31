@@ -1,14 +1,25 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
-import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class EmptyCart extends StatelessWidget {
-  const EmptyCart({super.key});
+class EmptyWidget extends StatelessWidget {
+  const EmptyWidget({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.svg,
+    required this.buttonText,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final String svg;
+  final String buttonText;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +37,15 @@ class EmptyCart extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CustomImage(
-                Assets.svg.shoppingCartEmpty,
-                width: 91.r,
-                color: AppColor.color8B96A5,
-              ),
+              CustomImage(svg, width: 91.r, color: AppColor.color8B96A5),
               27.verticalSpace,
-              AppText.sp30(
-                "Your Cart Is Empty",
-              ).w500.setColor(AppColor.color333333),
+              AppText.sp30(title).w500.setColor(AppColor.color333333),
               13.verticalSpace,
               AppText.sp16(
-                "It looks like you haven't added anything to your cart"
-                " yet. Browse our products and find what you need!",
+                subtitle,
               ).w400.centerText.setColor(AppColor.color6D6D6D),
               10.verticalSpace,
-              AppGradientButton(text: 'Start Shopping', onTap: context.pop),
+              AppGradientButton(text: buttonText, onTap: onTap),
             ],
           ),
         ),

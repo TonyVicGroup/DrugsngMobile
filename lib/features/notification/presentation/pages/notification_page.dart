@@ -4,6 +4,7 @@ import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,21 +23,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: AppButtonAnimator(
-          onTap: context.pop,
-          child: Center(
-            child: CustomImage(
-              Assets.svg.chevronLeft,
-              color: AppColor.color333333,
-              width: 9.2.w,
-            ),
-          ),
-        ),
-        title: Text('Notification'),
-
-        centerTitle: true,
-      ),
+      appBar: CustomAppBarWidget(title: "Notification"),
       body: ListView.builder(
         padding: EdgeInsets.only(top: 14.h),
         itemBuilder: (context, index) {

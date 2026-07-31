@@ -10,6 +10,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 class HelpSupportPage extends StatelessWidget {
   const HelpSupportPage({super.key});
 
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (context) => const HelpSupportPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

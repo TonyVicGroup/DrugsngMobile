@@ -18,6 +18,10 @@ class OrderHistoryPage extends StatefulWidget {
 
   @override
   State<OrderHistoryPage> createState() => _OrderHistoryPageState();
+
+  static Route<dynamic> route(RouteSettings settings) {
+    return MaterialPageRoute(builder: (context) => const OrderHistoryPage());
+  }
 }
 
 class _OrderHistoryPageState extends State<OrderHistoryPage> {
