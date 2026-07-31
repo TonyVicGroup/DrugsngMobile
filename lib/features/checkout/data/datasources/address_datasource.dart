@@ -7,8 +7,10 @@ import 'package:drugs_ng/features/checkout/data/models/state_and_city.dart';
 class AddressDatasource {
   final RestService service = RestService(baseUrl: AppUtils.baseUrl);
 
-  Future<UserAddress> addAddreses(UserAddress address) async {
-    final userId = UserPreference.getUser().accountModel!.userId;
+  Future<UserAddress> addAddreses({
+    required String userId,
+    required UserAddress address,
+  }) async {
     final response = await service.post(
       path: 'profile/user/$userId/address',
       data: address.toJson(),
@@ -42,8 +44,7 @@ class AddressDatasource {
     );
   }
 
-  Future<List<UserAddress>> getAddreses() async {
-    final userId = UserPreference.getUser().accountModel!.userId;
+  Future<List<UserAddress>> getAddreses(String userId) async {
     final response = await service.get(
       path: 'profile/user/$userId/addresses',
       params: {'PageNumber': 1, 'PageSize': 20},

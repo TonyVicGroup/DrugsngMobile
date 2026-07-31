@@ -2,9 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/checkout/data/models/state_and_city.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/state_and_city_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -198,64 +200,33 @@ class _FieldDropdown<T> extends StatelessWidget {
                 width: double.maxFinite,
                 padding: EdgeInsets.symmetric(vertical: 11.h),
                 decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
+                  color: AppColor.colorEAEFF5,
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child:
                     options.isEmpty
-                        ? Padding(
-                          padding: EdgeInsets.only(left: 20.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppText.sp12(
-                                label,
-                              ).w400.setColor(const Color(0xFF8B96A5)),
-                              Padding(
-                                padding: EdgeInsets.only(right: 11.w),
-                                child: AspectRatio(
-                                  aspectRatio: 1,
-                                  child:
-                                      isLoading
-                                          ? const Center(
-                                            child: SizedBox.square(
-                                              dimension: 16,
-                                              child: CircularProgressIndicator(
-                                                color: AppColor.primary,
-                                                strokeWidth: 2,
-                                              ),
-                                            ),
-                                          )
-                                          : (isFailed
-                                              ? const Icon(
-                                                Icons.refresh,
-                                                color: AppColor.primary,
-                                              )
-                                              : const SizedBox.shrink()),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                        ? _emptyOptionsWidget()
                         : Theme(
                           data: _theme(),
                           child: DropdownButtonFormField(
                             key: _key,
                             value: value,
-                            // onTap: onTap,
                             decoration: InputDecoration(
                               labelText: label,
                               border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
                             ),
                             dropdownColor: AppColor.white,
+                            padding: EdgeInsets.zero,
                             icon: Padding(
                               padding: EdgeInsets.only(right: 11.h),
-                              child: SvgPicture.asset(
-                                AppSvg.chevronLight,
+                              child: CustomImage(
+                                Assets.svg.chevronDown,
                                 width: 15.w,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColor.primary,
-                                  BlendMode.srcIn,
-                                ),
+                                color: AppColor.color0B8AE1,
                               ),
                             ),
                             items:
@@ -281,6 +252,41 @@ class _FieldDropdown<T> extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Padding _emptyOptionsWidget() {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText.sp12(label).w400.setColor(const Color(0xFF8B96A5)),
+          Padding(
+            padding: EdgeInsets.only(right: 11.w),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child:
+                  isLoading
+                      ? const Center(
+                        child: SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(
+                            color: AppColor.primary,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      )
+                      : (isFailed
+                          ? const Icon(
+                            Icons.refresh,
+                            color: AppColor.color0B8AE1,
+                          )
+                          : const SizedBox.shrink()),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

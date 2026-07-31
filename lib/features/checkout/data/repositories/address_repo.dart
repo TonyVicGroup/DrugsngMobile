@@ -9,9 +9,15 @@ import 'package:either_dart/either.dart';
 class AddressRepo {
   final AddressDatasource datasource = AddressDatasource();
 
-  AsyncApiErrorOr<UserAddress> addAddreses(UserAddress address) async {
+  AsyncApiErrorOr<UserAddress> addAddreses({
+    required String userId,
+    required UserAddress address,
+  }) async {
     try {
-      final result = await datasource.addAddreses(address);
+      final result = await datasource.addAddreses(
+        address: address,
+        userId: userId,
+      );
       return Right(result);
     } on ApiError catch (e) {
       return Left(e);
@@ -42,9 +48,9 @@ class AddressRepo {
     }
   }
 
-  AsyncApiErrorOr<List<UserAddress>> getAddreses() async {
+  AsyncApiErrorOr<List<UserAddress>> getAddreses(String userId) async {
     try {
-      final result = await datasource.getAddreses();
+      final result = await datasource.getAddreses(userId);
       return Right(result);
     } on ApiError catch (e) {
       return Left(e);

@@ -1,19 +1,26 @@
 import 'package:drugs_ng/core/data/models/app_responses.dart';
 import 'package:drugs_ng/core/enum/load_status_enum.dart';
+import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/repositories/address_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 
 class AddressCubit extends Cubit<AddressState> {
   final AddressRepo repo = AddressRepo();
   AddressCubit() : super(AddressState());
 
-  Future getAddresses({bool refresh = false}) async {
+  Future getAddresses({bool showLoader = true}) async {
     /// refresh calls reload even when data is available
+    final account = GetIt.I.get<AuthCubit>().state.account;
+    if (account == null) return;
+
     /// else just return data already loaded
-    emit(state.copyWith(status: LoadStatusEnum.loading));
-    final result = await repo.getAddreses();
+    if (showLoader) {
+      emit(state.copyWith(status: LoadStatusEnum.loading));
+    }
+    final result = await repo.getAddreses(account.userId.toString());
     result.fold(
       (left) {
         emit(state.copyWith(status: LoadStatusEnum.failed, error: left));
@@ -25,8 +32,14 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   Future addAddress(UserAddress address) async {
+    final account = GetIt.I.get<AuthCubit>().state.account;
+    if (account == null) return;
+
     emit(state.copyWith(addEditStatus: LoadStatusEnum.loading));
-    final result = await repo.addAddreses(address);
+    final result = await repo.addAddreses(
+      address: address,
+      userId: account.userId.toString(),
+    );
     result.fold(
       (left) {
         emit(state.copyWith(addEditStatus: LoadStatusEnum.failed, error: left));
@@ -63,7 +76,6 @@ class AddressCubit extends Cubit<AddressState> {
             addreses: addresses,
           ),
         );
-        // getAddresses();
       },
     );
   }

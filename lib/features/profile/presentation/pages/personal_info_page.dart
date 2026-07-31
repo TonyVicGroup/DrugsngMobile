@@ -5,6 +5,7 @@ import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/gender_enum.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
@@ -110,6 +111,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           child: FixedLabelTextfield(
                             labelText: "First Name",
                             controller: firstName,
+                            borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(15.r),
+                            ),
                             validator: () {
                               if (firstName.text.isEmpty) {
                                 return "Enter a valid name";
@@ -124,6 +128,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           child: FixedLabelTextfield(
                             labelText: "Last Name",
                             controller: lastName,
+                            borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(15.r),
+                            ),
                             validator: () {
                               if (lastName.text.isEmpty) {
                                 return "Enter a valid name";
@@ -147,6 +154,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             onChanged: (code) {
                               countryCode = code;
                             },
+                            borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(15.r),
+                            ),
                             validator:
                                 () => AppValidators.notNull(
                                   countryCode,
@@ -162,6 +172,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             keyboardType: TextInputType.number,
                             validator:
                                 () => AppValidators.phone(phoneNumber.text),
+                            borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(15.r),
+                            ),
                           ),
                         ),
                       ],
@@ -214,49 +227,45 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             'Select your gender',
                           ),
                     ),
-                    40.verticalSpace,
+                    30.verticalSpace,
+                    BlocConsumer<ProfileUpdateCubit, ProfileUpdateState>(
+                      listenWhen: (prev, current) {
+                        return AppUtils.isOnScreen(context);
+                      },
+                      listener: (context, state) {
+                        if (state.status.isFailed) {
+                          AppToast.warn(
+                            context,
+                            title: 'Error',
+                            msg: state.error?.message ?? '',
+                          );
+                        } else if (state.status.isSuccess) {
+                          AppToast.success(
+                            context,
+                            title: 'Success',
+                            msg: "Profile updated successfully",
+                          );
+                          Navigator.pop(context);
+                        }
+                      },
+                      builder: (context, state) {
+                        return AppGradientButton(
+                          status:
+                              state.status.isLoading
+                                  ? ButtonStatus.loading
+                                  : ButtonStatus.active,
+                          text: "Save changes",
+                          onTap: _saveChanges,
+                        );
+                      },
+                    ),
+                    10.verticalSpace,
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BlocConsumer<ProfileUpdateCubit, ProfileUpdateState>(
-        listenWhen: (prev, current) {
-          return AppUtils.isOnScreen(context);
-        },
-        listener: (context, state) {
-          if (state.status.isFailed) {
-            AppToast.warn(
-              context,
-              title: 'Error',
-              msg: state.error?.message ?? '',
-            );
-          } else if (state.status.isSuccess) {
-            AppToast.success(
-              context,
-              title: 'Success',
-              msg: "Profile updated successfully",
-            );
-            Navigator.pop(context);
-          }
-        },
-        builder: (context, state) {
-          return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: AppButton.primary(
-                status:
-                    state.status.isLoading
-                        ? ButtonStatus.loading
-                        : ButtonStatus.active,
-                text: "Save changes",
-                onTap: _saveChanges,
-              ),
-            ),
-          );
-        },
       ),
     );
   }

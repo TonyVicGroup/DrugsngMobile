@@ -1,7 +1,8 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
-import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
+import 'package:drugs_ng/core/navigation/app_route.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
+import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
@@ -9,10 +10,10 @@ import 'package:drugs_ng/features/checkout/presentation/cubit/address_cubit.dart
 import 'package:drugs_ng/features/checkout/presentation/widgets/address_info_widget.dart';
 import 'package:drugs_ng/features/profile/presentation/pages/add_edit_address_page.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/app_dialog.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AddressPage extends StatefulWidget {
@@ -29,7 +30,9 @@ class AddressPage extends StatefulWidget {
 class _AddressPageState extends State<AddressPage> {
   @override
   void initState() {
-    context.read<AddressCubit>().getAddresses(refresh: true);
+    if (context.read<AddressCubit>().state.addreses.isEmpty) {
+      context.read<AddressCubit>().getAddresses();
+    }
     super.initState();
   }
 
@@ -43,23 +46,8 @@ class _AddressPageState extends State<AddressPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.black.withOpacity(0.2),
-            elevation: 5,
-            surfaceTintColor: AppColor.white,
-            backgroundColor: AppColor.white,
-            leading: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Center(
-                child: SizedBox(
-                  width: 20.sp,
-                  height: 20.sp,
-                  child: SvgPicture.asset(AppSvg.chevronThick),
-                ),
-              ),
-            ),
-            title: AppText.sp18("Addresses").w700.black,
-            centerTitle: true,
+          appBar: CustomAppBarWidget(
+            title: 'Address',
             actions: [
               if (!state.status.isLoading)
                 IconButton(
@@ -70,6 +58,7 @@ class _AddressPageState extends State<AddressPage> {
                 ),
             ],
           ),
+
           body: Builder(
             builder: (context) {
               if (state.status.isInitial || state.status.isLoading) {
@@ -80,68 +69,64 @@ class _AddressPageState extends State<AddressPage> {
               //     child: AppText.sp16("You have not saved any address"),
               //   );
               // }
-              return Column(
-                children: [
-                  Expanded(
-                    child:
-                        state.addreses.isEmpty
-                            ? emptyAddressWidget()
-                            : ListView.separated(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 20.h,
-                              ),
-                              itemBuilder: (context, index) {
-                                UserAddress address = state.addreses[index];
-                                return AddressInfoWidget(
-                                  title: address.addressType.displayName,
-                                  address: address.address,
-                                  cityAndState:
-                                      '${address.city ?? ''} ${address.state ?? ''}',
-                                  svg: address.addressType.icon,
-                                  onEdit: () {
-                                    Navigator.push(
-                                      context,
-                                      AppUtils.transition(
-                                        AddEditAddressPage(address: address),
-                                      ),
+              return state.addreses.isEmpty
+                  ? emptyAddressWidget()
+                  : RefreshIndicator(
+                    onRefresh: () async {
+                      await context.read<AddressCubit>().getAddresses(
+                        showLoader: false,
+                      );
+                    },
+                    child: ListView(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.colorFFFFFF,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              UserAddress address = state.addreses[index];
+                              return AddressInfoWidget(
+                                title: address.addressType.displayName,
+                                address: address.address,
+                                cityAndState:
+                                    '${address.city ?? ''} ${address.state ?? ''}',
+                                svg: address.addressType.icon,
+                                onEdit: () {
+                                  Navigator.push(
+                                    context,
+                                    AppUtils.transition(
+                                      AddEditAddressPage(address: address),
+                                    ),
+                                  );
+                                },
+                                onDelete: () async {
+                                  bool delete = await AppDialog.show(
+                                    context,
+                                    title: 'Delete Address',
+                                    content:
+                                        'Are you sure you want to delete this ${address.label} address',
+                                  );
+                                  if (delete) {
+                                    context.read<AddressCubit>().deleteAddress(
+                                      address,
                                     );
-                                  },
-                                  onDelete: () async {
-                                    bool delete = await AppDialog.show(
-                                      context,
-                                      title: 'Delete Address',
-                                      content:
-                                          'Are you sure you want to delete this ${address.label} address',
-                                    );
-                                    if (delete) {
-                                      context
-                                          .read<AddressCubit>()
-                                          .deleteAddress(address);
-                                    }
-                                  },
-                                );
-                              },
-                              separatorBuilder:
-                                  (context, index) => 28.verticalSpace,
-                              itemCount: state.addreses.length,
-                            ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: AppButton.primary(
-                      text: "Add Address",
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          AppUtils.transition(const AddEditAddressPage()),
-                        );
-                      },
+                                  }
+                                },
+                              );
+                            },
+                            separatorBuilder:
+                                (context, index) => 28.verticalSpace,
+                            itemCount: state.addreses.length,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  32.verticalSpace,
-                ],
-              );
+                  );
             },
           ),
         );
@@ -149,35 +134,14 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  Column emptyAddressWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(height: 40.h),
-        Container(
-          padding: EdgeInsets.all(24.w),
-          decoration: BoxDecoration(
-            color: AppColor.primary.withOpacity(0.1),
-            shape: BoxShape.circle,
-          ),
-          child: SvgPicture.asset(
-            AppSvg.location,
-            width: 80.w,
-            height: 80.h,
-            colorFilter: ColorFilter.mode(AppColor.primary, BlendMode.srcIn),
-          ),
-        ),
-        32.verticalSpace,
-        AppText.sp18("No Addresses Yet").w700.black,
-        12.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40.w),
-          child:
-              AppText.sp14(
-                "You haven't added any delivery addresses. Add one to make checkout faster!",
-              ).w400.darkGrey.centerText,
-        ),
-      ],
+  Widget emptyAddressWidget() {
+    return EmptyWidget(
+      title: 'No Addresses Yet',
+      subtitle:
+          "You haven't added any delivery addresses. Add one to make checkout faster!",
+      svg: Assets.svg.map,
+      buttonText: 'Add Address',
+      onTap: goToNextPage,
     );
   }
 
@@ -202,5 +166,9 @@ class _AddressPageState extends State<AddressPage> {
         itemCount: 5,
       ),
     );
+  }
+
+  void goToNextPage() {
+    context.pushNamed(AppRoutes.addAndEditAddressPage);
   }
 }

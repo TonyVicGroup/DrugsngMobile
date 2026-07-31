@@ -14,6 +14,7 @@ import 'package:drugs_ng/features/onboarding/presentation/pages/onboarding_scree
 import 'package:drugs_ng/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_reviews_page.dart';
+import 'package:drugs_ng/features/profile/presentation/pages/add_edit_address_page.dart';
 import 'package:drugs_ng/features/profile/presentation/pages/address_page.dart';
 import 'package:drugs_ng/features/profile/presentation/pages/help_support_page.dart';
 import 'package:drugs_ng/features/profile/presentation/pages/my_review_page.dart';
@@ -53,6 +54,7 @@ class AppRoutes {
   static const wishlistPage = '/wishlistPage';
   static const myReviewPage = '/myReviewPage';
   static const helpSupportPage = '/helpSupportPage';
+  static const addAndEditAddressPage = '/addAndEditAddressPage';
   //
   static const dashboard = '/dashboard';
 
@@ -114,6 +116,8 @@ class AppRoutes {
         return MyReviewPage.route(routeSettings);
       case helpSupportPage:
         return HelpSupportPage.route(routeSettings);
+      case addAndEditAddressPage:
+        return AddEditAddressPage.route(routeSettings);
       //
       case dashboard:
         return DashboardPage.route(routeSettings);

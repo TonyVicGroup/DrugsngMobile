@@ -16,6 +16,7 @@ class FixedLabelDropdownField<T> extends StatelessWidget {
     this.inputFormatters,
     this.enabled = true,
     this.showIcon = false,
+    this.borderRadius,
   });
 
   final String? hint;
@@ -27,6 +28,7 @@ class FixedLabelDropdownField<T> extends StatelessWidget {
   final void Function(T?)? onChanged;
   final List<TextInputFormatter>? inputFormatters;
   final bool showIcon;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class FixedLabelDropdownField<T> extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFEAEFF5),
                 border: Border.all(color: borderColor),
+                borderRadius: borderRadius ?? BorderRadius.circular(15.r),
               ),
               child: Theme(
                 data: ThemeData(

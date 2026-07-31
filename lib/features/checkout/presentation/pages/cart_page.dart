@@ -34,7 +34,7 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     super.initState();
     if (context.read<AddressCubit>().state.status.isInitial) {
-      context.read<AddressCubit>().getAddresses(refresh: true);
+      context.read<AddressCubit>().getAddresses(showLoader: false);
     }
     if (context.read<CartCubit>().state.getCartStatus.isInitialOrFailed) {
       context.read<CartCubit>().getCart();

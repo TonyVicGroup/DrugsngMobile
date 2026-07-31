@@ -20,6 +20,7 @@ class FixedLabelTextfield extends StatelessWidget {
     this.inputFormatters,
     this.autofocus = false,
     this.obscureText = false,
+    this.borderRadius,
   });
 
   final String? hint;
@@ -35,6 +36,7 @@ class FixedLabelTextfield extends StatelessWidget {
   final bool? enabled;
   final void Function()? onTap;
   final List<TextInputFormatter>? inputFormatters;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,7 @@ class FixedLabelTextfield extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0xFFEAEFF5),
                   border: Border.all(color: borderColor),
+                  borderRadius: borderRadius ?? BorderRadius.circular(15.r),
                 ),
                 child: Theme(
                   data: ThemeData(
