@@ -1,6 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/data/models/app_responses.dart';
+import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/error_banner.dart';
@@ -217,7 +218,7 @@ class ExploreTab extends StatelessWidget {
 
   Future _nextPage(BuildContext context, Widget page) async {
     // context.read<NavigationTabCubit>().hide();
-    // await Navigator.push(context, AppUtils.transition(page));
+    await Navigator.push(context, AppUtils.transition(page));
     // // ignore: use_build_context_synchronously
     // context.read<NavigationTabCubit>().show();
   }

@@ -5,6 +5,7 @@ import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_functions.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:drugs_ng/features/checkout/data/models/address/user_address.dart';
 import 'package:drugs_ng/features/checkout/data/models/order_information.dart';
@@ -32,24 +33,7 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.black.withOpacity(0.2),
-        elevation: 5,
-        surfaceTintColor: AppColor.white,
-        backgroundColor: AppColor.white,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Center(
-            child: SizedBox(
-              width: 20.sp,
-              height: 20.sp,
-              child: SvgPicture.asset(AppSvg.chevronThick),
-            ),
-          ),
-        ),
-        title: AppText.sp16("Choose an Address").w700.black,
-        centerTitle: true,
-      ),
+      appBar: CustomAppBarWidget(title: "Choose an Address"),
       body: Column(
         children: [
           Expanded(

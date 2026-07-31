@@ -2,8 +2,10 @@ import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/utils/app_formater.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/features/checkout/data/models/cart.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,12 +34,15 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     return ValueListenableBuilder(
       valueListenable: loading,
       builder: (context, isLoading, child) {
-        return Padding(
+        return Container(
           padding: EdgeInsets.symmetric(vertical: 8.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.r),
+            boxShadow: AppColor.blueShadow,
+            color: AppColor.colorFFFFFF,
+          ),
           child: Column(
             children: [
-              const Divider(color: Color(0xFFE5E5E5)),
-              5.verticalSpace,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 28.w),
                 child: Row(
@@ -237,21 +242,26 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         }
         if (mounted) loading.value = false;
       },
-      child: RotatedBox(
-        quarterTurns: add ? 2 : 0,
-        child: Container(
-          width: 21.r,
-          height: 21.r,
-          alignment: Alignment.center,
-          child: SvgPicture.asset(
-            AppSvg.chevronThick,
-            width: 12.r,
-            height: 12.r,
-            colorFilter: const ColorFilter.mode(
-              AppColor.primary,
-              BlendMode.srcIn,
+      child: Container(
+        width: 25.r,
+        height: 25.r,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: add ? AppColor.color0B8AE1 : AppColor.colorFFFFFF,
+          boxShadow: [
+            BoxShadow(
+              color: AppColor.color0B8AE1.withValues(alpha: .2),
+              blurRadius: 10,
+              offset: const Offset(0, 0),
             ),
-          ),
+          ],
+        ),
+        child: CustomImage(
+          add ? Assets.svg.plus : Assets.svg.minus,
+          width: 12.r,
+          height: 12.r,
+          color: add ? AppColor.colorFFFFFF : AppColor.color0B8AE1,
         ),
       ),
     );

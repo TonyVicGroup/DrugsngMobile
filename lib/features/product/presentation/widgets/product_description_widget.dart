@@ -27,6 +27,7 @@ class ProductDescriptionWidget extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText.sp14(title).w400.setColor(AppColor.color333333),
           12.verticalSpace,

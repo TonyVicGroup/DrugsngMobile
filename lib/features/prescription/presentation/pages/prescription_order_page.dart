@@ -1,12 +1,9 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_multiple_tab_widget.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/loader/app_loader_overlay.dart';
-import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/prescription/presentation/cubit/prescription_cubit.dart';
 import 'package:drugs_ng/features/prescription/presentation/pages/tabs/new_upload_tab.dart';
 import 'package:drugs_ng/features/prescription/presentation/pages/tabs/recent_uploads_tab.dart';

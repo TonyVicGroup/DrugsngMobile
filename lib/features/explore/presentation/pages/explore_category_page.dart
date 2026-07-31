@@ -1,7 +1,9 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/extensions/string_extension.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/error_reload_widget.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/features/explore/presentation/cubit/explore_cubit.dart';
@@ -17,6 +19,7 @@ import 'package:drugs_ng/features/explore/presentation/widgets/explore_grid_tile
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_sort_modal.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,13 +45,13 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
             elevation: 5,
             surfaceTintColor: AppColor.white,
             backgroundColor: AppColor.white,
-            leading: InkWell(
-              onTap: () => Navigator.pop(context),
+            leading: AppButtonAnimator(
+              onTap: context.pop,
               child: Center(
-                child: SizedBox(
-                  width: 20.sp,
-                  height: 20.sp,
-                  child: SvgPicture.asset(AppSvg.chevronThick),
+                child: CustomImage(
+                  Assets.svg.chevronLeft,
+                  color: AppColor.color333333,
+                  width: 9.2.w,
                 ),
               ),
             ),
@@ -65,7 +68,10 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
                   child: SizedBox(
                     width: 24.r,
                     height: 24.r,
-                    child: SvgPicture.asset(AppSvg.search),
+                    child: CustomImage(
+                      Assets.svg.search,
+                      color: AppColor.color333333,
+                    ),
                   ),
                 ),
               ),
@@ -99,8 +105,8 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
                               ),
                               child: SvgPicture.asset(
                                 state.data.displayType.isList
-                                    ? AppSvg.list
-                                    : AppSvg.grid,
+                                    ? Assets.svg.filter
+                                    : Assets.svg.general,
                                 width: 17.w,
                               ),
                             ),
@@ -239,7 +245,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
       children: [
         const Spacer(),
         SvgPicture.asset(
-          AppSvg.search,
+          Assets.svg.search,
           width: 80.w,
           height: 80.h,
           colorFilter: ColorFilter.mode(
@@ -282,7 +288,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(AppSvg.filters, height: 12.h, width: 18.w),
+          SvgPicture.asset(Assets.svg.filter, height: 12.h, width: 18.w),
           8.horizontalSpace,
           AppText.sp14("Filters").w400.black,
         ],
@@ -302,7 +308,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(AppSvg.sortBy, height: 18.h, width: 14.w),
+          SvgPicture.asset(Assets.svg.filter, height: 18.h, width: 14.w),
           8.horizontalSpace,
           AppText.sp14(sortType).w400.black,
         ],
@@ -318,12 +324,8 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
           AppText.sp14("Allergy").w400.black,
           8.horizontalSpace,
           RotatedBox(
-            quarterTurns: 3,
-            child: SvgPicture.asset(
-              AppSvg.chevronThick,
-              height: 15.sp,
-              width: 14.sp,
-            ),
+            quarterTurns: 0,
+            child: SvgPicture.asset(Assets.svg.chevronDown, width: 8.sp),
           ),
         ],
       ),

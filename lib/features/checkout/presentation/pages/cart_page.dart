@@ -3,6 +3,7 @@ import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
@@ -45,24 +46,16 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: AppButtonAnimator(
-          onTap: context.pop,
-          child: Center(
-            child: CustomImage(
-              Assets.svg.chevronLeft,
-              color: AppColor.color333333,
-              width: 9.2.w,
-            ),
-          ),
-        ),
-        title: Text('Cart'),
+      appBar: CustomAppBarWidget(
+        title: 'Shop Cart',
         actions: [
-          TextButton(
-            onPressed: () {
+          AppButtonAnimator(
+            onTap: () {
               context.read<CartCubit>().clearCart();
             },
-            child: AppText.sp14('Clear Cart'),
+            child: AppText.sp14(
+              'Clear Cart',
+            ).w300.setColor(AppColor.color333333),
           ),
         ],
       ),
@@ -90,38 +83,55 @@ class _CartPageState extends State<CartPage> {
               onTap: context.pop,
             );
           }
-          return Padding(
+          return ListView(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return CartItemWidget(item: state.cart.items[index]);
-                    },
-                    separatorBuilder: (context, index) => 10.verticalSpace,
-                    itemCount: state.cart.items.length,
-                  ),
+            children: [
+              20.verticalSpace,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+                decoration: BoxDecoration(
+                  color: AppColor.colorFFFFFF,
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-                CartTotalWidget(
-                  subTotal: state.cart.subtotal,
-                  deliveryFee: state.cart.deliveryFee,
-                  total: state.cart.total,
-                  onProceed: () {
-                    final addresses =
-                        context.read<AddressCubit>().state.addreses;
-                    Navigator.of(context).push(
-                      AppUtils.transition(
-                        addresses.isEmpty
-                            ? const AddShippingAddressPage()
-                            : const ChooseAddressPage(),
-                      ),
-                    );
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText.sp16(
+                      'Cart Summary',
+                    ).w600.setColor(AppColor.color333333),
+                    13.verticalSpace,
+                    ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return CartItemWidget(item: state.cart.items[index]);
+                      },
+                      separatorBuilder: (context, index) => 10.verticalSpace,
+                      itemCount: state.cart.items.length,
+                    ),
+                  ],
                 ),
-                24.verticalSpace,
-              ],
-            ),
+              ),
+              20.verticalSpace,
+              CartTotalWidget(
+                subTotal: state.cart.subtotal,
+                deliveryFee: state.cart.deliveryFee,
+                total: state.cart.total,
+                onProceed: () {
+                  final addresses = context.read<AddressCubit>().state.addreses;
+                  Navigator.of(context).push(
+                    AppUtils.transition(
+                      addresses.isEmpty
+                          ? const AddShippingAddressPage()
+                          : const ChooseAddressPage(),
+                    ),
+                  );
+                },
+              ),
+              24.verticalSpace,
+            ],
           );
         },
       ),

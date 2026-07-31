@@ -1,15 +1,23 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/extensions/widget_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/wishlist_button.dart';
 import 'package:drugs_ng/core/utils/app_formater.dart';
+import 'package:drugs_ng/features/checkout/data/models/cart.dart';
+import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
+import 'package:drugs_ng/features/lab_test/domain/models/diagnostic_test.dart';
+import 'package:drugs_ng/features/lab_test/domain/models/wellness_package.dart';
+import 'package:drugs_ng/features/product/domain/models/product.dart';
 import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -26,6 +34,67 @@ class ProductCardWidget extends StatelessWidget {
   final void Function() onTap;
   final double? width;
   final double? height;
+
+  factory ProductCardWidget.fromProductModel({
+    required void Function() onTap,
+    required Product product,
+    double? width,
+    double? height,
+  }) {
+    return ProductCardWidget(
+      itemId: product.id,
+      name: product.name,
+      genericName: product.genericName,
+      price: product.price,
+      onTap: onTap,
+      itemType: ItemTypeEnum.product,
+      width: width,
+      height: height,
+      image: product.imageUrls.firstOrNull,
+      rating: product.rating,
+      totalRating: product.rating,
+    );
+  }
+
+  factory ProductCardWidget.fromLabTest({
+    required void Function() onTap,
+    required DiagnosticTest labTest,
+    double? width,
+    double? height,
+  }) {
+    return ProductCardWidget(
+      itemId: labTest.id,
+      name: labTest.name,
+      price: labTest.price,
+      onTap: onTap,
+      itemType: ItemTypeEnum.test,
+      width: width,
+      height: height,
+      image: labTest.imageUrls,
+      rating: 0,
+      totalRating: 0,
+    );
+  }
+
+  factory ProductCardWidget.fromConsultation({
+    required void Function() onTap,
+    required WellnessPackage wellnessPackage,
+    double? width,
+    double? height,
+  }) {
+    return ProductCardWidget(
+      itemId: wellnessPackage.id,
+      name: wellnessPackage.name,
+      price: wellnessPackage.price,
+      onTap: onTap,
+      itemType: ItemTypeEnum.test,
+      width: width,
+      height: height,
+      image: wellnessPackage.imageUrl,
+      rating: 0,
+      totalRating: 0,
+    );
+  }
 
   const ProductCardWidget({
     super.key,
@@ -141,18 +210,33 @@ class ProductCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 114.w),
-                  child: AppGradientButton.prefixIcon(
-                    text: 'Add to cart',
-                    svg: Assets.svg.shoppingCart,
-                    height: 35.h,
-                    fontSize: 11.sp,
-                    svgWidth: 17.w,
-                    width: 95.w,
-                    spacer: 3.w,
-                    onTap: () {},
-                  ),
+                BlocBuilder<CartCubit, CartState>(
+                  buildWhen:
+                      (prev, curr) =>
+                          context.isOnScreen ||
+                          prev.updateProductStatus != curr.updateProductStatus,
+                  builder: (context, state) {
+                    final isLoading =
+                        state.updateProductStatus.isLoading &&
+                        state.updatedProdId == itemId.toString();
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 114.w),
+                      child: AppGradientButton.prefixIcon(
+                        text: 'Add to cart',
+                        svg: Assets.svg.shoppingCart,
+                        height: 35.h,
+                        fontSize: 11.sp,
+                        svgWidth: 17.w,
+                        width: 95.w,
+                        spacer: 3.w,
+                        status:
+                            isLoading
+                                ? ButtonStatus.loading
+                                : ButtonStatus.active,
+                        onTap: () => addToCart(context),
+                      ),
+                    );
+                  },
                 ),
                 WishlistButton(produtId: itemId, itemType: itemType),
               ],
@@ -188,4 +272,26 @@ class ProductCardWidget extends StatelessWidget {
       ),
     ),
   );
+
+  Future<void> addToCart(BuildContext context) async {
+    final result = await context.read<CartCubit>().addItem(
+      CartItem(
+        itemId: itemId,
+        name: name,
+        size: '',
+        form: '',
+        quantity: 1,
+        amount: price,
+        url: image,
+        type: null,
+      ),
+    );
+    if (context.mounted && result) {
+      AppToast.success(
+        context,
+        title: 'Added to Cart',
+        msg: '$name has been added to cart',
+      );
+    }
+  }
 }

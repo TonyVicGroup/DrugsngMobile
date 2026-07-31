@@ -4,6 +4,7 @@ import 'package:drugs_ng/core/enum/address_type_enum.dart';
 import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/textfield/app_text_field.dart';
 import 'package:drugs_ng/core/utils/app_validators.dart';
 import 'package:drugs_ng/core/widgets/textfield/fixed_label_textfield.dart';
@@ -92,24 +93,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.black.withOpacity(0.2),
-        elevation: 5,
-        surfaceTintColor: AppColor.white,
-        backgroundColor: AppColor.white,
-        leading: InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Center(
-            child: SizedBox(
-              width: 20.r,
-              height: 20.r,
-              child: SvgPicture.asset(AppSvg.chevronThick),
-            ),
-          ),
-        ),
-        title: AppText.sp18("Add Address").w700.black,
-        centerTitle: true,
-      ),
+      appBar: CustomAppBarWidget(title: 'Add Address'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Form(

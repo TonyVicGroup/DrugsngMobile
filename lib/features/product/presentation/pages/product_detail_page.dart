@@ -1,9 +1,12 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/enum/button_status.dart';
 import 'package:drugs_ng/core/enum/item_type_enum.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_multiple_tab_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/features/checkout/presentation/cubit/cart_cubit.dart';
+import 'package:drugs_ng/features/product/data/models/title_and_description.dart';
 import 'package:drugs_ng/features/product/domain/models/product_detail.dart';
 import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
@@ -11,14 +14,17 @@ import 'package:drugs_ng/core/utils/app_utils.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
 import 'package:drugs_ng/features/home/presentation/widgets/product_card_widget.dart';
 import 'package:drugs_ng/features/product/presentation/cubit/product_detail_cubit.dart';
+import 'package:drugs_ng/features/product/presentation/widgets/product_description_widget.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_carousel.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_detail_loader.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_information_widget.dart';
 import 'package:drugs_ng/features/product/presentation/widgets/product_specification_widget.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final int productId;
@@ -133,17 +139,62 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   size: product.size,
                 ),
                 10.verticalSpace,
-                SizedBox(
-                  width: 302.w,
-                  child: AppMultipleTabWidget(
-                    tabs: ProductDetailTabEnum.values,
-                    selectedTab: state.tab,
-                    onTabSelected: (tab) {
-                      context.read<ProductDetailCubit>().changeTab(tab);
-                    },
+                Align(
+                  child: SizedBox(
+                    width: 302.w,
+                    child: AppMultipleTabWidget(
+                      tabs: ProductDetailTabEnum.values,
+                      selectedTab: state.tab,
+                      onTabSelected: (tab) {
+                        context.read<ProductDetailCubit>().changeTab(tab);
+                      },
+                    ),
                   ),
                 ),
-                43.verticalSpace,
+                10.verticalSpace,
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 10.r),
+                //   decoration: BoxDecoration(
+                //     color: AppColor.white,
+                //     borderRadius: BorderRadius.circular(20.r),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Colors.black.withOpacity(0.2),
+                //         blurRadius: 10,
+                //         offset: Offset(0, 2),
+                //       ),
+                //     ],
+                //   ),
+                //   child: Column(mainAxisSize: MainAxisSize.min, children: [
+                //     ],
+                //   ),
+                // ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ProductDescriptionWidget(
+                      title: product.description,
+                      information: [
+                        TitleAndDescription(
+                          title: 'Brand',
+                          description: product.brandName,
+                        ),
+                        TitleAndDescription(
+                          title: 'Delivery',
+                          description: DateFormat(
+                            'dd mm yyyy hh:mm a',
+                          ).format(product.deliveryTime),
+                        ),
+                        TitleAndDescription(
+                          title: 'Ingredients',
+                          description: '',
+                        ),
+                      ],
+                      warning: product.warning,
+                    ),
+                  ],
+                ),
+                16.verticalSpace,
                 BlocConsumer<CartCubit, CartState>(
                   listener: (context, state) {
                     if (state.updateProductStatus.isFailed) {
@@ -168,26 +219,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   },
                 ),
                 5.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppButton.primary(
-                        text: "ADD TO CART",
-                        onTap: () async {
-                          await addToCart(context, product);
-                        },
-                        // status:
-                        //     state.updateProductStatus.isLoading
-                        //         ? ButtonStatus.loading
-                        //         : ButtonStatus.active,
-                      ),
-                    ),
-                    21.horizontalSpace,
-                    const _CheckoutIcon(),
-                  ],
+                BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: AppGradientButton(
+                            text: "ADD TO CART",
+                            onTap: () async {
+                              await addToCart(context, product);
+                            },
+                            status:
+                                state.updateProductStatus.isLoading
+                                    ? ButtonStatus.loading
+                                    : ButtonStatus.active,
+                          ),
+                        ),
+                        21.horizontalSpace,
+                        const _CheckoutIcon(),
+                      ],
+                    );
+                  },
                 ),
                 if (state.similarProduct.isNotEmpty) ...[
-                  40.verticalSpace,
+                  20.verticalSpace,
                   AppText.sp16("Similar Products").w500.black,
                   22.verticalSpace,
                   SizedBox(
@@ -232,7 +287,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Future addToCart(BuildContext context, ProductDetail product) async {}
+  Future addToCart(BuildContext context, ProductDetail product) async {
+    context.read<CartCubit>().addWithProductDetail(
+      product: product,
+      quantity: quantity.value,
+    );
+  }
 }
 
 class _CheckoutIcon extends StatelessWidget {
@@ -260,7 +320,7 @@ class _CheckoutIcon extends StatelessWidget {
                       border: Border.all(color: const Color(0xFFBDC4CD)),
                     ),
                     child: SvgPicture.asset(
-                      AppSvg.shopping,
+                      Assets.svg.shoppingCart,
                       colorFilter: const ColorFilter.mode(
                         AppColor.primary,
                         BlendMode.srcIn,
@@ -276,7 +336,7 @@ class _CheckoutIcon extends StatelessWidget {
                       padding: EdgeInsets.all(4.r),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColor.primary,
+                        color: AppColor.color0B8AE1,
                       ),
                       child: AppText.sp10(
                         "${state.totalItems()}",
