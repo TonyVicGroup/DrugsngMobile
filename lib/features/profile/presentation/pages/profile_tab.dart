@@ -89,7 +89,7 @@ class ProfileTab extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 64.h,
+            top: 84.h,
             left: 16.w,
             right: 16.w,
             child: Row(

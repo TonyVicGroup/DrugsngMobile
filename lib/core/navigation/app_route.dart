@@ -7,6 +7,8 @@ import 'package:drugs_ng/features/auth/presentation/pages/signup_screen.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:drugs_ng/features/auth/presentation/pages/login_page.dart';
 import 'package:drugs_ng/features/checkout/presentation/pages/cart_page.dart';
+import 'package:drugs_ng/features/consultation/presentation/pages/my_consultations_page.dart';
+import 'package:drugs_ng/features/lab_test/presentation/pages/lab_results_page.dart';
 import 'package:drugs_ng/features/lab_test/presentation/pages/lab_test_discovery_page.dart';
 import 'package:drugs_ng/features/navigation/presentation/pages/dashboard_page.dart';
 import 'package:drugs_ng/features/notification/presentation/pages/notification_page.dart';
@@ -55,6 +57,8 @@ class AppRoutes {
   static const myReviewPage = '/myReviewPage';
   static const helpSupportPage = '/helpSupportPage';
   static const addAndEditAddressPage = '/addAndEditAddressPage';
+  static const labResultsPage = '/labResultsPage';
+  static const myConsultationsPage = '/myConsultationsPage';
   //
   static const dashboard = '/dashboard';
 
@@ -118,6 +122,10 @@ class AppRoutes {
         return HelpSupportPage.route(routeSettings);
       case addAndEditAddressPage:
         return AddEditAddressPage.route(routeSettings);
+      case labResultsPage:
+        return LabResultsPage.route(routeSettings);
+      case myConsultationsPage:
+        return MyConsultationsPage.route(routeSettings);
       //
       case dashboard:
         return DashboardPage.route(routeSettings);

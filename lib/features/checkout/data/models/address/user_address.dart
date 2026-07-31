@@ -63,4 +63,62 @@ class UserAddress {
     'others' => AddressTypeEnum.other,
     _ => AddressTypeEnum.home,
   };
+
+  /// create list of sample addresses
+  static List<UserAddress> sampleAddresses = [
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+    UserAddress(
+      id: 1,
+      stateId: 1,
+      countryId: 1,
+      localGovernmentId: 1,
+      address: 'address',
+      zipCode: 'zipCode',
+      label: 'label',
+    ),
+  ];
 }

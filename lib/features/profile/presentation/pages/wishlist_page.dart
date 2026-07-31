@@ -1,20 +1,21 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
-import 'package:drugs_ng/core/widgets/buttons/app_button.dart';
-import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/features/explore/presentation/widgets/explore_list_tile.dart';
 import 'package:drugs_ng/features/product/presentation/pages/product_detail_page.dart';
 import 'package:drugs_ng/features/profile/data/models/wishlist.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/wishlist_cubit.dart';
 import 'package:drugs_ng/features/search/presentation/pages/search_loader.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class WishlistPage extends StatelessWidget {
   const WishlistPage({super.key});
@@ -28,30 +29,19 @@ class WishlistPage extends StatelessWidget {
     return BlocBuilder<WishlistCubit, WishlistState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.black.withOpacity(0.2),
-            elevation: 5,
-            surfaceTintColor: AppColor.white,
-            backgroundColor: AppColor.white,
-            leading: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Center(
-                child: SizedBox(
-                  width: 20.sp,
-                  height: 20.sp,
-                  child: SvgPicture.asset(AppSvg.chevronThick),
-                ),
-              ),
-            ),
-            title: AppText.sp18("Wishlist").w700.black,
-            centerTitle: true,
+          appBar: CustomAppBarWidget(
+            title: 'Wishlist',
             actions: [
               if (!state.status.isLoading)
-                IconButton(
-                  onPressed: () {
+                AppButtonAnimator(
+                  onTap: () {
                     context.read<WishlistCubit>().getWishlist();
                   },
-                  icon: const Icon(Icons.refresh),
+                  child: CustomImage(
+                    Assets.svg.retryCircle,
+                    width: 20.r,
+                    color: AppColor.color333333,
+                  ),
                 ),
             ],
           ),

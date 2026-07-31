@@ -10,11 +10,11 @@ import 'package:drugs_ng/features/profile/data/models/review.dart';
 class ProfileDatasource {
   final RestService service = RestService(baseUrl: AppUtils.baseUrl);
 
-  Future<List<OrderHistory>> getOrderHistory(
-    PageFilter pageFilter,
-    String status,
-  ) async {
-    final userId = UserPreference.getUser().accountModel!.userId;
+  Future<List<OrderHistory>> getOrderHistory({
+    required String userId,
+    required PageFilter pageFilter,
+    required String status,
+  }) async {
     final params = pageFilter.toJson();
     final query = {
       "OrderState": status,

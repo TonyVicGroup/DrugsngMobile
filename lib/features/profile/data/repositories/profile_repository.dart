@@ -11,12 +11,17 @@ import 'package:either_dart/either.dart';
 class ProfileRepository {
   ProfileDatasource datasource = ProfileDatasource();
 
-  AsyncApiErrorOr<List<OrderHistory>> getOrderHistory(
-    PageFilter pageFilter,
-    String status,
-  ) async {
+  AsyncApiErrorOr<List<OrderHistory>> getOrderHistory({
+    required String userId,
+    required PageFilter pageFilter,
+    required String status,
+  }) async {
     try {
-      final history = await datasource.getOrderHistory(pageFilter, status);
+      final history = await datasource.getOrderHistory(
+        userId: userId,
+        pageFilter: pageFilter,
+        status: status,
+      );
       return Right(history);
     } on ApiError catch (e) {
       return Left(e);

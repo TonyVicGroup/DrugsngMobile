@@ -1,12 +1,18 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_multiple_tab_widget.dart';
+import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
+import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
 import 'package:drugs_ng/core/widgets/fetch_more_indicator.dart';
 import 'package:drugs_ng/core/widgets/tab_title_widget.dart';
 import 'package:drugs_ng/core/utils/app_utils.dart';
+import 'package:drugs_ng/features/navigation/presentation/cubit/tab_navigation_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/cubit/order_history_cubit.dart';
 import 'package:drugs_ng/features/profile/presentation/widgets/order_history_tile.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,74 +52,57 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.black.withOpacity(0.2),
-            elevation: 5,
-            surfaceTintColor: AppColor.white,
-            backgroundColor: AppColor.white,
-            leading: Center(
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: SizedBox(
-                  width: 20.sp,
-                  height: 20.sp,
-                  child: SvgPicture.asset(AppSvg.chevronThick),
+          appBar: CustomAppBarWidget(title: 'Order History'),
+          body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            children: [
+              20.verticalSpace,
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColor.colorFFFFFF,
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Column(
+                  children: [
+                    20.verticalSpace,
+                    SizedBox(
+                      width: 260.w,
+                      child: AppMultipleTabWidget(
+                        tabs: OrderHistoryStatus.values,
+                        selectedTab: state.tabStatus,
+                        onTabSelected: (v) {
+                          context.read<OrderHistoryCubit>().changeTab(v);
+                        },
+                      ),
+                    ),
+                    31.verticalSpace,
+                    AnimatedCrossFade(
+                      firstChild: inProgress(),
+                      secondChild: settled(),
+                      crossFadeState:
+                          state.tabStatus.isInProgress
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                      duration: AppUtils.kPageTransitionDuration,
+                    ),
+                  ],
                 ),
               ),
-            ),
-            title: AppText.sp18("Order History").w700.black,
-            centerTitle: true,
-            // actions: [
-            //   if (!(state.inProgressStatus.isLoading ||
-            //       state.settledStatus.isLoading))
-            //     IconButton(
-            //       onPressed: loadHistory,
-            //       icon: const Icon(Icons.refresh),
-            //     ),
-            // ],
-          ),
-          body: Builder(
-            builder: (context) {
-              return Column(
-                children: [
-                  Container(
-                    height: 78.sp,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(24.r),
-                      ),
-                    ),
-                    child: TabTitleWidget(
-                      title1: "In Progress",
-                      title2: "Settled",
-                      overallWidth: 210.w,
-                      width1: 112.w,
-                      width2: 87.w,
-                      isTab1: state.tabStatus.isInProgress,
-                      onChanged: (v) {
-                        context.read<OrderHistoryCubit>().changeTab(v);
-                      },
-                    ),
-                  ),
-                  Flexible(
-                    child: AnimatedContainer(
-                      duration: AppUtils.kPageTransitionDuration,
-                      child: AnimatedCrossFade(
-                        firstChild: inProgress(),
-                        secondChild: settled(),
-                        crossFadeState:
-                            state.tabStatus.isInProgress
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
-                        duration: AppUtils.kPageTransitionDuration,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+              // Flexible(
+              //   child: AnimatedContainer(
+              //     duration: AppUtils.kPageTransitionDuration,
+              //     child: AnimatedCrossFade(
+              //       firstChild: inProgress(),
+              //       secondChild: settled(),
+              //       crossFadeState:
+              //           state.tabStatus.isInProgress
+              //               ? CrossFadeState.showFirst
+              //               : CrossFadeState.showSecond,
+              //       duration: AppUtils.kPageTransitionDuration,
+              //     ),
+              //   ),
+              // ),
+            ],
           ),
         );
       },
@@ -196,25 +185,12 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   }
 
   Widget emptyHistoryWidget(String message) {
-    return SizedBox(
-      height: 200.h,
-      width: double.maxFinite,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.receipt_long_outlined,
-            size: 64.sp,
-            color: AppColor.black.withOpacity(0.3),
-          ),
-          16.verticalSpace,
-          AppText.sp16("No Order History").w600.black,
-          8.verticalSpace,
-          AppText.sp14(
-            message,
-          ).w400.copyWith(color: AppColor.black.withOpacity(0.6)),
-        ],
-      ),
+    return EmptyWidget.shrinked(
+      title: "No Order History",
+      subtitle: message,
+      svg: Assets.svg.orderHistory,
+      buttonText: "Place and Order",
+      onTap: _goToHome,
     );
   }
 
@@ -256,5 +232,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         itemCount: 5,
       ),
     );
+  }
+
+  void _goToHome() {
+    context.pop();
+    context.read<TabNavigationCubit>().setTab(0);
+    AppUtils.tabController?.animateTo(0);
   }
 }

@@ -173,6 +173,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/delete.svg
   String get delete => 'assets/svg/delete.svg';
 
+  /// File path: assets/svg/delete_outline.svg
+  String get deleteOutline => 'assets/svg/delete_outline.svg';
+
   /// File path: assets/svg/doctor.svg
   String get doctor => 'assets/svg/doctor.svg';
 
@@ -193,6 +196,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/edit.svg
   String get edit => 'assets/svg/edit.svg';
+
+  /// File path: assets/svg/edit_outline.svg
+  String get editOutline => 'assets/svg/edit_outline.svg';
 
   /// File path: assets/svg/edit_square.svg
   String get editSquare => 'assets/svg/edit_square.svg';
@@ -474,6 +480,7 @@ class $AssetsSvgGen {
     consultations,
     createAccount,
     delete,
+    deleteOutline,
     doctor,
     doctorUser,
     document,
@@ -481,6 +488,7 @@ class $AssetsSvgGen {
     download,
     downloadLine,
     edit,
+    editOutline,
     editSquare,
     explore,
     exportDocument,

@@ -1,4 +1,5 @@
 import 'package:drugs_ng/core/contants/app_image.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 
 enum AddressTypeEnum {
   home,
@@ -25,11 +26,11 @@ enum AddressTypeEnum {
   String get icon {
     switch (this) {
       case home:
-        return AppSvg.house;
+        return Assets.svg.houseAddress;
       case work:
-        return AppSvg.work;
+        return Assets.svg.workAddress;
       case other:
-        return AppSvg.work;
+        return Assets.svg.workAddress;
     }
   }
 }

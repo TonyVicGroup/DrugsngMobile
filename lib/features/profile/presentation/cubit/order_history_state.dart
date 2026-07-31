@@ -15,6 +15,14 @@ enum OrderHistoryStatus {
 
   bool get isInProgress => this == inProgress;
   bool get isSettled => this == settled;
+
+  String get displayName => switch (this) {
+    inProgress => 'In Progress',
+    settled => 'Settled',
+  };
+
+  @override
+  String toString() => displayName;
 }
 
 class OrderHistoryState extends Equatable {

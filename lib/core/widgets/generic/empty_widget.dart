@@ -6,26 +6,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({
-    super.key,
+  const EmptyWidget._({
     required this.title,
     required this.subtitle,
     required this.svg,
     required this.buttonText,
     required this.onTap,
+    required this.isShrinked,
   });
 
   final String title;
   final String subtitle;
   final String svg;
   final String buttonText;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool isShrinked;
+
+  factory EmptyWidget({
+    required String title,
+    required String subtitle,
+    required String svg,
+    required String buttonText,
+    VoidCallback? onTap,
+  }) {
+    return EmptyWidget._(
+      title: title,
+      subtitle: subtitle,
+      svg: svg,
+      buttonText: buttonText,
+      onTap: onTap,
+      isShrinked: false,
+    );
+  }
+
+  factory EmptyWidget.shrinked({
+    required String title,
+    required String subtitle,
+    required String svg,
+    required String buttonText,
+    VoidCallback? onTap,
+  }) {
+    return EmptyWidget._(
+      title: title,
+      subtitle: subtitle,
+      svg: svg,
+      buttonText: buttonText,
+      onTap: onTap,
+      isShrinked: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: isShrinked ? MainAxisSize.min : MainAxisSize.max,
       children: [
-        const Spacer(flex: 2),
+        if (!isShrinked) const Spacer(flex: 2),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
@@ -44,12 +80,14 @@ class EmptyWidget extends StatelessWidget {
               AppText.sp16(
                 subtitle,
               ).w400.centerText.setColor(AppColor.color6D6D6D),
+
               10.verticalSpace,
-              AppGradientButton(text: buttonText, onTap: onTap),
+              if (onTap != null)
+                AppGradientButton(text: buttonText, onTap: onTap!),
             ],
           ),
         ),
-        const Spacer(flex: 3),
+        if (!isShrinked) const Spacer(flex: 3),
       ],
     );
   }

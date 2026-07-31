@@ -1,6 +1,7 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
 import 'package:drugs_ng/core/extensions/context_extension.dart';
 import 'package:drugs_ng/core/navigation/app_route.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_gradient_button.dart';
 import 'package:drugs_ng/core/widgets/generic/custom_appbar_widget.dart';
 import 'package:drugs_ng/core/widgets/generic/empty_widget.dart';
 import 'package:drugs_ng/core/widgets/popup/app_toast.dart';
@@ -69,7 +70,7 @@ class _AddressPageState extends State<AddressPage> {
               //     child: AppText.sp16("You have not saved any address"),
               //   );
               // }
-              return state.addreses.isEmpty
+              return !state.addreses.isEmpty
                   ? emptyAddressWidget()
                   : RefreshIndicator(
                     onRefresh: () async {
@@ -78,50 +79,65 @@ class _AddressPageState extends State<AddressPage> {
                       );
                     },
                     child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       children: [
+                        20.verticalSpace,
                         Container(
+                          padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
                             color: AppColor.colorFFFFFF,
                             borderRadius: BorderRadius.circular(20.r),
                           ),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              UserAddress address = state.addreses[index];
-                              return AddressInfoWidget(
-                                title: address.addressType.displayName,
-                                address: address.address,
-                                cityAndState:
-                                    '${address.city ?? ''} ${address.state ?? ''}',
-                                svg: address.addressType.icon,
-                                onEdit: () {
-                                  Navigator.push(
-                                    context,
-                                    AppUtils.transition(
-                                      AddEditAddressPage(address: address),
-                                    ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  UserAddress address =
+                                      UserAddress
+                                          .sampleAddresses[index]; // state.addreses[index];
+                                  return AddressInfoWidget(
+                                    title: address.addressType.displayName,
+                                    address: address.address,
+                                    cityAndState:
+                                        '${address.city ?? ''} ${address.state ?? ''}',
+                                    svg: address.addressType.icon,
+                                    onEdit: () {
+                                      Navigator.push(
+                                        context,
+                                        AppUtils.transition(
+                                          AddEditAddressPage(address: address),
+                                        ),
+                                      );
+                                    },
+                                    onDelete: () async {
+                                      bool delete = await AppDialog.show(
+                                        context,
+                                        title: 'Delete Address',
+                                        content:
+                                            'Are you sure you want to delete this ${address.label} address',
+                                      );
+                                      if (delete) {
+                                        context
+                                            .read<AddressCubit>()
+                                            .deleteAddress(address);
+                                      }
+                                    },
                                   );
                                 },
-                                onDelete: () async {
-                                  bool delete = await AppDialog.show(
-                                    context,
-                                    title: 'Delete Address',
-                                    content:
-                                        'Are you sure you want to delete this ${address.label} address',
-                                  );
-                                  if (delete) {
-                                    context.read<AddressCubit>().deleteAddress(
-                                      address,
-                                    );
-                                  }
-                                },
-                              );
-                            },
-                            separatorBuilder:
-                                (context, index) => 28.verticalSpace,
-                            itemCount: state.addreses.length,
+                                separatorBuilder:
+                                    (context, index) => 17.verticalSpace,
+                                itemCount: 4, // state.addreses.length,
+                              ),
+                              40.verticalSpace,
+                              AppGradientButton(
+                                text: 'Add Account',
+                                onTap: addAddress,
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -141,7 +157,7 @@ class _AddressPageState extends State<AddressPage> {
           "You haven't added any delivery addresses. Add one to make checkout faster!",
       svg: Assets.svg.map,
       buttonText: 'Add Address',
-      onTap: goToNextPage,
+      onTap: addAddress,
     );
   }
 
@@ -168,7 +184,7 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  void goToNextPage() {
+  void addAddress() {
     context.pushNamed(AppRoutes.addAndEditAddressPage);
   }
 }

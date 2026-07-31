@@ -65,13 +65,13 @@ class ProfileMenuWidget extends StatelessWidget {
                 ),
                 _menuTile(
                   Assets.svg.labTest,
-                  "Lab Tests",
-                  () => nextPage(context, AppRoutes.wishlistPage, true),
+                  "Lab Results",
+                  () => nextPage(context, AppRoutes.labResultsPage, true),
                 ),
                 _menuTile(
                   Assets.svg.consultations,
                   "Consultations",
-                  () => nextPage(context, AppRoutes.wishlistPage, true),
+                  () => nextPage(context, AppRoutes.myConsultationsPage, true),
                 ),
                 _menuTile(
                   Assets.svg.wishlist,

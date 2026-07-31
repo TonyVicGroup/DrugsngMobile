@@ -1,6 +1,8 @@
 import 'package:drugs_ng/core/contants/app_color.dart';
-import 'package:drugs_ng/core/contants/app_image.dart';
 import 'package:drugs_ng/core/widgets/app_text.dart';
+import 'package:drugs_ng/core/widgets/buttons/app_button_animator.dart';
+import 'package:drugs_ng/core/widgets/custom_image.dart';
+import 'package:drugs_ng/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,10 +32,9 @@ class AddressInfoWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 82.h,
-        padding: EdgeInsets.fromLTRB(15.w, 13.h, 3.w, 13.h),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: BorderRadius.circular(20.r),
           color: const Color(0xFFEAEFF5),
         ),
         child: Row(
@@ -49,13 +50,10 @@ class AddressInfoWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: AppColor.white,
                 ),
-                child: SvgPicture.asset(
+                child: CustomImage(
                   svg,
                   width: 20.w,
-                  colorFilter: const ColorFilter.mode(
-                    AppColor.primary,
-                    BlendMode.srcIn,
-                  ),
+                  color: AppColor.color0B8AE1,
                 ),
               ),
             ),
@@ -63,50 +61,62 @@ class AddressInfoWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   AppText.sp18(title).w500.black,
-                  AppText.sp14(address).w400
-                      .setColor(const Color(0xFF8B96A5))
-                      .setMaxLines(1)
-                      .setLineHeight(1),
-                  AppText.sp14(cityAndState).w400
-                      .setColor(const Color(0xFF8B96A5))
-                      .setMaxLines(1)
-                      .setLineHeight(1),
+                  5.verticalSpace,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: address),
+                        TextSpan(text: cityAndState),
+                      ],
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.color8B96A5,
+                        fontFamily: AppText.fontFamily,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            if (onEdit != null)
-              InkWell(
-                onTap: onEdit,
-                child: Padding(
-                  padding: EdgeInsets.all(10.r),
-                  child: SvgPicture.asset(
-                    AppSvg.edit,
-                    width: 18.r,
-                    colorFilter: const ColorFilter.mode(
-                      AppColor.black,
-                      BlendMode.srcIn,
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (onEdit != null)
+                  AppButtonAnimator(
+                    onTap: onEdit!,
+                    child: Padding(
+                      padding: EdgeInsets.all(6.r),
+                      child: SvgPicture.asset(
+                        Assets.svg.editOutline,
+                        width: 18.r,
+                        colorFilter: const ColorFilter.mode(
+                          AppColor.black,
+                          BlendMode.srcIn,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            if (onDelete != null)
-              InkWell(
-                onTap: onDelete,
-                child: Padding(
-                  padding: EdgeInsets.all(10.r),
-                  child: SvgPicture.asset(
-                    AppSvg.delete,
-                    width: 15.r,
-                    colorFilter: const ColorFilter.mode(
-                      AppColor.red,
-                      BlendMode.srcIn,
+                if (onDelete != null)
+                  AppButtonAnimator(
+                    onTap: onDelete!,
+                    child: Padding(
+                      padding: EdgeInsets.all(6.r),
+                      child: SvgPicture.asset(
+                        Assets.svg.deleteOutline,
+                        width: 15.r,
+                        colorFilter: const ColorFilter.mode(
+                          AppColor.red,
+                          BlendMode.srcIn,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+              ],
+            ),
           ],
         ),
       ),
